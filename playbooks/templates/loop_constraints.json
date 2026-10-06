@@ -1,0 +1,59 @@
+{
+ "schema_version": "1.0",
+ "updated": "2026-07-13",
+ "purpose": "Binding safety, maturity and verification rules for agent automation loops.",
+ "kill_switch": {
+  "file": "Reference/SA_LOOP_PAUSE",
+  "behavior": "Stop automated writes immediately; report current state only."
+ },
+ "circuit_breaker": {
+  "max_attempts_per_action": 3,
+  "same_error_threshold": 3,
+  "consecutive_failure_threshold": 5,
+  "on_trip": "Stop, preserve evidence, update canonical session, escalate to the owner."
+ },
+ "protected": {
+  "never_overwrite": [
+   "existing CapCut projects",
+   "original footage and photographs",
+   "any file the owner approved or edited by hand"
+  ],
+  "require_human_approval": [
+   "deleting files",
+   "publishing or sending externally",
+   "installing software requiring administrator credentials",
+   "uploading footage or screen recordings to any cloud service (never to generation services)",
+   "changing brand identity rules"
+  ]
+ },
+ "verification": {
+  "completion_requires": [
+   "output files exist",
+   "relevant tests or validators pass",
+   "safety invariants pass",
+   "canonical session state is updated",
+   "known limitations are recorded"
+  ],
+  "forbidden_claims": [
+   "Do not call a feature production-ready before a real application test.",
+   "Do not claim a speed, effect or transition was applied without verification.",
+   "Do not claim a percentage of automation without measured project evidence."
+  ]
+ },
+ "maturity": {
+  "L1": "Report or recommend only; no project mutation.",
+  "L2": "Build a new disposable/review artifact after human request; never overwrite.",
+  "L3": "Unattended operation allowed only after repeated verified L2 runs and explicit approval from the owner."
+ },
+ "capabilities": {
+  "sa_extract": "L2",
+  "sa_cutsheet": "L2",
+  "sa_tighten_plan": "L2",
+  "sa_tighten_render": "L2",
+  "timeline_planner": "L2",
+  "capcut_writer": "L2",
+  "style_delta": "L2",
+  "publishing": "L1",
+  "destructive_cleanup": "L1"
+ }
+}

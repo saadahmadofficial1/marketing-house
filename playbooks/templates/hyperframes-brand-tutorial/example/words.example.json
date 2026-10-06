@@ -1,0 +1,191 @@
+[
+ {
+  "file": "vo/acme_m1/01_good_tea_starts_with_fresh_w.mp3",
+  "text": "Good tea starts with fresh water, heated to just below boiling.",
+  "dur": 4.32,
+  "words": [
+   {
+    "w": "Good",
+    "s": 0.0,
+    "e": 0.31
+   },
+   {
+    "w": "tea",
+    "s": 0.37,
+    "e": 0.69
+   },
+   {
+    "w": "starts",
+    "s": 0.74,
+    "e": 1.06
+   },
+   {
+    "w": "with",
+    "s": 1.11,
+    "e": 1.43
+   },
+   {
+    "w": "fresh",
+    "s": 1.48,
+    "e": 1.8
+   },
+   {
+    "w": "water,",
+    "s": 1.85,
+    "e": 2.17
+   },
+   {
+    "w": "heated",
+    "s": 2.22,
+    "e": 2.54
+   },
+   {
+    "w": "to",
+    "s": 2.59,
+    "e": 2.91
+   },
+   {
+    "w": "just",
+    "s": 2.96,
+    "e": 3.28
+   },
+   {
+    "w": "below",
+    "s": 3.33,
+    "e": 3.65
+   },
+   {
+    "w": "boiling.",
+    "s": 3.7,
+    "e": 4.02
+   }
+  ],
+  "synthetic": true
+ },
+ {
+  "file": "vo/acme_m1/02_use_one_spoon_of_leaves_per.mp3",
+  "text": "Use one spoon of leaves per cup, and steep for three minutes.",
+  "dur": 4.69,
+  "words": [
+   {
+    "w": "Use",
+    "s": 0.0,
+    "e": 0.31
+   },
+   {
+    "w": "one",
+    "s": 0.37,
+    "e": 0.69
+   },
+   {
+    "w": "spoon",
+    "s": 0.74,
+    "e": 1.06
+   },
+   {
+    "w": "of",
+    "s": 1.11,
+    "e": 1.43
+   },
+   {
+    "w": "leaves",
+    "s": 1.48,
+    "e": 1.8
+   },
+   {
+    "w": "per",
+    "s": 1.85,
+    "e": 2.17
+   },
+   {
+    "w": "cup,",
+    "s": 2.22,
+    "e": 2.54
+   },
+   {
+    "w": "and",
+    "s": 2.59,
+    "e": 2.91
+   },
+   {
+    "w": "steep",
+    "s": 2.96,
+    "e": 3.28
+   },
+   {
+    "w": "for",
+    "s": 3.33,
+    "e": 3.65
+   },
+   {
+    "w": "three",
+    "s": 3.7,
+    "e": 4.02
+   },
+   {
+    "w": "minutes.",
+    "s": 4.07,
+    "e": 4.39
+   }
+  ],
+  "synthetic": true
+ },
+ {
+  "file": "vo/acme_m1/03_remove_the_leaves_pour_and_e.mp3",
+  "text": "Remove the leaves, pour, and enjoy the cup you made.",
+  "dur": 3.95,
+  "words": [
+   {
+    "w": "Remove",
+    "s": 0.0,
+    "e": 0.31
+   },
+   {
+    "w": "the",
+    "s": 0.37,
+    "e": 0.69
+   },
+   {
+    "w": "leaves,",
+    "s": 0.74,
+    "e": 1.06
+   },
+   {
+    "w": "pour,",
+    "s": 1.11,
+    "e": 1.43
+   },
+   {
+    "w": "and",
+    "s": 1.48,
+    "e": 1.8
+   },
+   {
+    "w": "enjoy",
+    "s": 1.85,
+    "e": 2.17
+   },
+   {
+    "w": "the",
+    "s": 2.22,
+    "e": 2.54
+   },
+   {
+    "w": "cup",
+    "s": 2.59,
+    "e": 2.91
+   },
+   {
+    "w": "you",
+    "s": 2.96,
+    "e": 3.28
+   },
+   {
+    "w": "made.",
+    "s": 3.33,
+    "e": 3.65
+   }
+  ],
+  "synthetic": true
+ }
+]

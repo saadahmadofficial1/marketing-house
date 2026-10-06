@@ -1,0 +1,51 @@
+{
+  "_note": "A tiny example module for the template: three voice-over lines, three content scenes, a title and an end frame. Every on-screen item names the spoken word it lands on. Replace the copy, keep the shape.",
+  "id": "acme_m1",
+  "title": "A better cup, every time",
+  "subtitle": "Module 1 · Brewing basics",
+  "end_text": "Module 1 complete",
+  "lines": [
+    "Good tea starts with fresh water, heated to just below boiling.",
+    "Use one spoon of leaves per cup, and steep for three minutes.",
+    "Remove the leaves, pour, and enjoy the cup you made."
+  ],
+  "holds": {"2": 1.0},
+  "scenes": [
+    {
+      "id": "water",
+      "lines": [1, 1],
+      "bg": "deep",
+      "items": [
+        {"type": "kicker", "text": "Step 1", "cue": {"line": 1, "at": "start"}},
+        {"type": "headline", "text": "Fresh water", "cue": {"line": 1, "word": "fresh"}},
+        {"type": "words", "text": "heated to just below boiling", "line": 1}
+      ]
+    },
+    {
+      "id": "steep",
+      "lines": [2, 2],
+      "bg": "paper",
+      "items": [
+        {"type": "kicker", "text": "Step 2", "cue": {"line": 2, "at": "start"}},
+        {"type": "cards", "items": [
+          {"title": "1 spoon", "body": "per cup", "cue": {"line": 2, "word": "spoon"}},
+          {"title": "3 minutes", "body": "steeping", "cue": {"line": 2, "word": "three"}}
+        ]}
+      ]
+    },
+    {
+      "id": "pour",
+      "lines": [3, 3],
+      "bg": "void",
+      "items": [
+        {"type": "chips", "items": [
+          {"text": "Remove", "cue": {"line": 3, "word": "remove"}},
+          {"text": "Pour", "cue": {"line": 3, "word": "pour"}},
+          {"text": "Enjoy", "cue": {"line": 3, "word": "enjoy"}}
+        ]},
+        {"type": "stamp", "text": "Your cup.", "cue": {"line": 3, "word": "made"}}
+      ]
+    }
+  ],
+  "quiz": "quiz.json"
+}

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Certificate of completion</title>
+<style>
+/* Placeholder brand: "Acme". Swap the local() names for your brand's installed display / text faces,
+   the colours in :root, the logo, and the {{placeholders}} below. */
+@font-face { font-family:"Disp"; src: local("HelveticaNeue-Bold"); font-weight:700; }
+@font-face { font-family:"Disp"; src: local("HelveticaNeue-Medium"); font-weight:600; }
+@font-face { font-family:"Txt"; src: local("HelveticaNeue"); font-weight:400; }
+@font-face { font-family:"Txt"; src: local("HelveticaNeue-Medium"); font-weight:500; }
+@font-face { font-family:"Txt"; src: local("HelveticaNeue-Bold"); font-weight:600; }
+@font-face { font-family:"Probe"; src: local("NoSuchFont-XYZ"); }
+:root { --green:#2e7d32; --deep:#1b3a4b; --ink:#1d2422; --paper:#f4f1ea; --mist:#5f6f69; }
+@page { size: 297mm 210mm; margin: 0; }
+* { margin:0; padding:0; box-sizing:border-box; }
+/* A4 landscape at 150 dpi: 1754 x 1240 css px; rendered at 2x for print (3508 x 2480) */
+html, body { width:1754px; height:1240px; background:var(--paper); font-family:"Txt",sans-serif; color:var(--ink); }
+.sheet { position:relative; width:1754px; height:1240px; overflow:hidden; }
+/* left brand band with a diagonal line pattern; set the angle to your brand's own motif */
+.band { position:absolute; left:0; top:0; bottom:0; width:300px; background:var(--deep); overflow:hidden; }
+.band::before { content:""; position:absolute; inset:-200px; color:var(--green);
+  background:repeating-linear-gradient(135deg, transparent 0 22px, currentColor 22px 26px); opacity:.55; }
+.band::after { content:""; position:absolute; top:0; bottom:0; right:0; width:10px; background:var(--green); }
+.logo { position:absolute; top:84px; right:110px; width:190px; }
+.body { position:absolute; left:420px; right:130px; top:150px; }
+.kicker { font-weight:500; font-size:28px; letter-spacing:.14em; text-transform:uppercase; color:var(--green); }
+h1 { font-family:"Disp"; font-weight:700; font-size:104px; line-height:1.0; letter-spacing:-.025em; margin-top:22px; color:var(--deep); }
+.rule { width:200px; height:6px; background:var(--green); border-radius:3px; margin:46px 0 44px; }
+.lead { font-weight:400; font-size:34px; color:var(--mist); }
+.name { font-family:"Disp"; font-weight:600; font-size:78px; letter-spacing:-.01em; margin:18px 0 22px; min-height:92px;
+  border-bottom:2px solid #cfd8d3; padding-bottom:14px; color:var(--ink); }
+.course { font-family:"Disp"; font-weight:700; font-size:52px; color:var(--deep); margin-top:16px; }
+.sub { font-weight:500; font-size:30px; color:var(--mist); margin-top:10px; }
+.foot { position:absolute; left:420px; right:130px; bottom:110px; display:flex; justify-content:space-between; align-items:flex-end; gap:60px; }
+.field { flex:1; }
+.field .val { font-weight:600; font-size:32px; min-height:42px; border-bottom:2px solid #cfd8d3; padding-bottom:10px; }
+.field .lbl { font-weight:500; font-size:24px; color:var(--mist); margin-top:12px; letter-spacing:.04em; }
+body.blank .name, body.blank .field .val { color:transparent; }
+@media print { html, body { width:297mm !important; height:210mm !important; overflow:hidden; } .sheet { zoom: 0.6403; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="band"></div>
+  <img class="logo" src="assets/logo.svg" alt="Acme" />
+  <div class="body">
+    <div class="kicker">Acme</div>
+    <h1>Certificate of<br />completion</h1>
+    <div class="rule"></div>
+    <div class="lead">This certifies that</div>
+    <div class="name">{{learner_name}}</div>
+    <div class="lead">has successfully completed all modules and knowledge checks of</div>
+    <div class="course">{{course}}</div>
+    <div class="sub">Acme</div>
+  </div>
+  <div class="foot">
+    <div class="field"><div class="val">{{completion_date}}</div><div class="lbl">Date of completion</div></div>
+    <div class="field"><div class="val">{{learner_id}}</div><div class="lbl">Learner ID</div></div>
+    <div class="field"><div class="val">&nbsp;</div><div class="lbl">Authorised signature</div></div>
+  </div>
+</div>
+<script>if (location.hash === "#probe") Promise.all([..."700 10px Disp|600 10px Disp|400 10px Txt|500 10px Txt|600 10px Txt|400 10px Probe".split("|").map(f=>document.fonts.load(f).catch(()=>[]))]).then(()=>{document.title=["700 10px Disp","600 10px Disp","400 10px Txt","500 10px Txt","600 10px Txt","400 10px Probe"].map(f=>document.fonts.check(f)).join(",")});
+if (location.hash === "#blank") document.body.classList.add("blank");</script>
+</body>
+</html>

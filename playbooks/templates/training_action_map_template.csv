@@ -1,0 +1,1 @@
+beat_id,role,source_file,source_start_s,source_end_s,ui_action,expected_result,narration,caption,approved_voice_file,voice_duration_s,export_start_s,export_end_s,callout_evidence,excluded_reason,review_status

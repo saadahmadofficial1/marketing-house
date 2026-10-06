@@ -1,0 +1,35 @@
+{
+  "_note": "Placeholder brand for the template. Swap every value for your own brand; keep the keys. Fonts are INSTALLED PostScript names (CSS local()), never copied font files. Avenir Next ships with every Mac, so the example renders out of the box there; on other systems verify_fonts.py will (correctly) fail until you name fonts that are installed.",
+  "name": "Acme",
+  "wordmark": "ACME",
+  "colours": {
+    "deep": "#14213D",
+    "void": "#0B1424",
+    "paper": "#F5F3EE",
+    "ink": "#1C1F24",
+    "accent": "#3D6FB6",
+    "mist": "#C7CED8"
+  },
+  "fonts": {
+    "display": {
+      "family": "BrandDisplay",
+      "faces": {"500": "AvenirNext-DemiBold", "700": "AvenirNext-Bold"}
+    },
+    "text": {
+      "family": "BrandText",
+      "faces": {"400": "AvenirNext-Regular", "500": "AvenirNext-Medium"}
+    },
+    "fallback": "Georgia, serif"
+  },
+  "type": {
+    "base": {"ls": ".015em", "ws": ".07em"},
+    "small": {"ls": ".025em", "ws": ".08em"},
+    "mid": {"ls": ".008em", "ws": ".05em"},
+    "headline": {"ls": "-.012em", "ws": ".045em"},
+    "kicker": {"ls": ".12em"}
+  },
+  "motif_angle": 135,
+  "logo": null,
+  "captions": {"max_chars": 46},
+  "music": {"file": null, "preview_volume": 0.16, "draft_volume": 0.03}
+}

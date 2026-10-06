@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/timeline-plan-1.0.json",
+  "title": "Editor-Neutral Timeline Plan",
+  "type": "object",
+  "required": ["schema_version", "project", "canvas", "style", "tracks"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "project": {"type": "string", "minLength": 1},
+    "canvas": {
+      "type": "object",
+      "required": ["width", "height", "fps"],
+      "properties": {
+        "width": {"type": "integer", "minimum": 1},
+        "height": {"type": "integer", "minimum": 1},
+        "fps": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "style": {
+      "type": "object",
+      "required": ["type", "masters"],
+      "properties": {
+        "type": {"type": "string"},
+        "masters": {"type": "array", "items": {"type": "string"}},
+        "confidence": {"enum": ["low", "medium", "high"]}
+      }
+    },
+    "tracks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "clips"],
+        "properties": {
+          "type": {"enum": ["video", "audio", "text", "effect", "filter"]},
+          "clips": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["timeline_start", "timeline_duration"],
+              "properties": {
+                "file": {"type": "string"},
+                "role": {"type": "string"},
+                "timeline_start": {"type": "number", "minimum": 0},
+                "timeline_duration": {"type": "number", "exclusiveMinimum": 0},
+                "source_start": {"type": "number", "minimum": 0},
+                "source_duration": {"type": "number", "exclusiveMinimum": 0},
+                "speed": {"type": "number", "exclusiveMinimum": 0},
+                "transform": {"type": "object"},
+                "transition": {"type": ["string", "null"]},
+                "text": {"type": "string"},
+                "needs_review": {"type": "boolean"},
+                "evidence": {"type": "string"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "placeholders": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "timeline_start": {"type": "number", "minimum": 0},
+          "file": {"type": "string"},
+          "graphics_template_path": {"type": "string"},
+          "text": {"type": "string"},
+          "video_track": {"type": "integer", "minimum": 0},
+          "audio_track": {"type": "integer", "minimum": 0}
+        }
+      }
+    }
+  }
+}

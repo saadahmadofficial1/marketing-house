@@ -1,0 +1,21 @@
+{
+  "_note": "Knowledge check for the example module. Rule: every answer must be TAUGHT inside the module, so each question names the line and the exact words that teach it; build_module.py --check fails if those words are not heard in that line's voice-over.",
+  "module": "acme_m1",
+  "pass_mark": 2,
+  "questions": [
+    {
+      "q": "How long should the leaves steep?",
+      "options": ["One minute", "Three minutes", "Ten minutes"],
+      "answer": 1,
+      "explain": "The module says to steep for three minutes.",
+      "taught_in": {"line": 2, "words": "three minutes"}
+    },
+    {
+      "q": "What temperature should the water be?",
+      "options": ["Just below boiling", "Lukewarm", "Cold"],
+      "answer": 0,
+      "explain": "Fresh water, heated to just below boiling.",
+      "taught_in": {"line": 1, "words": "just below boiling"}
+    }
+  ]
+}
