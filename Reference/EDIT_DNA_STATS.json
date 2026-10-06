@@ -1,0 +1,159 @@
+{
+ "generated_from": "Encoded style fingerprints measured across 56 finished CapCut projects (the same set as capcut_style_brain_anonymised.json; raw project data kept private)",
+ "project_count": 56,
+ "principle": "Plan cuts to match these measured numbers, not generic defaults.",
+ "styles": {
+  "fast_montage": {
+   "projects": 1,
+   "total_cuts": 36,
+   "cut_seconds": {
+    "p25": 0.467,
+    "median": 0.617,
+    "p75": 0.9,
+    "p90": 1.45
+   },
+   "rhythm_spread": 0.67,
+   "speed_ramp_share": 0.079,
+   "common_speeds": [
+    0.61,
+    1.31,
+    7.25
+   ],
+   "avg_video_layers": 6
+  },
+  "luxury_event_reel": {
+   "projects": 2,
+   "total_cuts": 47,
+   "cut_seconds": {
+    "p25": 0.75,
+    "median": 1.1,
+    "p75": 1.883,
+    "p90": 3.96
+   },
+   "rhythm_spread": 1.961,
+   "speed_ramp_share": 0.702,
+   "common_speeds": [
+    0.53,
+    0.7,
+    0.8,
+    0.9,
+    1.49,
+    1.57
+   ],
+   "avg_video_layers": 4
+  },
+  "other_or_mixed": {
+   "projects": 26,
+   "total_cuts": 519,
+   "cut_seconds": {
+    "p25": 2.1,
+    "median": 2.5,
+    "p75": 5.0,
+    "p90": 16.893
+   },
+   "rhythm_spread": 3.196,
+   "speed_ramp_share": 0.059,
+   "common_speeds": [
+    0.42,
+    0.47,
+    0.48,
+    0.57,
+    0.69,
+    0.75
+   ],
+   "avg_video_layers": 6.8
+  },
+  "training_animation": {
+   "projects": 1,
+   "total_cuts": 53,
+   "cut_seconds": {
+    "p25": 4.767,
+    "median": 8.033,
+    "p75": 11.767,
+    "p90": 28.887
+   },
+   "rhythm_spread": 1.189,
+   "speed_ramp_share": 0.014,
+   "common_speeds": [
+    0.76
+   ],
+   "avg_video_layers": 13
+  },
+  "tribute_farewell": {
+   "projects": 1,
+   "total_cuts": 33,
+   "cut_seconds": {
+    "p25": 1.267,
+    "median": 1.5,
+    "p75": 1.9,
+    "p90": 2.453
+   },
+   "rhythm_spread": 0.359,
+   "speed_ramp_share": 0.882,
+   "common_speeds": [
+    0.6,
+    0.8
+   ],
+   "avg_video_layers": 4
+  },
+  "tutorial_or_explainer": {
+   "projects": 10,
+   "total_cuts": 678,
+   "cut_seconds": {
+    "p25": 1.8,
+    "median": 2.2,
+    "p75": 4.0,
+    "p90": 14.57
+   },
+   "rhythm_spread": 3.135,
+   "speed_ramp_share": 0.004,
+   "common_speeds": [
+    1.1,
+    1.2
+   ],
+   "avg_video_layers": 9.2
+  },
+  "tutorial_short_walkthrough": {
+   "projects": 1,
+   "total_cuts": 16,
+   "cut_seconds": {
+    "p25": 2.633,
+    "median": 3.433,
+    "p75": 4.992,
+    "p90": 44.433
+   },
+   "rhythm_spread": 1.513,
+   "speed_ramp_share": 0.323,
+   "common_speeds": [
+    0.7,
+    0.8,
+    1.48,
+    1.86,
+    2.0,
+    2.24
+   ],
+   "avg_video_layers": 9
+  },
+  "vertical_event_montage": {
+   "projects": 9,
+   "total_cuts": 173,
+   "cut_seconds": {
+    "p25": 0.9,
+    "median": 1.2,
+    "p75": 2.0,
+    "p90": 3.087
+   },
+   "rhythm_spread": 2.175,
+   "speed_ramp_share": 0.646,
+   "common_speeds": [
+    0.39,
+    0.4,
+    0.5,
+    0.59,
+    0.6,
+    0.69
+   ],
+   "avg_video_layers": 3.3
+  }
+ }
+}

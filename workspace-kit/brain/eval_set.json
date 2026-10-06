@@ -1,0 +1,7 @@
+{
+  "description": "Retrieval eval set. Each case = a question a real session would ask + the file where the answer lives (a file the brain indexes — see SETUP.md). Add a case whenever your brain fails to find something it should have.",
+  "cases": [
+    {"query": "how do I like to be spoken to", "expected_files": ["CLAUDE.md"], "tag": "example-replace-me"},
+    {"query": "what is the brief for my current project", "expected_files": ["BRIEF.md"], "tag": "example-replace-me"}
+  ]
+}

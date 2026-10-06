@@ -1,0 +1,194 @@
+{
+  "schema_version": "1.0",
+  "updated": "2026-08-31",
+  "authorship": "(done by codex)",
+  "purpose": "Evidence-led story grammar for new edits. It creates a review skeleton; it does not replace Saad's final editorial judgement.",
+  "evidence": {
+    "capcut_projects_read": 85,
+    "capcut_timelines_read": 95,
+    "readable_timelines": 86,
+    "unreadable_or_encrypted_timelines": 9,
+    "approved_reference_exports_read": 11,
+    "training_final_exports_verified": 20,
+    "notes": "Final exports and explicitly approved timelines have priority over draft duration, root-timeline labels, unused tracks, and broad saved export ranges."
+  },
+  "authority_order": [
+    "Saad's approved final export and final correction",
+    "The explicitly named approved timeline and destination format",
+    "A human-reviewed semantic cutsheet",
+    "This grammar and closest approved family",
+    "Automatic source analysis"
+  ],
+  "global_rules": {
+    "story_first": [
+      "Create chapters before selecting clips.",
+      "Every shot must earn a narrative role: hook, context, action, detail, listener/reaction, transition, payoff, or resolution.",
+      "Do not use coverage merely because it is attractive or available.",
+      "A repeated person, subject, angle, or detail requires a new narrative reason."
+    ],
+    "selection": [
+      "Choose the strongest usable moment inside a source clip, not automatically its first seconds.",
+      "Alternate function and scale when the story allows: wide context, human medium, detail, and reaction.",
+      "Keep imperfect but meaningful human micro-moments when they bridge the story.",
+      "A wide venue opener is useful when it establishes something the hook cannot; it is not mandatory."
+    ],
+    "transition": [
+      "Hard cuts are the normal join for real-event and documentary coverage.",
+      "Use a transition only for a chapter boundary, a tonal shift, a designed premise, or the final resolve.",
+      "Slow Fade is the dominant structural transition across the library; camera-glow and graphic transitions belong only to designed occasion or commercial families.",
+      "Never apply an effect to hide weak sequencing."
+    ],
+    "sound": [
+      "Choose music for cultural and emotional fit before beat density.",
+      "Retain a natural-sound moment when it adds touch, crowd, applause, a spoken line, or human presence; duck the music around it.",
+      "Picture chapters and music changes should support one another, but do not force a cut on every beat."
+    ],
+    "format": [
+      "Treat every destination format as a separate editorial pass.",
+      "Reframe each selected shot for subject, gesture, headroom, and text-safe area; do not batch-crop a finished vertical or landscape master.",
+      "A separate outro or end shot may be the correct choice for a separate format."
+    ],
+    "finish": [
+      "Resolve the film with a meaningful final visual, group/legacy moment, occasion card, or brand frame. Do not end on an arbitrary montage cut.",
+      "The final export is the truth. A timeline's saved export range can be stale or broader than the released video."
+    ]
+  },
+  "formats": {
+    "story_9x16": {"canvas": [1080, 1920], "focus": "native vertical composition; selective punch-ins; text-safe centre"},
+    "square_1x1": {"canvas": [1920, 1920], "focus": "manual per-shot reframe; protect faces, gestures, and titles"},
+    "landscape_16x9": {"canvas": [1920, 1080], "focus": "scale, environment, and balanced speaker/product composition"},
+    "training_wide": {"canvas": [1920, 1020], "focus": "legible application interface and call-out-safe space"}
+  },
+  "families": {
+    "event_recap_fast": {
+      "description": "People-led event recap with a felt event flow rather than an inventory of activations.",
+      "typical_duration_s": [20, 60],
+      "cut_rhythm_s": {"median_range": [0.9, 1.8], "long_hold_for": ["hero action", "ceremony", "meaningful reaction", "brand resolve"]},
+      "speed": {"usual": [0.7, 1.0], "note": "Use slow motion only where it adds premium breathing room or protects a human moment."},
+      "transition_budget": {"default": "hard_cut", "max_structural_transitions_per_30s": 4, "allowed": ["Slow Fade", "Cross Fade", "Camera Glow", "Fade Shift"]},
+      "chapter_template": [
+        {"id": "hook", "label": "Hook", "ratio": 0.08, "purpose": "A striking human gesture, hero detail, or atmosphere that makes the viewer enter."},
+        {"id": "arrival_context", "label": "Arrival & context", "ratio": 0.13, "purpose": "Orient the viewer outside or at the venue only if the hook has not already done this."},
+        {"id": "discover", "label": "Discover", "ratio": 0.20, "purpose": "People, activations, products, and atmosphere in deliberate groups."},
+        {"id": "programme", "label": "Programme", "ratio": 0.23, "purpose": "Speaker/action then listener/reaction B-roll; do not stack podium shots."},
+        {"id": "recognition", "label": "Recognition / payoff", "ratio": 0.16, "purpose": "Certificates, shared outcome, ceremony, or emotional action."},
+        {"id": "participation", "label": "Participation", "ratio": 0.10, "purpose": "An interactive ritual, collective action, or signature event moment."},
+        {"id": "resolution", "label": "Resolution", "ratio": 0.10, "purpose": "Group, branded final image, or story payoff that feels complete."}
+      ],
+      "slot_pattern": ["wide_or_hero", "human_medium", "detail", "reaction", "action", "detail", "wide_or_group"],
+      "must_check": ["chapter grouping", "speaker-to-listener bridging", "duplicate flags/venue/product removal", "natural sound opportunity", "format-specific reframes"]
+    },
+    "premium_product_event": {
+      "description": "Luxury event or exhibition recap where product desirability and real attendance both matter.",
+      "typical_duration_s": [20, 35],
+      "cut_rhythm_s": {"median_range": [0.9, 1.3], "long_hold_for": ["hero product", "craft action", "logo resolve"]},
+      "speed": {"usual": [0.5, 0.8], "note": "Slower motion can make detail feel premium; do not slow every shot uniformly."},
+      "transition_budget": {"default": "hard_cut", "max_structural_transitions_per_30s": 3, "allowed": ["Slow Fade", "Mix"]},
+      "chapter_template": [
+        {"id": "hook", "label": "Hero detail", "ratio": 0.12, "purpose": "Statement product, model, or tactile detail."},
+        {"id": "place", "label": "Place", "ratio": 0.12, "purpose": "Venue or brand environment."},
+        {"id": "desire", "label": "Desire", "ratio": 0.34, "purpose": "Product, craft, model, and customer response; alternate scale."},
+        {"id": "event_energy", "label": "Event energy", "ratio": 0.24, "purpose": "Real interactions and exhibition atmosphere."},
+        {"id": "signature", "label": "Signature", "ratio": 0.18, "purpose": "Hero close-up, branded bag/detail, then clean logo resolve."}
+      ],
+      "slot_pattern": ["hero_detail", "wide_context", "model_or_customer", "product_detail", "interaction", "product_detail", "brand"]
+    },
+    "tribute_farewell": {
+      "description": "People-first corporate tribute or farewell with dignity, warmth, and collective memory.",
+      "typical_duration_s": [35, 60],
+      "cut_rhythm_s": {"median_range": [1.3, 1.8], "long_hold_for": ["speaker emotion", "recognition", "group photograph", "legacy frame"]},
+      "speed": {"usual": [0.6, 0.8], "note": "A restrained slow-down supports dignity."},
+      "transition_budget": {"default": "hard_cut", "max_structural_transitions_per_30s": 3, "allowed": ["Slow Fade", "Cross Fade"]},
+      "chapter_template": [
+        {"id": "premise", "label": "Premise", "ratio": 0.10, "purpose": "Legacy statement, theme, or one meaningful face."},
+        {"id": "people_place", "label": "People & place", "ratio": 0.18, "purpose": "Arrival, greetings, and environment."},
+        {"id": "leadership", "label": "Leadership & exchange", "ratio": 0.21, "purpose": "Speeches, handshakes, gifts, and reaction B-roll."},
+        {"id": "celebration", "label": "Celebration", "ratio": 0.24, "purpose": "Award, cake, group activities, and lived warmth."},
+        {"id": "legacy", "label": "Legacy resolve", "ratio": 0.17, "purpose": "Group photograph, final people moment, or title."},
+        {"id": "brand", "label": "Brand resolve", "ratio": 0.10, "purpose": "Clean final brand or message."}
+      ],
+      "slot_pattern": ["theme", "wide", "interaction", "speaker", "reaction", "recognition", "group"]
+    },
+    "designed_occasion_interview": {
+      "description": "Occasion campaign driven by a question, real testimony, visual metaphor, and a warm branded close.",
+      "typical_duration_s": [40, 70],
+      "cut_rhythm_s": {"median_range": [3.0, 5.0], "long_hold_for": ["spoken value", "emotional visual", "occasion message"]},
+      "speed": {"usual": [1.0, 1.0], "note": "Keep testimony intelligible; cut support visuals around meaning rather than speed."},
+      "transition_budget": {"default": "designed_punctuation", "max_structural_transitions_per_30s": 8, "allowed": ["Camera Glow", "Slow Fade", "Gradual Fade", "Glare II", "Fade Scan"]},
+      "chapter_template": [
+        {"id": "emotional_hook", "label": "Emotional hook", "ratio": 0.10, "purpose": "A visual metaphor and clear question."},
+        {"id": "testimony_one", "label": "Testimony I", "ratio": 0.18, "purpose": "First value with an alternating supporting scene."},
+        {"id": "testimony_two", "label": "Testimony II", "ratio": 0.18, "purpose": "Second value with a different human image."},
+        {"id": "testimony_three", "label": "Testimony III", "ratio": 0.18, "purpose": "Third value, keeping faces personal."},
+        {"id": "legacy", "label": "Legacy", "ratio": 0.20, "purpose": "Collective statement and return of the opening motif."},
+        {"id": "occasion_resolve", "label": "Occasion resolve", "ratio": 0.16, "purpose": "Occasion message then brand."}
+      ],
+      "slot_pattern": ["motif_wide", "interview", "supporting_action", "interview", "supporting_action", "interview", "motif_return", "occasion_card"]
+    },
+    "designed_greeting": {
+      "description": "Short visual greeting with a single composed world, restrained text, and a quiet brand resolve.",
+      "typical_duration_s": [8, 20],
+      "cut_rhythm_s": {"median_range": [6.0, 9.0], "long_hold_for": ["hero world", "headline", "brand message"]},
+      "speed": {"usual": [1.0, 1.0], "note": "Let the visual breathe; this is not a montage."},
+      "transition_budget": {"default": "minimal", "max_structural_transitions_per_30s": 1, "allowed": ["Slow Fade"]},
+      "chapter_template": [
+        {"id": "world", "label": "Visual world", "ratio": 0.46, "purpose": "One hero scene establishes the occasion."},
+        {"id": "message", "label": "Message", "ratio": 0.34, "purpose": "Bilingual or occasion message remains readable."},
+        {"id": "brand", "label": "Brand resolve", "ratio": 0.20, "purpose": "Logo/tagline or final minimal branded frame."}
+      ],
+      "slot_pattern": ["hero_world", "alternate_hero_or_detail", "brand"]
+    },
+    "corporate_commercial": {
+      "description": "Concept-led commercial in which copy, voiceover, visual premise, and deliberate location changes carry the story.",
+      "typical_duration_s": [45, 90],
+      "cut_rhythm_s": {"median_range": [4.5, 7.0], "long_hold_for": ["message comprehension", "premise reveal", "product proof", "call to action"]},
+      "speed": {"usual": [1.0, 1.1], "note": "Sustain a visual long enough for the idea; do not import event-reel pacing."},
+      "transition_budget": {"default": "concept_punctuation", "max_structural_transitions_per_30s": 8, "allowed": ["Slide Left", "Flashback", "Glare II", "Plane Overhead 2", "Flash Zoom", "Ice Breaker", "Up", "Shake", "Slow Fade"]},
+      "chapter_template": [
+        {"id": "premise", "label": "Premise", "ratio": 0.15, "purpose": "Workplace/product context and the opening claim."},
+        {"id": "problem", "label": "Problem", "ratio": 0.17, "purpose": "Show friction, constraint, or an old way of working."},
+        {"id": "mobility", "label": "Proof through variation", "ratio": 0.34, "purpose": "Repeat one action across deliberately different environments."},
+        {"id": "solution", "label": "Solution", "ratio": 0.20, "purpose": "Product capability, platform, and comprehension beats."},
+        {"id": "cta", "label": "Call to action", "ratio": 0.14, "purpose": "End card/contact path and brand."}
+      ],
+      "slot_pattern": ["premise_wide", "person_with_product", "location_shift", "detail_screen", "location_shift", "product_proof", "cta"]
+    },
+    "training_tutorial": {
+      "description": "Screen-recorded step-by-step instruction designed for comprehension, not montage energy.",
+      "typical_duration_s": [40, 600],
+      "cut_rhythm_s": {"median_range": [2.0, 6.0], "long_hold_for": ["dense screen", "role change", "verification", "multi-field entry"]},
+      "speed": {"usual": [1.0, 1.0], "note": "Never speed through a readable action merely to shorten the runtime."},
+      "transition_budget": {"default": "minimal", "max_structural_transitions_per_30s": 2, "allowed": ["Slow Fade"]},
+      "chapter_template": [
+        {"id": "intro", "label": "Title & outcome", "ratio": 0.05, "purpose": "State what the learner will complete."},
+        {"id": "role", "label": "Role / access", "ratio": 0.08, "purpose": "Name the role and hold the screen long enough to orient."},
+        {"id": "guided_steps", "label": "Guided steps", "ratio": 0.69, "purpose": "One action at a time: narration, screen, located call-out, then proof."},
+        {"id": "verification", "label": "Verification", "ratio": 0.08, "purpose": "Show the confirmed result and any next role."},
+        {"id": "outro", "label": "Outro", "ratio": 0.10, "purpose": "Clean closing animation or completion message."}
+      ],
+      "slot_pattern": ["title", "role_card", "screen_step", "callout", "freeze_if_dense", "screen_step", "verification", "outro"],
+      "instruction_rules": {
+        "caption": "Poppins Regular, size 5, y approximately -0.89, scale 0.75.",
+        "callout_default_hold_s": 2.1,
+        "freeze_default_hold_s": 3.0,
+        "freeze_dense_screen_min_s": 6.0,
+        "repeated_action": "Re-strike the call-out as a new short hit.",
+        "role_change": "Treat as a scene change with the role named and the screen stable.",
+        "callout_placement": "Cover the actual target control; put the label in nearby empty space; never overlap boxes.",
+        "outro": "Use the approved outro source, 9.1 seconds, muted, with a Slow Fade where applicable."
+      }
+    }
+  },
+  "validator": {
+    "required_chapter_presence": true,
+    "require_first_chapter_at_zero": true,
+    "duration_tolerance_s": 0.35,
+    "warn_unassigned_required_slots": true,
+    "warn_duplicate_asset_without_new_reason": true,
+    "warn_transition_over_budget": true,
+    "warn_nonmanual_format_reframe": true,
+    "warn_event_speaker_run_without_reaction": true,
+    "warn_training_role_change_without_hold": true,
+    "warn_missing_resolution": true
+  }
+}

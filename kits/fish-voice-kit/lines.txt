@@ -1,0 +1,7 @@
+# Type what you want spoken. One line here = one audio file.
+# Lines starting with # are ignored, so you can leave notes to yourself.
+# Any language Fish supports works here — write Arabic in Arabic script.
+# Delete these examples and put your own script in.
+
+Thank you for calling. For English, press one. For Arabic, press two.
+Welcome to our centre — we are happy to help you.

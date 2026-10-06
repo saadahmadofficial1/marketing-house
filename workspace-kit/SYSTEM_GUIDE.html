@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How the system works — a visual guide</title>
+<style>
+  :root{
+    --ink:#16211f; --mut:#5d6b68; --line:#dfe6e4; --bg:#f7f9f8; --card:#fff;
+    --accent:#2f7d68; --accent-bg:#e8f3ef;
+    --amber:#9a6b12; --amber-bg:#fbf2df;
+    --violet:#54499c; --violet-bg:#eeecf9;
+    --dark:#1d2f2b;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{--ink:#e7eeec;--mut:#9aaba7;--line:#2a3936;--bg:#111917;--card:#18211f;
+      --accent:#5cc0a3;--accent-bg:#16302a;--amber:#d6a441;--amber-bg:#33280f;
+      --violet:#a99df0;--violet-bg:#231f3d;--dark:#0c1412;}
+  }
+  *{box-sizing:border-box;margin:0}
+  body{font-family:"Avenir Next","Segoe UI",system-ui,-apple-system,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1040px;margin:0 auto;padding:52px 26px 90px}
+  .kicker{color:var(--accent);font-weight:600;letter-spacing:.12em;text-transform:uppercase;font-size:12px}
+  h1{font-size:clamp(28px,4.4vw,38px);font-weight:700;margin:8px 0 12px;letter-spacing:-.02em;line-height:1.12}
+  .lede{font-size:17px;color:var(--mut);max-width:70ch}
+  .chips{display:flex;flex-wrap:wrap;gap:9px;margin:26px 0 4px}
+  .chip{background:var(--card);border:1px solid var(--line);border-radius:999px;
+    padding:7px 15px;font-size:13px;font-weight:600}
+  section{margin-top:54px}
+  h2{font-size:21px;font-weight:700;margin-bottom:5px;letter-spacing:-.01em}
+  .sub{color:var(--mut);font-size:14.5px;margin-bottom:18px;max-width:76ch}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:22px;overflow-x:auto}
+  svg{display:block;width:100%;min-width:620px;height:auto;font-family:inherit}
+  .box{fill:var(--card);stroke:var(--line);stroke-width:1.3}
+  .b-accent{fill:var(--accent-bg);stroke:var(--accent)}
+  .b-violet{fill:var(--violet-bg);stroke:var(--violet)}
+  .b-amber{fill:var(--amber-bg);stroke:var(--amber)}
+  .b-dark{fill:var(--dark);stroke:var(--dark)}
+  .h{font-size:13.5px;font-weight:600;fill:var(--ink)}
+  .hw{font-size:13.5px;font-weight:600;fill:#f2f8f6}
+  .s{font-size:11.5px;fill:var(--mut)}
+  .sw{font-size:11.5px;fill:#9fbdb4}
+  .lab{font-size:11px;fill:var(--mut);font-style:italic}
+  .ln{stroke:#8fa6a0;stroke-width:1.5;fill:none}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+  .rule{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);
+    border-radius:0 10px 10px 0;padding:14px 16px}
+  .rule.warn{border-left-color:#c2604f}
+  .rule h3{font-size:14px;font-weight:600;margin-bottom:3px}
+  .rule p{font-size:13px;color:var(--mut)}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);font-weight:600}
+  td b{font-weight:600}
+  .steps{list-style:none;padding:0;counter-reset:s}
+  .steps li{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--line);font-size:15px}
+  .steps li:last-child{border-bottom:0}
+  .steps .n{flex:0 0 auto;width:27px;height:27px;border-radius:9px;background:var(--accent);
+    color:#fff;display:grid;place-items:center;font-size:13px;font-weight:700}
+  .callout{background:var(--amber-bg);border:1px solid var(--amber);border-radius:12px;
+    padding:18px 20px;font-size:14.5px}
+  .callout b{color:var(--amber)}
+  footer{margin-top:70px;padding-top:20px;border-top:1px solid var(--line);
+    color:var(--mut);font-size:12.5px}
+  @media(max-width:640px){.panel{padding:14px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">A working method</div>
+  <h1>An AI assistant that remembers you</h1>
+  <p class="lede">Most people use AI as a chat window: explain everything, get an answer, close the tab, and
+  start from nothing tomorrow. This is the alternative — a small set of plain files that give the assistant a
+  permanent memory, your rules, and the ability to pick up a job mid-task days later. No extra platform and
+  no lock-in: just files you own. You still need an AI agent (usually a paid subscription), and a hosted agent
+  processes whatever it reads in its provider’s cloud.</p>
+  <div class="chips">
+    <span class="chip">Plain text files</span>
+    <span class="chip">Works with any AI coding agent</span>
+    <span class="chip">Files stay on your machine</span>
+    <span class="chip">About 10 minutes to set up</span>
+  </div>
+</header>
+
+<section>
+  <h2>1 · The big picture</h2>
+  <p class="sub">You brief in plain language at the top. Everything underneath is scaffolding you set up once
+  and then stop thinking about.</p>
+  <div class="panel">
+  <svg viewBox="0 0 1000 520" role="img" aria-label="Architecture: the person briefs an agent, which draws on memory, tools and local AI to produce work">
+    <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#8fa6a0"/></marker></defs>
+
+    <rect class="box b-dark" x="380" y="14" width="240" height="62" rx="10"/>
+    <text class="hw" x="500" y="41" text-anchor="middle">You — the director</text>
+    <text class="sw" x="500" y="60" text-anchor="middle">brief in plain words, judge the result</text>
+    <line class="ln" x1="500" y1="76" x2="500" y2="108" marker-end="url(#a)"/>
+
+    <rect class="box b-violet" x="240" y="112" width="250" height="60" rx="10"/>
+    <text class="h" x="365" y="138" text-anchor="middle">Your main agent</text>
+    <text class="s" x="365" y="157" text-anchor="middle">plans, builds, checks its own work</text>
+    <rect class="box b-violet" x="510" y="112" width="250" height="60" rx="10"/>
+    <text class="h" x="635" y="138" text-anchor="middle">A second agent (optional)</text>
+    <text class="s" x="635" y="157" text-anchor="middle">takes over when the first is unavailable</text>
+
+    <line class="ln" x1="365" y1="172" x2="365" y2="202"/>
+    <line class="ln" x1="635" y1="172" x2="635" y2="202"/>
+    <line class="ln" x1="130" y1="202" x2="870" y2="202"/>
+    <line class="ln" x1="130" y1="202" x2="130" y2="234" marker-end="url(#a)"/>
+    <line class="ln" x1="377" y1="202" x2="377" y2="234" marker-end="url(#a)"/>
+    <line class="ln" x1="623" y1="202" x2="623" y2="234" marker-end="url(#a)"/>
+    <line class="ln" x1="870" y1="202" x2="870" y2="234" marker-end="url(#a)"/>
+
+    <rect class="box b-accent" x="30" y="238" width="200" height="88" rx="10"/>
+    <text class="h" x="130" y="265" text-anchor="middle">Memory</text>
+    <text class="s" x="130" y="284" text-anchor="middle">your rules, preferences,</text>
+    <text class="s" x="130" y="300" text-anchor="middle">project history, corrections</text>
+    <text class="s" x="130" y="316" text-anchor="middle">— one fact per file</text>
+
+    <rect class="box b-accent" x="277" y="238" width="200" height="88" rx="10"/>
+    <text class="h" x="377" y="265" text-anchor="middle">Your tools</text>
+    <text class="s" x="377" y="284" text-anchor="middle">small scripts for the jobs</text>
+    <text class="s" x="377" y="300" text-anchor="middle">you repeat — written once,</text>
+    <text class="s" x="377" y="316" text-anchor="middle">reused forever</text>
+
+    <rect class="box b-accent" x="523" y="238" width="200" height="88" rx="10"/>
+    <text class="h" x="623" y="265" text-anchor="middle">Local AI (optional)</text>
+    <text class="s" x="623" y="284" text-anchor="middle">small models on your own</text>
+    <text class="s" x="623" y="300" text-anchor="middle">machine — free to run,</text>
+    <text class="s" x="623" y="316" text-anchor="middle">nothing leaves the building</text>
+
+    <rect class="box b-accent" x="770" y="238" width="200" height="88" rx="10"/>
+    <text class="h" x="870" y="265" text-anchor="middle">Outside services</text>
+    <text class="s" x="870" y="284" text-anchor="middle">used deliberately, only for</text>
+    <text class="s" x="870" y="300" text-anchor="middle">material your data policy</text>
+    <text class="s" x="870" y="316" text-anchor="middle">allows to leave</text>
+
+    <line class="ln" x1="130" y1="326" x2="130" y2="356"/>
+    <line class="ln" x1="377" y1="326" x2="377" y2="356"/>
+    <line class="ln" x1="623" y1="326" x2="623" y2="356"/>
+    <line class="ln" x1="870" y1="326" x2="870" y2="356"/>
+    <line class="ln" x1="130" y1="356" x2="870" y2="356"/>
+    <line class="ln" x1="300" y1="356" x2="300" y2="388" marker-end="url(#a)"/>
+    <line class="ln" x1="700" y1="356" x2="700" y2="388" marker-end="url(#a)"/>
+
+    <rect class="box" x="150" y="392" width="300" height="76" rx="10"/>
+    <text class="h" x="300" y="419" text-anchor="middle">A record you can trust</text>
+    <text class="s" x="300" y="438" text-anchor="middle">what was decided, what was done,</text>
+    <text class="s" x="300" y="454" text-anchor="middle">and the evidence behind each claim</text>
+
+    <rect class="box" x="550" y="392" width="300" height="76" rx="10"/>
+    <text class="h" x="700" y="419" text-anchor="middle">The actual work</text>
+    <text class="s" x="700" y="438" text-anchor="middle">documents, media, analysis, reports —</text>
+    <text class="s" x="700" y="454" text-anchor="middle">whatever your job produces</text>
+
+    <text class="lab" x="500" y="502" text-anchor="middle">every layer below you works the same for any agent — nothing depends on one company's AI</text>
+  </svg>
+  </div>
+</section>
+
+<section>
+  <h2>2 · Memory — the part that changes everything</h2>
+  <p class="sub">A normal chat forgets you the moment it closes. Here, a correction is written to disk the minute
+  you make it — so it holds next week, in a different conversation, on a different task.</p>
+  <div class="panel">
+  <svg viewBox="0 0 1000 390" role="img" aria-label="Memory loop: daily work is recorded as facts, which the agent recalls later">
+    <defs><marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#8fa6a0"/></marker></defs>
+
+    <rect class="box" x="20" y="26" width="228" height="60" rx="10"/>
+    <text class="h" x="134" y="52" text-anchor="middle">Corrections</text>
+    <text class="s" x="134" y="71" text-anchor="middle">“no — always do it this way”</text>
+
+    <rect class="box" x="20" y="106" width="228" height="60" rx="10"/>
+    <text class="h" x="134" y="132" text-anchor="middle">Approvals</text>
+    <text class="s" x="134" y="151" text-anchor="middle">“that version — keep doing that”</text>
+
+    <rect class="box" x="20" y="186" width="228" height="60" rx="10"/>
+    <text class="h" x="134" y="212" text-anchor="middle">Context you shouldn’t repeat</text>
+    <text class="s" x="134" y="231" text-anchor="middle">who you are, how the team works</text>
+
+    <line class="ln" x1="248" y1="56" x2="322" y2="122" marker-end="url(#b)"/>
+    <line class="ln" x1="248" y1="136" x2="322" y2="146" marker-end="url(#b)"/>
+    <line class="ln" x1="248" y1="216" x2="322" y2="176" marker-end="url(#b)"/>
+
+    <rect class="box b-accent" x="326" y="96" width="316" height="112" rx="10"/>
+    <text class="h" x="484" y="126" text-anchor="middle">Memory folder</text>
+    <text class="s" x="484" y="147" text-anchor="middle">one fact per file, with the reason</text>
+    <text class="s" x="484" y="165" text-anchor="middle">a one-line index loads every session</text>
+    <text class="s" x="484" y="183" text-anchor="middle">backed up on a schedule</text>
+
+    <line class="ln" x1="642" y1="128" x2="722" y2="84" marker-end="url(#b)"/>
+    <line class="ln" x1="642" y1="178" x2="722" y2="226" marker-end="url(#b)"/>
+
+    <rect class="box b-violet" x="726" y="50" width="248" height="66" rx="10"/>
+    <text class="h" x="850" y="78" text-anchor="middle">Instant recall</text>
+    <text class="s" x="850" y="97" text-anchor="middle">“we solved this before — here it is”</text>
+
+    <rect class="box b-violet" x="726" y="196" width="248" height="66" rx="10"/>
+    <text class="h" x="850" y="224" text-anchor="middle">Consistency</text>
+    <text class="s" x="850" y="243" text-anchor="middle">the same standard every time</text>
+
+    <rect class="box b-amber" x="326" y="272" width="316" height="60" rx="10"/>
+    <text class="h" x="484" y="298" text-anchor="middle">Optional: meaning-based search</text>
+    <text class="s" x="484" y="317" text-anchor="middle">finds the right note even with different words</text>
+    <line class="ln" x1="484" y1="208" x2="484" y2="268" marker-end="url(#b)"/>
+
+    <text class="lab" x="500" y="370" text-anchor="middle">the reason matters more than the rule — a reason generalises to new situations, an instruction doesn’t</text>
+  </svg>
+  </div>
+</section>
+
+<section>
+  <h2>3 · Never lose your place</h2>
+  <p class="sub">Chat histories vanish — you hit a usage limit, the app restarts, a week passes. Writing progress
+  to a small file as you go means the next session resumes mid-sentence instead of mid-shrug.</p>
+  <div class="panel">
+  <svg viewBox="0 0 1000 340" role="img" aria-label="Handoff cycle: work is saved to session files that any agent can resume from">
+    <defs><marker id="c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#8fa6a0"/></marker></defs>
+
+    <rect class="box b-violet" x="60" y="34" width="300" height="70" rx="10"/>
+    <text class="h" x="210" y="63" text-anchor="middle">Working normally</text>
+    <text class="s" x="210" y="83" text-anchor="middle">an ordinary task, an ordinary day</text>
+
+    <rect class="box b-accent" x="620" y="34" width="300" height="70" rx="10"/>
+    <text class="h" x="770" y="63" text-anchor="middle">Progress saved as you go</text>
+    <text class="s" x="770" y="83" text-anchor="middle">done · next · where things live</text>
+
+    <rect class="box" x="620" y="228" width="300" height="70" rx="10"/>
+    <text class="h" x="770" y="257" text-anchor="middle">Interruption</text>
+    <text class="s" x="770" y="277" text-anchor="middle">limit hit, restart, or simply tomorrow</text>
+
+    <rect class="box b-violet" x="60" y="228" width="300" height="70" rx="10"/>
+    <text class="h" x="210" y="257" text-anchor="middle">Resumes in one line</text>
+    <text class="s" x="210" y="277" text-anchor="middle">no re-briefing, no lost steps</text>
+
+    <line class="ln" x1="360" y1="69" x2="616" y2="69" marker-end="url(#c)"/>
+    <text class="lab" x="488" y="58" text-anchor="middle">after every meaningful step</text>
+    <line class="ln" x1="770" y1="104" x2="770" y2="224" marker-end="url(#c)"/>
+    <line class="ln" x1="620" y1="263" x2="364" y2="263" marker-end="url(#c)"/>
+    <line class="ln" x1="210" y1="228" x2="210" y2="108" marker-end="url(#c)"/>
+    <text class="lab" x="196" y="172" text-anchor="end">and round again</text>
+
+    <rect class="box b-amber" x="400" y="140" width="200" height="58" rx="10"/>
+    <text class="h" x="500" y="165" text-anchor="middle">One small state file</text>
+    <text class="s" x="500" y="183" text-anchor="middle">the single source of truth</text>
+  </svg>
+  </div>
+  <div class="callout" style="margin-top:16px">
+    <b>The rule that makes it work:</b> update as you go, not at the end. A file written at the end of the day is
+    a diary. Written continuously, it is a save point — and save points are what let you walk away mid-task
+    without paying to rebuild the context later.
+  </div>
+</section>
+
+<section>
+  <h2>4 · Standing instructions vs. wishes</h2>
+  <p class="sub">There is a real difference between telling an assistant something once and giving it a rule it
+  reads every single time. Only the second one survives a long session.</p>
+  <div class="panel">
+  <svg viewBox="0 0 1000 300" role="img" aria-label="Comparison: a one-off request fades, a file read every turn does not">
+    <defs><marker id="d" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#8fa6a0"/></marker></defs>
+
+    <text class="h" x="230" y="28" text-anchor="middle">Told once in a chat</text>
+    <rect class="box" x="40" y="44" width="120" height="52" rx="9"/>
+    <text class="s" x="100" y="68" text-anchor="middle">you say the rule</text>
+    <text class="s" x="100" y="84" text-anchor="middle">turn 1</text>
+    <line class="ln" x1="160" y1="70" x2="196" y2="70" marker-end="url(#d)"/>
+    <rect class="box" x="200" y="44" width="120" height="52" rx="9"/>
+    <text class="s" x="260" y="68" text-anchor="middle">still remembered</text>
+    <text class="s" x="260" y="84" text-anchor="middle">turn 12</text>
+    <line class="ln" x1="320" y1="70" x2="356" y2="70" marker-end="url(#d)"/>
+    <rect class="box" x="360" y="44" width="120" height="52" rx="9" style="opacity:.45"/>
+    <text class="s" x="420" y="68" text-anchor="middle">drifting</text>
+    <text class="s" x="420" y="84" text-anchor="middle">turn 60</text>
+    <text class="lab" x="260" y="120" text-anchor="middle">competing with everything else you have said since</text>
+
+    <text class="h" x="230" y="180" text-anchor="middle">Written in the instruction file</text>
+    <rect class="box b-accent" x="40" y="196" width="120" height="52" rx="9"/>
+    <text class="s" x="100" y="220" text-anchor="middle">read fresh</text>
+    <text class="s" x="100" y="236" text-anchor="middle">turn 1</text>
+    <line class="ln" x1="160" y1="222" x2="196" y2="222" marker-end="url(#d)"/>
+    <rect class="box b-accent" x="200" y="196" width="120" height="52" rx="9"/>
+    <text class="s" x="260" y="220" text-anchor="middle">read fresh</text>
+    <text class="s" x="260" y="236" text-anchor="middle">turn 12</text>
+    <line class="ln" x1="320" y1="222" x2="356" y2="222" marker-end="url(#d)"/>
+    <rect class="box b-accent" x="360" y="196" width="120" height="52" rx="9"/>
+    <text class="s" x="420" y="220" text-anchor="middle">read fresh</text>
+    <text class="s" x="420" y="236" text-anchor="middle">turn 60</text>
+    <text class="lab" x="260" y="272" text-anchor="middle">identical on turn 60 and turn 1 — that is the whole trick</text>
+
+    <rect class="box b-dark" x="560" y="70" width="400" height="160" rx="12"/>
+    <text class="hw" x="760" y="104" text-anchor="middle">Keep it short</text>
+    <text class="sw" x="760" y="130" text-anchor="middle">This file is re-read on every single turn, so every</text>
+    <text class="sw" x="760" y="148" text-anchor="middle">line competes for room with your actual work.</text>
+    <text class="sw" x="760" y="174" text-anchor="middle">One page of rules that always applies beats</text>
+    <text class="sw" x="760" y="192" text-anchor="middle">twenty pages that crowd out the task.</text>
+    <text class="sw" x="760" y="216" text-anchor="middle">Depth goes in linked files, read only when needed.</text>
+  </svg>
+  </div>
+</section>
+
+<section>
+  <h2>5 · Guardrails — rules that hold under pressure</h2>
+  <p class="sub">Every job has things that must never happen. Write them down as absolutes rather than
+  hoping they get remembered on a busy afternoon. These are examples of the <em>shape</em> of a good
+  guardrail — replace them with your own.</p>
+  <div class="grid">
+    <div class="rule warn"><h3>Name what can never be automated</h3><p>Some material must be handled by a person, or only edited in ways that cannot invent detail. Say which, and say it absolutely — no “usually”.</p></div>
+    <div class="rule warn"><h3>Name what can never leave</h3><p>Client, staff and unreleased material stays on your machine. Everything above “public” is local-only unless someone senior has approved otherwise in writing. A hosted agent sends whatever it opens to its provider, so keep those files outside the folder it works in, or use a local model.</p></div>
+    <div class="rule"><h3>Check the format before producing</h3><p>Size, ratio, language, template — verified before the work starts, not discovered after it is finished.</p></div>
+    <div class="rule"><h3>Approved work is finished work</h3><p>Once a person has signed something off, the assistant never quietly “improves” it. The human edit is the reference.</p></div>
+    <div class="rule"><h3>Honest status, always</h3><p>Label things working, experimental, or planned. Never let a plan get described as a live capability.</p></div>
+    <div class="rule"><h3>Evidence before “done”</h3><p>A task is complete when its output has been opened and checked — not when the assistant believes it should work.</p></div>
+    <div class="rule"><h3>Confirm anything outward</h3><p>Sending, posting, publishing, deleting: ask first, every time. Approval for one thing is not approval for the next.</p></div>
+    <div class="rule"><h3>Disagree when warranted</h3><p>The assistant checks claims — including yours — and says so when it thinks you are wrong. Agreeable is not the same as useful.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>6 · How to adopt it</h2>
+  <p class="sub">The folder does nothing on its own. These are the habits that turn it into something worth
+  having, roughly in the order they pay off.</p>
+  <ol class="steps">
+    <li><span class="n">1</span><span><b>Set it up and answer the questions honestly.</b> Open the folder with your agent and say hello — it interviews you and writes its own instruction file. Vague answers now mean vague behaviour later.</span></li>
+    <li><span class="n">2</span><span><b>Correct it out loud, every single time.</b> Not silently fixing the output yourself. Each correction gets written down with the reason, and it compounds. This is the habit that separates a real assistant from a chatbot.</span></li>
+    <li><span class="n">3</span><span><b>Let it keep its own notes as it works.</b> Progress in the session file, decisions in memory. You will not appreciate why until the first time something interrupts you mid-task.</span></li>
+    <li><span class="n">4</span><span><b>Fill in your data policy in week one.</b> Which of your material can never go to an outside service. Five minutes; the thing you will be most glad about.</span></li>
+    <li><span class="n">5</span><span><b>Turn the third repetition into a tool.</b> The moment you ask for the same thing a third time, have it saved as a script. Your tools folder is where your working method accumulates.</span></li>
+    <li><span class="n">6</span><span><b>Make it check before it builds.</b> Most of what you are about to ask for, you already solved once. An assistant that searches its own memory first stops rebuilding the same thing.</span></li>
+  </ol>
+</section>
+
+<section>
+  <h2>7 · Plain-English glossary</h2>
+  <p class="sub">The handful of terms worth knowing. Everything else you can pick up as you go.</p>
+  <div class="panel">
+  <table>
+    <tr><th style="width:24%">Term</th><th>What it actually means</th></tr>
+    <tr><td><b>Agent</b></td><td>An AI that can read and write files and run commands on your machine — not just produce text in a window. That difference is the whole point. Most agents run the AI itself in the provider’s cloud, so whatever they read is sent there to be processed.</td></tr>
+    <tr><td><b>Instruction file</b></td><td>A document the agent re-reads at the start of every turn. Your standing orders. Keep it to about a page.</td></tr>
+    <tr><td><b>Context</b></td><td>How much the assistant can hold in mind at once. It is finite — which is why big files and long chats degrade quality, and why memory lives on disk instead.</td></tr>
+    <tr><td><b>Session / state file</b></td><td>A small file recording what is done and what is next, so any agent can resume the job later.</td></tr>
+    <tr><td><b>Memory</b></td><td>Durable facts about you and your work, one per file, so the right two can be fetched without loading everything.</td></tr>
+    <tr><td><b>Local model</b></td><td>An AI running on your own computer. Slower and less capable than the big ones, free to run, and nothing you give it leaves the machine.</td></tr>
+    <tr><td><b>Semantic search</b></td><td>Search by meaning rather than exact words — it finds the right note even when you have forgotten what you called it.</td></tr>
+    <tr><td><b>Tool</b></td><td>A small script for a job you repeat. Written once, then reused rather than rebuilt.</td></tr>
+  </table>
+  </div>
+</section>
+
+<section>
+  <h2>8 · What this is not</h2>
+  <p class="sub">Worth being straight about, so nobody adopts it expecting the wrong thing.</p>
+  <div class="grid">
+    <div class="rule warn"><h3>Not autonomous</h3><p>It does not run your job while you sleep. It removes the re-explaining and the repetition; the judgement stays yours.</p></div>
+    <div class="rule warn"><h3>Not instant</h3><p>The first week is slower, because you are teaching it. It pays back from roughly the second week and compounds after that.</p></div>
+    <div class="rule warn"><h3>Not a replacement for knowing your job</h3><p>It amplifies whatever standard you hold it to. Someone who cannot tell good work from bad gets more bad work, faster.</p></div>
+    <div class="rule warn"><h3>Not a product</h3><p>There is nothing extra to buy or log into beyond your AI agent. It is a folder of files, and you own it — which also means nobody maintains it but you.</p></div>
+  </div>
+</section>
+
+<footer>
+  A portable working method — plain files on your own machine, no vendor lock-in. What your agent reads is processed by its provider.
+  Open this folder with your AI agent and say hello to begin.
+</footer>
+
+</div>
+</body>
+</html>

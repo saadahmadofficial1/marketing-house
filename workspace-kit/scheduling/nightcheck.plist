@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Copy to ~/Library/LaunchAgents/, set the script path below to your workspace, then
+     launchctl load it. Runs the dead-man check at 07:00 every day. -->
+<plist version="1.0"><dict>
+  <key>Label</key><string>local.workspace.nightcheck</string>
+  <key>ProgramArguments</key><array>
+    <string>/bin/bash</string>
+    <string>/path/to/workspace/Tools/sa_nightcheck.sh</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <dict><key>Hour</key><integer>7</integer><key>Minute</key><integer>0</integer></dict>
+</dict></plist>

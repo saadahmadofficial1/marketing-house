@@ -1,0 +1,253 @@
+# Public portfolio: only reviewed, generic files belong here.
+# The sync step stages with `git add -A`, so this file is the last safety net.
+# A pattern here never hides a file that is already tracked; untrack it first.
+
+# --- Never publish media: footage, audio, camera originals, edit projects ---
+*.mp4
+*.MP4
+*.mov
+*.MOV
+*.m4v
+*.avi
+*.mkv
+*.mxf
+*.webm
+*.mpg
+*.mpeg
+*.mts
+*.m2ts
+*.3gp
+*.braw
+*.r3d
+*.insv
+*.lrv
+*.thm
+*.wav
+*.mp3
+*.m4a
+*.aac
+*.flac
+*.aif
+*.aiff
+*.ogg
+*.opus
+*.arw
+*.ARW
+*.dng
+*.DNG
+*.cr2
+*.cr3
+*.nef
+*.raf
+*.orf
+*.rw2
+*.heic
+*.HEIC
+*.tif
+*.tiff
+*.psd
+*.psb
+*.xmp
+*.prproj
+*.aep
+*.aepx
+*.drp
+*.fcpbundle/
+*.fcpxml
+*.xml
+*.edl
+*.aaf
+*.omf
+*.lrcat
+*.lrlibrary/
+*.photoslibrary/
+*.capcut
+draft_*.json
+draft_settings
+
+# Captions and transcripts carry the script of real projects
+*.srt
+*.vtt
+*.ass
+
+# Archives and disk images can hide any of the above
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.rar
+*.dmg
+
+# --- Photos, screenshots and frame grabs (they can show people, places or internal screens) ---
+*.jpg
+*.JPG
+*.jpeg
+*.png
+*.PNG
+*.webp
+*.gif
+*.bmp
+# Approved diagrams only: keep them in assets/
+!assets/**/*.png
+!assets/**/*.jpg
+!assets/**/*.webp
+
+# --- Office files, exports and data tables ---
+*.pdf
+*.doc
+*.docx
+*.xls
+*.xlsx
+*.ppt
+*.pptx
+*.numbers
+*.pages
+*.csv
+*.tsv
+*.eml
+*.msg
+!playbooks/templates/*.csv
+
+# --- Secrets and credentials ---
+.env
+.env.*
+*.env
+*.pem
+*.key
+*.p12
+*.pfx
+*.ppk
+*.keystore
+*.jks
+id_rsa*
+id_ed25519*
+.netrc
+.npmrc
+.pypirc
+.claude.json
+credentials*.json
+service-account*.json
+token*.json
+*secret*
+
+# --- Reference/: only the published style data; tools write private reports here too ---
+# To publish another file from Reference/, add a matching ! line below.
+/Reference/*
+!/Reference/SAAD_EDITING_GRAMMAR.json
+!/Reference/EDIT_DNA_STATS.json
+!/Reference/capcut_style_brain_anonymised.json
+!/Reference/capcut_style_brain_anonymised.md
+
+# --- Generated reports that contain your own project names (tools write these) ---
+**/Reference/CAPCUT_STYLE_BRAIN.*
+**/Reference/CAPCUT_TIMELINE_CORPUS.*
+**/Reference/VISUAL_MEMORY*
+**/Reference/DOCTOR.md
+**/Reference/BRAIN_HEALTH.md
+**/Reference/VERIFIER_GAPS.md
+**/Reference/TOOLS_CATALOG.md
+**/Reference/MISTAKE_PATTERNS.md
+**/Reference/HARNESS_IDEAS.md
+**/Reference/EDIT_DNA.md
+**/Reference/STYLE_DNA.md
+**/Reference/DEBUG_PLAYBOOK.md
+**/Reference/TUTORIAL_TEMPLATES.md
+**/Reference/SA_LOOP_*
+dedupe_plan.txt
+sort_plan.txt
+*.log
+
+# --- Project write-ups stay private; methods live in playbooks/ ---
+case-studies/
+
+# --- Local AI brain data (the code is published, the memory is not) ---
+chroma_db/
+*.db
+*.sqlite
+*.sqlite3
+*.jsonl
+*.npy
+*.npz
+*.pkl
+*.pickle
+*.parquet
+*.faiss
+# Memory files the brain server writes beside the kit
+SA_*.md
+# Session handoffs, project folders and personal memory (the templates stay)
+**/Sessions/*/
+**/Projects/*/
+**/memory/*
+!**/memory/MEMORY.md
+
+# --- AI model weights (large, and licensed separately) ---
+*.gguf
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.bin
+
+# --- AI agent local settings and scratch (paths, permissions, transcripts) ---
+.claude/settings.local.json
+.claude/worktrees/
+CLAUDE.local.md
+.codex/
+
+# --- Python / Node / Swift build and cache ---
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+build/
+dist/
+bin/
+.build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.coverage
+htmlcov/
+node_modules/
+
+# --- Scratch and leftovers ---
+tmp/
+temp/
+scratch/
+*.tmp
+*.bak
+*.orig
+*.rej
+*~
+
+# --- OS and editor clutter ---
+.DS_Store
+._*
+.AppleDouble
+.Spotlight-V100
+.Trashes
+.fseventsd
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+.obsidian/workspace*.json
+
+# --- Private sync files: they list confidential terms and must never be committed ---
+portfolio_rules.json
+kit_sanitize.py
+*_portfolio.py
+*.command
+
+# --- Exceptions: generic launchers and kits are published on purpose (no preset files are published) ---
+!apps/**/*.command
+!kits/**/*.command
+!workspace-kit/**/*.command
+!tools/sa_serve_offline_site.command

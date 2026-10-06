@@ -1,0 +1,12 @@
+[project]
+name = "brain"
+version = "0.1.0"
+description = "Local semantic-memory MCP server over your own notes"
+requires-python = ">=3.12"
+dependencies = [
+    "chromadb>=1.5.9",
+    "fastmcp==3.3.1",
+]
+
+[tool.uv]
+dev-dependencies = []

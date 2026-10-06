@@ -1,0 +1,63 @@
+# Python dependencies for the published tools in this folder.
+#
+# How this list was made: every import in every tools/*.py was parsed (Python's
+# ast module) and each third-party module was matched to the version installed
+# in the workspace's main tool environment (Python 3.9). Only packages a tool
+# actually imports are listed, and only versions that environment really has
+# are pinned. Standard-library modules are not listed.
+#
+#   python3 -m venv .venv && .venv/bin/pip install -r tools/requirements.txt
+#
+# Most tools need only a few of these. Each tool's docstring says what it uses.
+#
+# System tools (not pip):
+#   - ffmpeg + ffprobe: almost every video and audio tool shells out to them.
+#   - Xcode command-line tools (swiftc): builds the on-device OCR helpers from
+#     sa_ocr.swift and sa_ocr_bounds.swift, e.g.
+#       swiftc -O tools/sa_ocr.swift -o tools/bin/sa_ocr
+#   - exiftool (optional): camera serial numbers in sa_sort.py; mdls is used otherwise.
+#   - Ollama with a local vision/text model: sa_translate.py, sa_see.py, sa_qa.py,
+#     sa_cutsheet.py, sa_boxcheck.py, sa_hub.py, sa_reel.py, sa_inspect.py,
+#     sa_visualmem.py and sa_video_style_read.py talk to it on localhost.
+#   - Node.js + Playwright: the headless renderer sa_html_card_render.mjs
+#     (edit the Playwright path at the top of that file for your machine).
+#   - tkinter (ships with python.org builds; Homebrew needs python-tk) for the
+#     small windows in sa_desk.py and sa_eyes_pad.py.
+#
+# The Fish Audio voice kit is self-contained, with its own set-up script:
+#   ../kits/fish-voice-kit/README.md
+#
+# No third-party code is vendored in this folder.
+
+# --- Core ------------------------------------------------------------------
+faster-whisper==1.2.1          # local speech-to-text: captions, VO checks, sign-off checks
+librosa==0.11.0                # beat and onset analysis (sa_beats, sa_hfcheck)
+numpy==2.0.2
+onnxruntime==1.19.2            # runtime for faster-whisper and rembg (rembg needs it, but does not install it)
+opencv-python-headless==5.0.0.93  # frame analysis, motion maps, cull scoring
+pillow==11.3.0                 # call-outs, contact sheets, review boards
+rawpy==0.27.0                  # RAW development (sa_rawdev, sa_photo, jewellery_edit)
+rembg==2.0.61                  # local background removal (sa_cutout)
+requests==2.32.5               # text-to-speech provider API (sa_fishvo)
+scenedetect==0.6.7.1           # shot-boundary detection (sa_final_video_audit)
+soundfile==0.13.1              # audio read/write
+yt-dlp==2025.10.14             # command-line tool used by sa_reel.py to fetch a reference video
+
+# --- macOS only --------------------------------------------------------------
+pyobjc-framework-Quartz==11.1  # reads the window list for sa_screenwatch
+rumps==0.4.0                   # menu-bar indicator (sa_watchbar)
+
+# --- Optional: tools that run in their own environments ---------------------
+# These pull in large ML stacks, so each lives in a separate virtual
+# environment and the tool says which interpreter to use. Versions below are
+# the ones in those environments, given for reference; they are not pinned here.
+#
+# Local voice cloning from a voice you own or have licensed (sa_clonevo.py), tested on Python 3.11:
+#   chatterbox-tts   # 0.1.7 tested, with torch 2.6.0 and torchaudio 2.6.0
+# Live captions on the Apple GPU (sa_livecaption.py, tested on Python 3.12;
+# falls back to faster-whisper from the core list):
+#   mlx-whisper      # 0.4.3 tested
+# Offline neural voice for quick drafts (sa_kokoro_say.py; needs the model files beside it):
+#   kokoro-onnx
+# Compressing large tool output before it reaches a model (squeeze.py):
+#   headroom-ai      # 0.27.0 tested

@@ -1,0 +1,30 @@
+{
+ "schema_version": "1.0",
+ "_setup": "Add your own client/brand keywords to path_hints — any file whose path contains a hint gets that class. Tools call Tools/security_gate.py gate() before sending anything to a cloud service.",
+ "classes": {
+  "PUBLIC": "Already public or explicitly approved for public processing.",
+  "INTERNAL": "Ordinary day-to-day work; local processing by default.",
+  "CONFIDENTIAL": "Employees, meetings, unreleased campaigns or sensitive business content; local only.",
+  "CLIENT_RESTRICTED": "Client, partner or contract-sensitive content; local only unless written approval exists."
+ },
+ "external_processing": {
+  "PUBLIC": true,
+  "INTERNAL": false,
+  "CONFIDENTIAL": false,
+  "CLIENT_RESTRICTED": false
+ },
+ "default_class": "INTERNAL",
+ "path_hints": {
+  "CLIENT_RESTRICTED": [
+   "client",
+   "contract",
+   "nda"
+  ],
+  "CONFIDENTIAL": [
+   "meeting",
+   "interview",
+   "employee",
+   "internal"
+  ]
+ }
+}

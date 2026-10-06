@@ -1,0 +1,32 @@
+# PRONUNCIATION FIXES — one per line:   what is written  =>  how it should sound
+#
+# When a word comes out wrong, you do not re-record and you do not fight the model.
+# You write it here the way it should SOUND, in the same script, and every line
+# generated from now on says it correctly. A word only has to be wrong once.
+#
+# The four things that go wrong in Arabic, and the cure for each:
+#
+# 1. NO VOWEL MARKS. Arabic without tashkeel is ambiguous — the same letters can be
+#    two different words (the bare letters of ʿilm, “knowledge”, also spell ʿalam,
+#    “flag”). Put the bare word on the left and the same word WITH the vowel marks
+#    that force the reading you mean on the right:
+#        <the word as written> => <the same word with its tashkeel>
+#
+# 2. NUMBERS AND DATES. Digits get read in the wrong language, or as separate
+#    digits. Write them as words, in the language of the line:
+#        2026 => two thousand and twenty-six
+#        50% => fifty per cent
+#    (in an Arabic line, the right-hand side is the number in Arabic words)
+#
+# 3. LATIN NAMES INSIDE ARABIC. The model switches accent mid-sentence. Write the
+#    name in Arabic letters:
+#        Acme => <the brand name written in Arabic letters>
+#
+# 4. INITIALS AND ABBREVIATIONS. Single letters are read as separate phrases, with
+#    a pause between them. Spell them out the way they sound:
+#        HR => aitch-ar
+#        VIP => vee-eye-pee
+#    (in an Arabic line, write the letter names in Arabic script)
+#
+# Add your own fixes below this line, one per line, as you find them.
+

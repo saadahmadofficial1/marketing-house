@@ -1,0 +1,2838 @@
+{
+ "schema_version": "1.0",
+ "principle": "Approved export-range evidence outranks whole-draft census data.",
+ "note": "Anonymised: project names replaced; per-segment detail, client-restricted work, empty drafts, AI-built drafts and duplicate copies removed. Numbers are measured from my own CapCut projects. Confidence 'high' = a confirmed finished export range; 'low' = measured over the whole draft.",
+ "project_count": 56,
+ "projects": [
+  {
+   "project": "P01",
+   "canvas": {
+    "width": 1920,
+    "height": 1920,
+    "ratio": "1:1",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 167.3667,
+    "duration": 34.2667
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 38,
+     "filter": 2,
+     "audio": 7
+    },
+    "primary_video_track": 2,
+    "primary_picture_segments": 16,
+    "primary_picture_duration": {
+     "min": 0.1,
+     "median": 0.55,
+     "max": 2.633
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.31
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.493,
+     "max": 0.847
+    },
+    "reframed_ratio": 0.938,
+    "text_segments": 0,
+    "audio_segments": 7,
+    "transitions": {
+     "Slow Fade": 2,
+     "Blur": 2,
+     "Straight Zoom": 1,
+     "Camera Glow": 1
+    }
+   },
+   "style_type": "fast_montage",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P02",
+   "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 26.7333
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 30,
+     "filter": 1,
+     "audio": 3
+    },
+    "primary_video_track": 2,
+    "primary_picture_segments": 25,
+    "primary_picture_duration": {
+     "min": 0.4,
+     "median": 0.967,
+     "max": 2.367
+    },
+    "speed": {
+     "min": 0.7,
+     "median": 0.7,
+     "max": 2.458
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.454,
+     "max": 0.915
+    },
+    "reframed_ratio": 0.2,
+    "text_segments": 0,
+    "audio_segments": 3,
+    "transitions": {
+     "Mix": 2
+    }
+   },
+   "style_type": "luxury_event_reel",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": false,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P03",
+   "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 27.1333
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 17,
+     "filter": 2,
+     "audio": 5
+    },
+    "primary_video_track": 2,
+    "primary_picture_segments": 14,
+    "primary_picture_duration": {
+     "min": 0.633,
+     "median": 1.217,
+     "max": 6.433
+    },
+    "speed": {
+     "min": 0.53,
+     "median": 1.0,
+     "max": 1.575
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.518,
+     "max": 0.92
+    },
+    "reframed_ratio": 0.643,
+    "text_segments": 0,
+    "audio_segments": 5,
+    "transitions": {
+     "Slow Fade": 1
+    }
+   },
+   "style_type": "luxury_event_reel",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": false,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P04",
+   "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 5.0
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 1
+    },
+    "primary_video_track": 0,
+    "primary_picture_segments": 1,
+    "primary_picture_duration": {
+     "min": 5.0,
+     "median": 5.0,
+     "max": 5.0
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.0
+    },
+    "reframed_ratio": 0.0,
+    "text_segments": 0,
+    "audio_segments": 0,
+    "transitions": {}
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "whole_draft_fallback",
+    "confidence": "low",
+    "has_outro": false,
+    "has_music_or_sound": false,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P05",
+   "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 6.5333
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 1
+    },
+    "primary_video_track": 0,
+    "primary_picture_segments": 1,
+    "primary_picture_duration": {
+     "min": 6.533,
+     "median": 6.533,
+     "max": 6.533
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.241,
+     "median": 0.241,
+     "max": 0.241
+    },
+    "reframed_ratio": 0.0,
+    "text_segments": 0,
+    "audio_segments": 0,
+    "transitions": {}
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "medium",
+    "has_outro": false,
+    "has_music_or_sound": false,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P06",
+   "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "ratio": "16:9",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 151.2,
+    "duration": 6.9333
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 3
+    },
+    "primary_video_track": 5,
+    "primary_picture_segments": 1,
+    "primary_picture_duration": {
+     "min": 6.6,
+     "median": 6.6,
+     "max": 6.6
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.0
+    },
+    "reframed_ratio": 1.0,
+    "text_segments": 0,
+    "audio_segments": 0,
+    "transitions": {}
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "medium",
+    "has_outro": false,
+    "has_music_or_sound": false,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P07",
+   "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 13.5667
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 2,
+     "text": 1
+    },
+    "primary_video_track": 0,
+    "primary_picture_segments": 2,
+    "primary_picture_duration": {
+     "min": 5.5,
+     "median": 6.783,
+     "max": 8.067
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.0
+    },
+    "reframed_ratio": 0.0,
+    "text_segments": 1,
+    "audio_segments": 0,
+    "transitions": {}
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "whole_draft_fallback",
+    "confidence": "low",
+    "has_outro": false,
+    "has_music_or_sound": false,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P08",
+   "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 16.2,
+    "duration": 14.1667
+   },
+   "metrics": {
+    "segments_by_type": {
+     "audio": 3
+    },
+    "primary_video_track": null,
+    "primary_picture_segments": 0,
+    "primary_picture_duration": {
+     "min": null,
+     "median": null,
+     "max": null
+    },
+    "speed": {
+     "min": null,
+     "median": null,
+     "max": null
+    },
+    "source_in_ratio": {
+     "min": null,
+     "median": null,
+     "max": null
+    },
+    "reframed_ratio": 0,
+    "text_segments": 0,
+    "audio_segments": 3,
+    "transitions": {}
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "medium",
+    "has_outro": false,
+    "has_music_or_sound": false,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P09",
+   "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "ratio": "9:16",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 47.6,
+    "duration": 17.4333
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 7,
+     "effect": 1,
+     "text": 3,
+     "audio": 1
+    },
+    "primary_video_track": 6,
+    "primary_picture_segments": 1,
+    "primary_picture_duration": {
+     "min": 17.433,
+     "median": 17.433,
+     "max": 17.433
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.04,
+     "median": 0.04,
+     "max": 0.04
+    },
+    "reframed_ratio": 0.0,
+    "text_segments": 3,
+    "audio_segments": 1,
+    "transitions": {}
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": false,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P10",
+   "canvas": {
+    "width": 1920,
+    "height": 1920,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 18.3333
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 8,
+     "text": 7,
+     "filter": 2,
+     "audio": 3
+    },
+    "primary_video_track": 2,
+    "primary_picture_segments": 3,
+    "primary_picture_duration": {
+     "min": 0.4,
+     "median": 3.133,
+     "max": 5.6
+    },
+    "speed": {
+     "min": 0.481,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.171,
+     "max": 0.477
+    },
+    "reframed_ratio": 1.0,
+    "text_segments": 7,
+    "audio_segments": 3,
+    "transitions": {
+     "Slow Fade": 1,
+     "Camera Glow": 1
+    }
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P11",
+   "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 23.6
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 3
+    },
+    "primary_video_track": 0,
+    "primary_picture_segments": 3,
+    "primary_picture_duration": {
+     "min": 6.267,
+     "median": 8.667,
+     "max": 8.667
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.0
+    },
+    "reframed_ratio": 0.0,
+    "text_segments": 0,
+    "audio_segments": 0,
+    "transitions": {}
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "whole_draft_fallback",
+    "confidence": "low",
+    "has_outro": false,
+    "has_music_or_sound": false,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P12",
+   "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "ratio": "16:9",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 889.3,
+    "duration": 28.8333
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 11,
+     "text": 8,
+     "audio": 5
+    },
+    "primary_video_track": 4,
+    "primary_picture_segments": 1,
+    "primary_picture_duration": {
+     "min": 22.233,
+     "median": 22.233,
+     "max": 22.233
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.0
+    },
+    "reframed_ratio": 0.0,
+    "text_segments": 8,
+    "audio_segments": 5,
+    "transitions": {}
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P13",
+   "canvas": {
+    "width": 1920,
+    "height": 1920,
+    "ratio": "1:1",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 711.1,
+    "duration": 30.2333
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 14,
+     "text": 7,
+     "filter": 2,
+     "effect": 1,
+     "audio": 5
+    },
+    "primary_video_track": 1,
+    "primary_picture_segments": 2,
+    "primary_picture_duration": {
+     "min": 2.0,
+     "median": 12.183,
+     "max": 22.367
+    },
+    "speed": {
+     "min": 1.05,
+     "median": 50.525,
+     "max": 100.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.104,
+     "max": 0.208
+    },
+    "reframed_ratio": 1.0,
+    "text_segments": 7,
+    "audio_segments": 5,
+    "transitions": {
+     "Camera Glow": 1,
+     "Slow Fade": 1,
+     "Blur": 1
+    }
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P14",
+   "canvas": {
+    "width": 1920,
+    "height": 1920,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 36.1667
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 2
+    },
+    "primary_video_track": null,
+    "primary_picture_segments": 0,
+    "primary_picture_duration": {
+     "min": null,
+     "median": null,
+     "max": null
+    },
+    "speed": {
+     "min": null,
+     "median": null,
+     "max": null
+    },
+    "source_in_ratio": {
+     "min": null,
+     "median": null,
+     "max": null
+    },
+    "reframed_ratio": 0,
+    "text_segments": 0,
+    "audio_segments": 0,
+    "transitions": {
+     "Slow Fade": 1
+    }
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "whole_draft_fallback",
+    "confidence": "low",
+    "has_outro": true,
+    "has_music_or_sound": false,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P15",
+   "canvas": {
+    "width": 1920,
+    "height": 1920,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 37.8
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 2
+    },
+    "primary_video_track": null,
+    "primary_picture_segments": 0,
+    "primary_picture_duration": {
+     "min": null,
+     "median": null,
+     "max": null
+    },
+    "speed": {
+     "min": null,
+     "median": null,
+     "max": null
+    },
+    "source_in_ratio": {
+     "min": null,
+     "median": null,
+     "max": null
+    },
+    "reframed_ratio": 0,
+    "text_segments": 0,
+    "audio_segments": 0,
+    "transitions": {
+     "Slow Fade": 1
+    }
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "whole_draft_fallback",
+    "confidence": "low",
+    "has_outro": true,
+    "has_music_or_sound": false,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P16",
+   "canvas": {
+    "width": 1920,
+    "height": 1140,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 39.4667
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 10,
+     "text": 12,
+     "audio": 4
+    },
+    "primary_video_track": 0,
+    "primary_picture_segments": 3,
+    "primary_picture_duration": {
+     "min": 2.7,
+     "median": 2.867,
+     "max": 24.8
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.0
+    },
+    "reframed_ratio": 0.333,
+    "text_segments": 12,
+    "audio_segments": 4,
+    "transitions": {
+     "Slow Fade": 2
+    }
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P17",
+   "canvas": {
+    "width": 1920,
+    "height": 1140,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 41.3667
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 15,
+     "text": 16,
+     "audio": 21
+    },
+    "primary_video_track": 1,
+    "primary_picture_segments": 3,
+    "primary_picture_duration": {
+     "min": 2.6,
+     "median": 4.367,
+     "max": 25.3
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.0
+    },
+    "reframed_ratio": 0.333,
+    "text_segments": 16,
+    "audio_segments": 21,
+    "transitions": {
+     "Slow Fade": 2
+    }
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P18",
+   "canvas": {
+    "width": 1920,
+    "height": 1140,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 44.7667
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 23,
+     "text": 16,
+     "audio": 17
+    },
+    "primary_video_track": 3,
+    "primary_picture_segments": 10,
+    "primary_picture_duration": {
+     "min": 0.833,
+     "median": 1.183,
+     "max": 9.167
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.119,
+     "max": 0.683
+    },
+    "reframed_ratio": 0.0,
+    "text_segments": 16,
+    "audio_segments": 17,
+    "transitions": {
+     "Slow Fade": 2
+    }
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P19",
+   "canvas": {
+    "width": 1920,
+    "height": 1140,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 48.1333
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 13,
+     "text": 17,
+     "audio": 3
+    },
+    "primary_video_track": 1,
+    "primary_picture_segments": 3,
+    "primary_picture_duration": {
+     "min": 3.033,
+     "median": 4.033,
+     "max": 33.7
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.855
+    },
+    "reframed_ratio": 0.333,
+    "text_segments": 17,
+    "audio_segments": 3,
+    "transitions": {
+     "Slow Fade": 2
+    }
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P20",
+   "canvas": {
+    "width": 1920,
+    "height": 1920,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 50.3667
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 2
+    },
+    "primary_video_track": null,
+    "primary_picture_segments": 0,
+    "primary_picture_duration": {
+     "min": null,
+     "median": null,
+     "max": null
+    },
+    "speed": {
+     "min": null,
+     "median": null,
+     "max": null
+    },
+    "source_in_ratio": {
+     "min": null,
+     "median": null,
+     "max": null
+    },
+    "reframed_ratio": 0,
+    "text_segments": 0,
+    "audio_segments": 0,
+    "transitions": {
+     "Slow Fade": 1
+    }
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "whole_draft_fallback",
+    "confidence": "low",
+    "has_outro": true,
+    "has_music_or_sound": false,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P21",
+   "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "ratio": "9:16",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 126.4,
+    "duration": 53.2
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 16,
+     "filter": 5,
+     "text": 8,
+     "audio": 10
+    },
+    "primary_video_track": 8,
+    "primary_picture_segments": 1,
+    "primary_picture_duration": {
+     "min": 37.5,
+     "median": 37.5,
+     "max": 37.5
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.0
+    },
+    "reframed_ratio": 1.0,
+    "text_segments": 8,
+    "audio_segments": 10,
+    "transitions": {
+     "Camera Glow": 7,
+     "Blurry Shine": 1,
+     "Slow Fade": 1
+    }
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P22",
+   "canvas": {
+    "width": 1920,
+    "height": 1140,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 54.7333
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 16,
+     "audio": 6,
+     "text": 20
+    },
+    "primary_video_track": 1,
+    "primary_picture_segments": 7,
+    "primary_picture_duration": {
+     "min": 0.667,
+     "median": 3.833,
+     "max": 23.667
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.674
+    },
+    "reframed_ratio": 0.143,
+    "text_segments": 20,
+    "audio_segments": 6,
+    "transitions": {
+     "Slow Fade": 2
+    }
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P23",
+   "canvas": {
+    "width": 1920,
+    "height": 1140,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 55.7667
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 25,
+     "audio": 9,
+     "text": 19
+    },
+    "primary_video_track": 1,
+    "primary_picture_segments": 9,
+    "primary_picture_duration": {
+     "min": 1.0,
+     "median": 3.0,
+     "max": 13.3
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.425,
+     "max": 0.838
+    },
+    "reframed_ratio": 0.111,
+    "text_segments": 19,
+    "audio_segments": 9,
+    "transitions": {
+     "Slow Fade": 2
+    }
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P24",
+   "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 3.1,
+    "duration": 57.7667
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 36,
+     "text": 42,
+     "effect": 2,
+     "filter": 1,
+     "audio": 21
+    },
+    "primary_video_track": 3,
+    "primary_picture_segments": 1,
+    "primary_picture_duration": {
+     "min": 57.767,
+     "median": 57.767,
+     "max": 57.767
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.0
+    },
+    "reframed_ratio": 1.0,
+    "text_segments": 42,
+    "audio_segments": 21,
+    "transitions": {
+     "Camera Glow": 7,
+     "Slow Fade": 5,
+     "Gradual Fade": 4,
+     "Glare II": 2,
+     "Fade Scan": 1
+    }
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P25",
+   "canvas": {
+    "width": 1920,
+    "height": 1140,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 57.9
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 29,
+     "text": 19,
+     "audio": 10
+    },
+    "primary_video_track": 1,
+    "primary_picture_segments": 9,
+    "primary_picture_duration": {
+     "min": 0.3,
+     "median": 2.1,
+     "max": 17.5
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.621
+    },
+    "reframed_ratio": 0.111,
+    "text_segments": 19,
+    "audio_segments": 10,
+    "transitions": {
+     "Slow Fade": 2
+    }
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P26",
+   "canvas": {
+    "width": 1920,
+    "height": 1140,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 63.6333
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 15,
+     "text": 23,
+     "audio": 5
+    },
+    "primary_video_track": 1,
+    "primary_picture_segments": 4,
+    "primary_picture_duration": {
+     "min": 3.4,
+     "median": 8.533,
+     "max": 34.067
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.275
+    },
+    "reframed_ratio": 0.25,
+    "text_segments": 23,
+    "audio_segments": 5,
+    "transitions": {
+     "Slow Fade": 2
+    }
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P27",
+   "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 16.5333,
+    "duration": 75.6
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 29,
+     "effect": 2,
+     "filter": 1,
+     "text": 57,
+     "audio": 27
+    },
+    "primary_video_track": 4,
+    "primary_picture_segments": 10,
+    "primary_picture_duration": {
+     "min": 3.2,
+     "median": 6.3,
+     "max": 10.767
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.073
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.226,
+     "max": 0.368
+    },
+    "reframed_ratio": 0.6,
+    "text_segments": 57,
+    "audio_segments": 27,
+    "transitions": {
+     "Slide Left": 3,
+     "Flashback": 2,
+     "Glare II": 2,
+     "Plane Overhead 2": 2,
+     "Flash Zoom": 2,
+     "Ice Breaker": 1,
+     "Up": 1,
+     "Shake": 1,
+     "Slow Fade": 1
+    }
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P28",
+   "canvas": {
+    "width": 1920,
+    "height": 1140,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.2667,
+    "duration": 84.1
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 33,
+     "text": 31,
+     "audio": 5
+    },
+    "primary_video_track": 18,
+    "primary_picture_segments": 1,
+    "primary_picture_duration": {
+     "min": 77.0,
+     "median": 77.0,
+     "max": 77.0
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.0
+    },
+    "reframed_ratio": 0.0,
+    "text_segments": 31,
+    "audio_segments": 5,
+    "transitions": {
+     "Slow Fade": 2
+    }
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P29",
+   "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 84.9667
+   },
+   "metrics": {
+    "segments_by_type": {
+     "audio": 10
+    },
+    "primary_video_track": null,
+    "primary_picture_segments": 0,
+    "primary_picture_duration": {
+     "min": null,
+     "median": null,
+     "max": null
+    },
+    "speed": {
+     "min": null,
+     "median": null,
+     "max": null
+    },
+    "source_in_ratio": {
+     "min": null,
+     "median": null,
+     "max": null
+    },
+    "reframed_ratio": 0,
+    "text_segments": 0,
+    "audio_segments": 10,
+    "transitions": {}
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": false,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P30",
+   "canvas": {
+    "width": 1920,
+    "height": 1020,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 117.7667
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 29,
+     "text": 91,
+     "audio": 16
+    },
+    "primary_video_track": 1,
+    "primary_picture_segments": 12,
+    "primary_picture_duration": {
+     "min": 2.1,
+     "median": 6.067,
+     "max": 23.6
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.476,
+     "max": 0.909
+    },
+    "reframed_ratio": 0.083,
+    "text_segments": 91,
+    "audio_segments": 16,
+    "transitions": {
+     "Slow Fade": 2
+    }
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P31",
+   "canvas": {
+    "width": 1920,
+    "height": 1020,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 210.0
+   },
+   "metrics": {
+    "segments_by_type": {
+     "audio": 53,
+     "video": 44,
+     "text": 86
+    },
+    "primary_video_track": 6,
+    "primary_picture_segments": 6,
+    "primary_picture_duration": {
+     "min": 1.067,
+     "median": 15.833,
+     "max": 94.6
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.426,
+     "max": 0.727
+    },
+    "reframed_ratio": 0.0,
+    "text_segments": 86,
+    "audio_segments": 53,
+    "transitions": {
+     "Slow Fade": 2
+    }
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P32",
+   "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "ratio": "16:9",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 949.3667,
+    "duration": 295.7667
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 44,
+     "text": 29,
+     "audio": 49
+    },
+    "primary_video_track": 5,
+    "primary_picture_segments": 14,
+    "primary_picture_duration": {
+     "min": 1.0,
+     "median": 17.733,
+     "max": 69.6
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.235
+    },
+    "reframed_ratio": 0.071,
+    "text_segments": 29,
+    "audio_segments": 49,
+    "transitions": {
+     "Slow Fade": 10,
+     "Delay Zoom": 1,
+     "Gradual Fade": 1
+    }
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P33",
+   "canvas": {
+    "width": 1920,
+    "height": 1032,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 657.0667
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 108,
+     "text": 241,
+     "audio": 8
+    },
+    "primary_video_track": 1,
+    "primary_picture_segments": 7,
+    "primary_picture_duration": {
+     "min": 0.4,
+     "median": 23.3,
+     "max": 467.0
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.246,
+     "max": 0.29
+    },
+    "reframed_ratio": 0.0,
+    "text_segments": 241,
+    "audio_segments": 8,
+    "transitions": {}
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "whole_draft_fallback",
+    "confidence": "low",
+    "has_outro": false,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P34",
+   "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 824.6333
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 8,
+     "text": 62,
+     "audio": 30
+    },
+    "primary_video_track": 1,
+    "primary_picture_segments": 2,
+    "primary_picture_duration": {
+     "min": 69.0,
+     "median": 112.417,
+     "max": 155.833
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.0
+    },
+    "reframed_ratio": 0.5,
+    "text_segments": 62,
+    "audio_segments": 30,
+    "transitions": {
+     "Gradual Fade": 1
+    }
+   },
+   "style_type": "other_or_mixed",
+   "evidence": {
+    "approved_range_source": "whole_draft_fallback",
+    "confidence": "low",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P35",
+   "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 6271.1,
+    "duration": 563.8667
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 73,
+     "text": 18,
+     "sticker": 3,
+     "audio": 62
+    },
+    "primary_video_track": 1,
+    "primary_picture_segments": 18,
+    "primary_picture_duration": {
+     "min": 2.3,
+     "median": 6.4,
+     "max": 57.533
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.093,
+     "max": 0.48
+    },
+    "reframed_ratio": 0.0,
+    "text_segments": 18,
+    "audio_segments": 62,
+    "transitions": {
+     "Slow Fade": 4,
+     "Dissolve": 1
+    }
+   },
+   "style_type": "training_animation",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": false,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P36",
+   "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 44.3667
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 34,
+     "filter": 2,
+     "audio": 2
+    },
+    "primary_video_track": 1,
+    "primary_picture_segments": 21,
+    "primary_picture_duration": {
+     "min": 0.933,
+     "median": 1.5,
+     "max": 2.633
+    },
+    "speed": {
+     "min": 0.6,
+     "median": 0.8,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.139,
+     "median": 0.457,
+     "max": 0.823
+    },
+    "reframed_ratio": 0.095,
+    "text_segments": 0,
+    "audio_segments": 2,
+    "transitions": {
+     "Slow Fade": 2
+    }
+   },
+   "style_type": "tribute_farewell",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P37",
+   "canvas": {
+    "width": 1920,
+    "height": 1020,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 60.8
+   },
+   "metrics": {
+    "segments_by_type": {
+     "audio": 5,
+     "video": 21,
+     "text": 22
+    },
+    "primary_video_track": 3,
+    "primary_picture_segments": 5,
+    "primary_picture_duration": {
+     "min": 0.033,
+     "median": 4.967,
+     "max": 30.3
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.664
+    },
+    "reframed_ratio": 0.2,
+    "text_segments": 22,
+    "audio_segments": 5,
+    "transitions": {
+     "Slow Fade": 2
+    }
+   },
+   "style_type": "tutorial_or_explainer",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P38",
+   "canvas": {
+    "width": 1920,
+    "height": 1140,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 160.7667
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 48,
+     "audio": 31,
+     "text": 57
+    },
+    "primary_video_track": 1,
+    "primary_picture_segments": 16,
+    "primary_picture_duration": {
+     "min": 0.833,
+     "median": 3.0,
+     "max": 45.467
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.927
+    },
+    "reframed_ratio": 0.062,
+    "text_segments": 57,
+    "audio_segments": 31,
+    "transitions": {
+     "Slow Fade": 2
+    }
+   },
+   "style_type": "tutorial_or_explainer",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P39",
+   "canvas": {
+    "width": 1920,
+    "height": 1032,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 229.5333
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 76,
+     "text": 87,
+     "audio": 29
+    },
+    "primary_video_track": 0,
+    "primary_picture_segments": 25,
+    "primary_picture_duration": {
+     "min": 0.633,
+     "median": 4.133,
+     "max": 59.433
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.46,
+     "max": 0.91
+    },
+    "reframed_ratio": 0.04,
+    "text_segments": 87,
+    "audio_segments": 29,
+    "transitions": {
+     "Slow Fade": 2
+    }
+   },
+   "style_type": "tutorial_or_explainer",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P40",
+   "canvas": {
+    "width": 1920,
+    "height": 1020,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 256.0
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 79,
+     "text": 95,
+     "audio": 24
+    },
+    "primary_video_track": 3,
+    "primary_picture_segments": 21,
+    "primary_picture_duration": {
+     "min": 0.9,
+     "median": 5.333,
+     "max": 45.067
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.278,
+     "max": 0.82
+    },
+    "reframed_ratio": 0.048,
+    "text_segments": 95,
+    "audio_segments": 24,
+    "transitions": {
+     "Slow Fade": 2
+    }
+   },
+   "style_type": "tutorial_or_explainer",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P41",
+   "canvas": {
+    "width": 1920,
+    "height": 1140,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.1667,
+    "duration": 259.7333
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 34,
+     "text": 108,
+     "audio": 132
+    },
+    "primary_video_track": 1,
+    "primary_picture_segments": 6,
+    "primary_picture_duration": {
+     "min": 0.4,
+     "median": 3.4,
+     "max": 237.067
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.019,
+     "max": 0.245
+    },
+    "reframed_ratio": 0.333,
+    "text_segments": 108,
+    "audio_segments": 132,
+    "transitions": {
+     "Slow Fade": 2
+    }
+   },
+   "style_type": "tutorial_or_explainer",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P42",
+   "canvas": {
+    "width": 1920,
+    "height": 1032,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 259.9333
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 74,
+     "text": 97,
+     "audio": 21
+    },
+    "primary_video_track": 1,
+    "primary_picture_segments": 28,
+    "primary_picture_duration": {
+     "min": 1.133,
+     "median": 4.5,
+     "max": 72.367
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.452,
+     "max": 0.892
+    },
+    "reframed_ratio": 0.036,
+    "text_segments": 97,
+    "audio_segments": 21,
+    "transitions": {
+     "Slow Fade": 2
+    }
+   },
+   "style_type": "tutorial_or_explainer",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P43",
+   "canvas": {
+    "width": 1920,
+    "height": 1140,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 278.7667
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 69,
+     "text": 107,
+     "audio": 51
+    },
+    "primary_video_track": 1,
+    "primary_picture_segments": 26,
+    "primary_picture_duration": {
+     "min": 0.033,
+     "median": 3.7,
+     "max": 96.9
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.2
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.398,
+     "max": 0.981
+    },
+    "reframed_ratio": 0.038,
+    "text_segments": 107,
+    "audio_segments": 51,
+    "transitions": {
+     "Slow Fade": 2
+    }
+   },
+   "style_type": "tutorial_or_explainer",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P44",
+   "canvas": {
+    "width": 1920,
+    "height": 1032,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 317.1
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 93,
+     "audio": 15,
+     "text": 127
+    },
+    "primary_video_track": 1,
+    "primary_picture_segments": 16,
+    "primary_picture_duration": {
+     "min": 1.1,
+     "median": 3.217,
+     "max": 109.2
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.208,
+     "max": 0.857
+    },
+    "reframed_ratio": 0.062,
+    "text_segments": 127,
+    "audio_segments": 15,
+    "transitions": {
+     "Slow Fade": 2
+    }
+   },
+   "style_type": "tutorial_or_explainer",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P45",
+   "canvas": {
+    "width": 1920,
+    "height": 1032,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.4333,
+    "duration": 572.4667
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 139,
+     "text": 225,
+     "audio": 38
+    },
+    "primary_video_track": 3,
+    "primary_picture_segments": 19,
+    "primary_picture_duration": {
+     "min": 0.3,
+     "median": 3.433,
+     "max": 62.033
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.272,
+     "max": 0.514
+    },
+    "reframed_ratio": 0.0,
+    "text_segments": 225,
+    "audio_segments": 38,
+    "transitions": {
+     "Slow Fade": 2
+    }
+   },
+   "style_type": "tutorial_or_explainer",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P46",
+   "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 2885.3333
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 56,
+     "text": 34,
+     "sticker": 4,
+     "audio": 56
+    },
+    "primary_video_track": 2,
+    "primary_picture_segments": 16,
+    "primary_picture_duration": {
+     "min": 0.5,
+     "median": 2.533,
+     "max": 329.267
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.099,
+     "max": 0.835
+    },
+    "reframed_ratio": 0.0,
+    "text_segments": 34,
+    "audio_segments": 56,
+    "transitions": {}
+   },
+   "style_type": "tutorial_or_explainer",
+   "evidence": {
+    "approved_range_source": "whole_draft_fallback",
+    "confidence": "low",
+    "has_outro": false,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P47",
+   "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "ratio": "16:9",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.9667,
+    "duration": 61.6333
+   },
+   "metrics": {
+    "segments_by_type": {
+     "audio": 25,
+     "video": 31,
+     "text": 35
+    },
+    "primary_video_track": 9,
+    "primary_picture_segments": 1,
+    "primary_picture_duration": {
+     "min": 55.367,
+     "median": 55.367,
+     "max": 55.367
+    },
+    "speed": {
+     "min": 0.8,
+     "median": 0.8,
+     "max": 0.8
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.0
+    },
+    "reframed_ratio": 0.0,
+    "text_segments": 35,
+    "audio_segments": 25,
+    "transitions": {
+     "Slow Fade": 6
+    }
+   },
+   "style_type": "tutorial_short_walkthrough",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P48",
+   "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 3.5
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 3
+    },
+    "primary_video_track": 0,
+    "primary_picture_segments": 2,
+    "primary_picture_duration": {
+     "min": 0.533,
+     "median": 1.2,
+     "max": 1.867
+    },
+    "speed": {
+     "min": 2.72,
+     "median": 6.234,
+     "max": 9.748
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.0
+    },
+    "reframed_ratio": 0.0,
+    "text_segments": 0,
+    "audio_segments": 0,
+    "transitions": {}
+   },
+   "style_type": "vertical_event_montage",
+   "evidence": {
+    "approved_range_source": "whole_draft_fallback",
+    "confidence": "low",
+    "has_outro": false,
+    "has_music_or_sound": false,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P49",
+   "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 17.3
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 1
+    },
+    "primary_video_track": 0,
+    "primary_picture_segments": 1,
+    "primary_picture_duration": {
+     "min": 17.3,
+     "median": 17.3,
+     "max": 17.3
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.0
+    },
+    "reframed_ratio": 0.0,
+    "text_segments": 0,
+    "audio_segments": 0,
+    "transitions": {}
+   },
+   "style_type": "vertical_event_montage",
+   "evidence": {
+    "approved_range_source": "whole_draft_fallback",
+    "confidence": "low",
+    "has_outro": false,
+    "has_music_or_sound": false,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P50",
+   "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 34.8
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 25,
+     "filter": 2,
+     "audio": 2
+    },
+    "primary_video_track": 3,
+    "primary_picture_segments": 23,
+    "primary_picture_duration": {
+     "min": 0.667,
+     "median": 1.167,
+     "max": 3.1
+    },
+    "speed": {
+     "min": 0.8,
+     "median": 0.8,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.515,
+     "max": 0.758
+    },
+    "reframed_ratio": 0.478,
+    "text_segments": 0,
+    "audio_segments": 2,
+    "transitions": {
+     "Slow Fade": 1
+    }
+   },
+   "style_type": "vertical_event_montage",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P51",
+   "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 38.3667
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 6
+    },
+    "primary_video_track": 2,
+    "primary_picture_segments": 3,
+    "primary_picture_duration": {
+     "min": 5.667,
+     "median": 5.9,
+     "max": 8.067
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.298
+    },
+    "reframed_ratio": 1.0,
+    "text_segments": 0,
+    "audio_segments": 0,
+    "transitions": {
+     "Slow Fade": 2
+    }
+   },
+   "style_type": "vertical_event_montage",
+   "evidence": {
+    "approved_range_source": "whole_draft_fallback",
+    "confidence": "low",
+    "has_outro": false,
+    "has_music_or_sound": false,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P52",
+   "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 42.9333
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 1
+    },
+    "primary_video_track": 0,
+    "primary_picture_segments": 1,
+    "primary_picture_duration": {
+     "min": 42.933,
+     "median": 42.933,
+     "max": 42.933
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.0
+    },
+    "reframed_ratio": 0.0,
+    "text_segments": 0,
+    "audio_segments": 0,
+    "transitions": {}
+   },
+   "style_type": "vertical_event_montage",
+   "evidence": {
+    "approved_range_source": "whole_draft_fallback",
+    "confidence": "low",
+    "has_outro": false,
+    "has_music_or_sound": false,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P53",
+   "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "ratio": "9:16",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 46.1333
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 2,
+     "audio": 1
+    },
+    "primary_video_track": 1,
+    "primary_picture_segments": 1,
+    "primary_picture_duration": {
+     "min": 46.133,
+     "median": 46.133,
+     "max": 46.133
+    },
+    "speed": {
+     "min": 1.0,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.0
+    },
+    "reframed_ratio": 0.0,
+    "text_segments": 0,
+    "audio_segments": 1,
+    "transitions": {}
+   },
+   "style_type": "vertical_event_montage",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": false,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P54",
+   "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 50.5
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 23,
+     "audio": 1
+    },
+    "primary_video_track": 1,
+    "primary_picture_segments": 23,
+    "primary_picture_duration": {
+     "min": 1.5,
+     "median": 2.0,
+     "max": 3.0
+    },
+    "speed": {
+     "min": 0.5,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.125,
+     "median": 0.251,
+     "max": 0.254
+    },
+    "reframed_ratio": 1.0,
+    "text_segments": 0,
+    "audio_segments": 1,
+    "transitions": {}
+   },
+   "style_type": "vertical_event_montage",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": false,
+    "has_music_or_sound": true,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P55",
+   "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 57.0
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 21
+    },
+    "primary_video_track": 1,
+    "primary_picture_segments": 16,
+    "primary_picture_duration": {
+     "min": 0.667,
+     "median": 1.783,
+     "max": 9.433
+    },
+    "speed": {
+     "min": 0.8,
+     "median": 1.0,
+     "max": 1.0
+    },
+    "source_in_ratio": {
+     "min": 0.038,
+     "median": 0.478,
+     "max": 0.875
+    },
+    "reframed_ratio": 0.0,
+    "text_segments": 0,
+    "audio_segments": 0,
+    "transitions": {}
+   },
+   "style_type": "vertical_event_montage",
+   "evidence": {
+    "approved_range_source": "whole_draft_fallback",
+    "confidence": "low",
+    "has_outro": false,
+    "has_music_or_sound": false,
+    "approval": "not_recorded"
+   }
+  },
+  {
+   "project": "P56",
+   "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "ratio": "original",
+    "fps": 30.0
+   },
+   "approved_range": {
+    "start": 0.0,
+    "duration": 69.1667
+   },
+   "metrics": {
+    "segments_by_type": {
+     "video": 93,
+     "effect": 1,
+     "filter": 2,
+     "audio": 16
+    },
+    "primary_video_track": 12,
+    "primary_picture_segments": 60,
+    "primary_picture_duration": {
+     "min": 0.367,
+     "median": 0.967,
+     "max": 8.867
+    },
+    "speed": {
+     "min": 0.39,
+     "median": 0.79,
+     "max": 1.09
+    },
+    "source_in_ratio": {
+     "min": 0.0,
+     "median": 0.623,
+     "max": 0.99
+    },
+    "reframed_ratio": 0.167,
+    "text_segments": 0,
+    "audio_segments": 16,
+    "transitions": {
+     "Camera Glow": 4,
+     "Cross Fade": 2,
+     "Superimpose": 1,
+     "Fade Shift": 1,
+     "Slow Fade": 1
+    }
+   },
+   "style_type": "vertical_event_montage",
+   "evidence": {
+    "approved_range_source": "saved_export_range",
+    "confidence": "high",
+    "has_outro": true,
+    "has_music_or_sound": true,
+    "approval": "user_confirmed"
+   }
+  }
+ ]
+}

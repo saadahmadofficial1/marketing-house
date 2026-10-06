@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Copy to ~/Library/LaunchAgents/, build the applet at ~/Library/Studio/Nightly.app first
+     (see README.md), then launchctl bootstrap it. Opens the applet at 01:12 every night. -->
+<plist version="1.0"><dict>
+  <key>Label</key><string>local.workspace.nightly</string>
+  <key>ProgramArguments</key><array>
+    <string>/usr/bin/open</string><string>-W</string><string>-a</string>
+    <string>/Users/you/Library/Studio/Nightly.app</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <dict><key>Hour</key><integer>1</integer><key>Minute</key><integer>12</integer></dict>
+  <key>KeepAlive</key><dict><key>SuccessfulExit</key><false/></dict>
+  <key>EnvironmentVariables</key>
+  <dict><key>PATH</key><string>/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin</string></dict>
+</dict></plist>
