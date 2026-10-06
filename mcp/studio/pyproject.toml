@@ -1,0 +1,16 @@
+[project]
+name = "studio-mcp"
+version = "0.1.0"
+description = "Local, read-only studio tools (editing grammar, CapCut draft reading, SRT export, call-out audit, photo cull, prompt search) as an MCP server"
+requires-python = ">=3.12"
+dependencies = [
+    "fastmcp==3.3.1",
+]
+
+[tool.uv]
+# Hold the MCP stack at the exact versions the brain server (workspace-kit/brain) was
+# tested with, so both servers behave the same way.
+constraint-dependencies = [
+    "mcp==1.27.2",
+    "pydantic==2.13.4",
+]
