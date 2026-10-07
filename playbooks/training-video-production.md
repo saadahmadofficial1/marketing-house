@@ -31,42 +31,160 @@ The method was built on the end-to-end series and then re-measured on the role-b
 
 ## The pipeline at a glance
 
+The workflow, tool by tool: every box is the tool that does the step, and every arrow names the file it hands on. Colours: blue is source material, green a tool, amber a check, grey my own review, purple an output ([legend](workflows.md#how-to-read-the-diagrams)).
+
+**Part 1 – from screen recording to a new CapCut review timeline**
+
 ```mermaid
 flowchart TD
-    rec["Screen recording<br/>fast-scroll check: sa_scrollscan"]
-    priv["Privacy pass<br/>personal data cut or planned for blur"]
-    actions["Action map<br/>one row per click, entry, switch or save<br/>action-map template"]
-    lines["Script and voice-over lines<br/>one clip per line<br/>sa_script_to_lines, sa_fishvo"]
-    pace["Pacing to the voice<br/>freeze rather than rush<br/>sa_dubcut, sa_freezeinsert"]
-    marks["Call-outs and markings<br/>box and label as separate layers<br/>sa_stepmark, sa_rolemark"]
-    caps["Captions<br/>locked to the script<br/>sa_captions"]
-    timeline["New CapCut review timeline<br/>call-outs and captions as editable layers<br/>sa_capcut_callouts, sa_capcut_captions"]
-    subgraph qa["QA on the timeline and its render"]
-        direction TB
-        audit["Call-out audit<br/>every marking at start, middle and end<br/>sa_actioncheck, sa_coverage, sa_markcheck<br/>vision shortlist: sa_boxcheck (experimental)"]
-        syncchecks["Sync checks<br/>sa_check_sync"]
-        privacy["Privacy checks<br/>sa_privacy_plan_check, sa_privacy_sweep"]
-        voicecheck["Voice re-listen shortlist (experimental)<br/>sa_voicecheck – a shortlist, never a pass"]
-        exportchecks["Export checks<br/>sa_exportcheck, sa_finalcheck"]
-        audit ~~~ voicecheck
-        syncchecks ~~~ exportchecks
-        privacy ~~~ exportchecks
+    subgraph SG_SRC["Source material"]
+        n_rec["Screen recording<br/>original .mp4, never edited"]
+        n_script["Approved script<br/>plain .txt"]
     end
-    fix["Back to the timeline<br/>fixed, then checked again"]
-    outro["Intro, outro and sign-off<br/>then re-verify the full export"]
-    finished["Finished video<br/>after my review"]
+    subgraph SG_IN["1 · Intake"]
+        n_scroll["sa_scrollscan.py<br/>fast-scroll report"]
+        n_whisper["sa_whisper.py<br/>transcript of the old narration"]
+        n_lines["sa_script_to_lines.py<br/>one beat per line"]
+    end
+    subgraph SG_MAP["2 · Map the lesson"]
+        n_align["sa_align_beats.py<br/>beat to recording window"]
+        n_skel["sa_edit_skeleton.py<br/>story-first chapter map"]
+        n_map["Action map, reviewed by a person<br/>one row per action"]
+    end
+    n_pp["Privacy plan, by hand<br/>privacy.json blur spans"]
+    n_ppc["sa_privacy_plan_check.py<br/>reads the unblurred source<br/>at every played frame"]
+    subgraph SG_VO["3 · Voice"]
+        n_fish["sa_fishvo.py<br/>best of 3 takes per line"]
+    end
+    subgraph SG_PACE["4 · Pace, mark and caption"]
+        n_dub["sa_dubcut.py<br/>picture paced to the voice"]
+        n_click["sa_clickdetect.py<br/>finds click moments"]
+        n_grid["sa_gridsheet.py<br/>ruler on the exact frame"]
+        n_caps["sa_captions.py<br/>script words, voice timing"]
+        n_step["sa_stepmark.py --layers<br/>box and label per call-out"]
+    end
+    subgraph SG_CC["5 · New CapCut review timeline"]
+        n_cc["sa_capcut_callouts.py<br/>one layer per call-out"]
+        n_vo["sa_addvo.py<br/>one voice track, clip per line"]
+        n_capin["sa_capcut_captions.py<br/>editable caption layers"]
+        n_role["sa_rolemark.py<br/>role label with the<br/>boxed account row"]
+    end
+    n_review["Review timeline and build folder<br/>checked in part 2"]
 
-    rec --> priv --> actions --> lines --> pace
-    pace --> marks
-    pace --> caps
-    marks --> timeline
-    caps --> timeline
-    timeline --> qa
-    qa -.->|fail| fix
-    qa -->|pass| outro --> finished
+    n_rec -->|".mp4"| n_scroll
+    n_rec -->|".mp4"| n_whisper
+    n_script -->|".txt"| n_lines
+    n_whisper -->|"transcript.json"| n_align
+    n_lines -->|"lines.txt"| n_align
+    n_lines ~~~ n_skel
+    n_scroll -->|"report .json"| n_map
+    n_align -->|"rows.json"| n_map
+    n_skel -->|"chapter map .json"| n_map
+    n_map -->|"plan.json windows"| n_pp
+    n_pp -->|"privacy.json + plan.json"| n_ppc
+    n_ppc -.->|"uncovered tokens, masked"| n_pp
+    n_map --->|"final lines.txt"| n_fish
+    n_map -->|"plan.json"| n_dub
+    n_fish -->|"one .mp3 per line"| n_dub
+    n_dub -->|"PACED.mp4"| n_click
+    n_dub -->|"PACED.mp4"| n_grid
+    n_dub -->|"PACED.timing.json"| n_caps
+    n_fish -->|".mp3 clips"| n_caps
+    n_click -->|"steps.json"| n_step
+    n_grid -->|"measured boxes"| n_step
+    n_step -->|"_layers.json + PNGs"| n_cc
+    n_cc -->|"new draft"| n_vo
+    n_dub -->|"PACED.timing.json,<br/>line starts for vo.json"| n_vo
+    n_vo -->|"draft + voice"| n_capin
+    n_caps -->|".srt"| n_capin
+    n_capin -->|"draft + captions"| n_role
+    n_role -->|"draft + role labels"| n_review
+
+    classDef input fill:#e8f1ff,stroke:#1f6feb,color:#0b2a5b
+    classDef tool fill:#eef9f0,stroke:#2da44e,color:#0b3d1a
+    classDef check fill:#fff4e5,stroke:#bf8700,color:#4d3800
+    classDef output fill:#f3e8ff,stroke:#8250df,color:#3b1d6e
+    classDef human fill:#f6f8fa,stroke:#57606a,color:#24292f
+    class n_rec,n_script input
+    class n_whisper,n_lines,n_align,n_skel,n_fish,n_dub,n_click,n_grid,n_step,n_caps,n_cc,n_vo,n_capin,n_role tool
+    class n_scroll,n_ppc check
+    class n_map,n_pp human
+    class n_review output
 ```
 
-*The desktop method from recording to finished video, with the main tool behind each step. Anything that fails QA goes back to the timeline and is checked again; the vision and voice checks only shortlist frames and lines for a person and never pass anything; the intro and outro go on last, and the full export is re-verified after them. Every cut is reviewed by me before release.*
+**Part 2 – checks, intro and outro, release**
+
+```mermaid
+flowchart TD
+    n_tl["Review timeline and build folder<br/>draft, _layers.json, .srt,<br/>timing.json, privacy.json"]
+    subgraph SG_DRAFT["6 · Checks on the draft and build files"]
+        direction TB
+        n_mark["sa_markcheck.py<br/>OCR and geometry pre-flight"]
+        n_box["sa_boxcheck.py --verify<br/>vision shortlist, Experimental"]
+        n_act["sa_actioncheck.py<br/>every instruction marked?"]
+        n_cov["sa_coverage.py<br/>steps with no call-out"]
+        n_qa["sa_qasheet.py<br/>one still per call-out"]
+        n_vc["sa_voicecheck.py<br/>re-listen shortlist, Experimental"]
+        n_mark -.->|"beats to look at first"| n_box
+        n_act ~~~ n_cov
+        n_qa ~~~ n_vc
+    end
+    subgraph SG_RENDER["7 · Checks on the review render"]
+        direction LR
+        n_rr["Review render<br/>.mp4 exported from the draft"]
+        n_sync["sa_check_sync.py<br/>box vs word, caption vs voice"]
+        n_priv["sa_privacy_sweep.py<br/>OCR every 0.25 s for names"]
+        n_asr["sa_independent_asr.py<br/>second, larger local transcript"]
+        n_rr -->|".mp4, _layers.json, .srt"| n_sync
+        n_rr -->|".mp4, privacy.json"| n_priv
+        n_rr -->|".mp4"| n_asr
+    end
+    n_me["My review<br/>every marking: pass, fail or unknown"]
+    subgraph SG_FIN["8 · Intro, outro and sign-off"]
+        n_line["sa_introline.py<br/>paces and pads the title line"]
+        n_ichk["sa_introcheck.py<br/>1080p, framing, no burnt-in text"]
+        n_ifull["sa_introfull.py<br/>intro in, tracks shifted, verified"]
+        n_outro["sa_outro.py<br/>outro butted to the picture end"]
+        n_tail["sa_tailkit.py<br/>music lands, two-part sign-off"]
+    end
+    subgraph SG_REL["9 · Release"]
+        n_exp["sa_exportcheck.py<br/>safe to export?"]
+        n_fin["sa_finalcheck.py<br/>exported MP4 against the script"]
+        n_last["My final review<br/>full watch at normal speed"]
+    end
+    n_done["Finished video<br/>MP4, captions, script, review record"]
+    n_fix["sa_applyfix.py<br/>fix, then every check again"]
+
+    n_tl -->|"draft and build files"| SG_DRAFT
+    SG_DRAFT -->|"export a review render"| SG_RENDER
+    SG_RENDER -->|"shortlists, stills, offsets, sweep and transcript .json"| n_me
+    n_me -->|"pass"| n_line
+    n_line -->|"padded .wav, then generated clip"| n_ichk
+    n_ichk -->|"clean intro clip"| n_ifull
+    n_ifull -->|"draft + intro"| n_outro
+    n_outro -->|"draft + outro"| n_tail
+    n_tail -->|"finished draft"| n_exp
+    n_exp -->|"exported .mp4"| n_fin
+    n_fin -->|"SEND, CHECK or STOP"| n_last
+    n_last -->|"approved"| n_done
+    n_me -.->|"fail: corrections.json"| n_fix
+    n_last -.->|"fail"| n_fix
+
+    classDef input fill:#e8f1ff,stroke:#1f6feb,color:#0b2a5b
+    classDef tool fill:#eef9f0,stroke:#2da44e,color:#0b3d1a
+    classDef check fill:#fff4e5,stroke:#bf8700,color:#4d3800
+    classDef output fill:#f3e8ff,stroke:#8250df,color:#3b1d6e
+    classDef human fill:#f6f8fa,stroke:#57606a,color:#24292f
+    class n_tl,n_rr input
+    class n_mark,n_act,n_cov,n_box,n_qa,n_sync,n_priv,n_vc,n_ichk,n_exp,n_fin,n_asr check
+    class n_fix,n_line,n_ifull,n_outro,n_tail tool
+    class n_me,n_last human
+    class n_done output
+```
+
+*How one desktop training video moves through the tools, from the raw screen recording to a finished MP4. Part 1 builds a new, editable CapCut review timeline; part 2 checks it, adds the intro and outro, and checks the export again before I approve it.* **Maturity:** Built, in use. The fast-scroll check, the detached voice track and the privacy sweep were added part-way through the series. [`sa_boxcheck.py`](../tools/sa_boxcheck.py) and [`sa_voicecheck.py`](../tools/sa_voicecheck.py) are Experimental shortlists that never pass anything. Nothing is released automatically: every cut ends with my review.
+
+Every step, with what goes in and what comes out, is in the [step table in workflows.md](workflows.md#steps-desktop-training-videos), with a run example. Phone-app recordings follow the variant drawn in [section 6](#6-phone-app-recordings-voice-anchored-pacing).
 
 **Where to look:**
 
@@ -244,6 +362,8 @@ The 1,099 is a count of layers, not of markings: box and label layers are counte
 
 So: split a new caption at about 41 characters, hold it about 2.3 s, and leave about 0.7 s before the next. Nothing I have ever used runs past about 61 characters, and new captions are capped at 46.
 
+How the captions are made and where they go afterwards – script-locked text, the editable CapCut caption track, SRT export and Arabic subtitle drafts – is drawn tool by tool in [workflows.md](workflows.md#6-voice-over-and-captions).
+
 ## 5. Fast scrolling in supplied recordings
 
 Recordings made by other people often scroll fast; I scroll slowly. So at intake, **every supplied recording is checked for fast scrolls and the count is reported before anything is built** – “this one has N fast scrolls, at …” – and each fast scroll is then paced the way I record.
@@ -290,6 +410,159 @@ Recordings made by other people often scroll fast; I scroll slowly. So at intake
 ## 6. Phone-app recordings: voice-anchored pacing
 
 The phone-app videos needed their own front half, because a phone recording is a different object: tall, variable frame rate, dense, and often recorded by someone else.
+
+**The workflow, tool by tool**, in three parts (blue is source material, green a tool, amber a check, grey my own review, purple an output ([legend](workflows.md#how-to-read-the-diagrams))). Every step, with what goes in and what comes out, is in the [step table in workflows.md](workflows.md#steps-phone-app-training-videos).
+
+**Part 1 – intake, script and voice, plan**
+
+```mermaid
+flowchart TD
+    subgraph s1["1 · Intake"]
+        rec["Phone screen recording"]
+        scan["sa_scrollscan.py<br/>report-only scroll check"]
+        read["sa_appread.py<br/>screen states as text"]
+    end
+    subgraph s2["2 · Script and voice"]
+        scriptin["Approved script"]
+        lines["sa_script_to_lines.py<br/>one beat per line"]
+        fish["sa_fishvo.py<br/>one clip per line"]
+        ear["My ear<br/>I choose the takes"]
+    end
+    subgraph s3["3 · Plan the markings"]
+        mycall["My call<br/>count reported first"]
+        spec["Module spec<br/>anchors, markings, holds"]
+    end
+    ready["Ready to pace<br/>spec, screens, lines, clips"]
+
+    rec -->|"recording"| scan
+    rec -->|"recording"| read
+    scan -->|"spec_holds"| mycall
+    mycall -->|"holds"| spec
+    read -->|"screens.md"| spec
+    scriptin -->|"script.txt"| lines
+    lines -->|"lines.txt"| fish
+    fish -->|"VO clips"| ear
+    spec -->|"module.json, marks.json"| ready
+    read -->|"screens.json"| ready
+    ear -->|"approved clips"| ready
+
+    classDef input fill:#e8f1ff,stroke:#1f6feb,color:#0b2a5b
+    classDef tool fill:#eef9f0,stroke:#2da44e,color:#0b3d1a
+    classDef check fill:#fff4e5,stroke:#bf8700,color:#4d3800
+    classDef output fill:#f3e8ff,stroke:#8250df,color:#3b1d6e
+    classDef human fill:#f6f8fa,stroke:#57606a,color:#24292f
+    class rec,scriptin,spec input
+    class read,lines,fish tool
+    class scan check
+    class ear,mycall human
+    class ready output
+```
+
+**Part 2 – pace, phone look, markings, captions**
+
+```mermaid
+flowchart TD
+    fromp1["From part 1<br/>spec, screens, lines, clips"]
+    subgraph s4["4 · Pace the picture to the voice"]
+        pace["sa_plan_pacing.py<br/>zones, voice + 1.7 s"]
+        anch["sa_voice_anchors.py<br/>each marking on its words"]
+        dub["sa_dubcut.py<br/>freeze, never rush"]
+    end
+    subgraph s5["5 · Phone look, markings, captions"]
+        frame["sa_phoneframe.py<br/>phone mockup, 9:16"]
+        build["sa_appbuild.py<br/>box only if OCR proves it"]
+        capt["sa_captions.py<br/>text from the script"]
+    end
+    mycall2["My call<br/>skipped or late markings"]
+    topart3["To part 3<br/>markings, layers, .srt"]
+
+    fromp1 -->|"module.json, clips"| pace
+    pace -->|"plan.json"| anch
+    fromp1 -->|"marks.json, screens.json"| anch
+    anch -->|"plan_anchored.json"| dub
+    anch -.->|"_report.json"| mycall2
+    dub -->|"paced.mp4"| frame
+    frame -->|"COMPOSITE_tag.mp4"| build
+    dub -->|"timing.json"| build
+    dub -->|"timing.json"| capt
+    build -.->|"_skipped.json"| mycall2
+    mycall2 -.->|"spec fixes"| fromp1
+    build -->|"_layers.json"| topart3
+    frame -->|"L1–L5 layers"| topart3
+    capt -->|".srt"| topart3
+
+    classDef input fill:#e8f1ff,stroke:#1f6feb,color:#0b2a5b
+    classDef tool fill:#eef9f0,stroke:#2da44e,color:#0b3d1a
+    classDef check fill:#fff4e5,stroke:#bf8700,color:#4d3800
+    classDef output fill:#f3e8ff,stroke:#8250df,color:#3b1d6e
+    classDef human fill:#f6f8fa,stroke:#57606a,color:#24292f
+    class fromp1 input
+    class pace,anch,dub,frame,build,capt tool
+    class mycall2 human
+    class topart3 output
+```
+
+**Part 3 – the CapCut review timeline, checks and release**
+
+```mermaid
+flowchart TD
+    subgraph s6["6 · Build the CapCut review timeline"]
+        marksin["From part 2<br/>_layers.json + mark PNGs"]
+        callouts["sa_capcut_callouts.py<br/>a layer per call-out"]
+        flatten["sa_capcut_flatten.py<br/>one Markings track"]
+        avin["From part 2<br/>clips, start times, .srt"]
+        addvo["sa_addvo.py<br/>one voice track"]
+        ccap["sa_capcut_captions.py<br/>editable captions"]
+        ref["My reference project<br/>phone look laid by hand"]
+        restyle["sa_capcut_restyle.py<br/>copies the phone look"]
+        split["sa_capcut_split_marks.py<br/>box and heading apart"]
+    end
+    draft["Editable 9:16<br/>CapCut review timeline"]
+    compin["From part 2<br/>phone layers"]
+    mstyle["sa_mobile_style.py<br/>composite in my layout"]
+    subgraph s7["7 · Checks and release"]
+        sync["sa_check_sync.py<br/>three sync checks"]
+        rescan["sa_scrollscan.py<br/>re-run on the built cut"]
+        review["My review<br/>every cut, before release"]
+        final["Finished phone-app video"]
+    end
+    land["sa_capcut_landscape_copy.py<br/>optional 16:9 copy"]
+
+    marksin -->|"_layers.json"| callouts
+    callouts -->|"draft_info.json"| flatten
+    flatten -->|"draft_info.json"| addvo
+    avin -->|"vo.json"| addvo
+    addvo -->|"draft_info.json"| ccap
+    avin -->|".srt"| ccap
+    ccap -->|"draft_info.json"| restyle
+    ref -->|"phone tracks"| restyle
+    restyle -->|"draft_info.json"| split
+    split -->|"draft_info.json"| draft
+    split ~~~ compin
+    compin -->|"L1–L5 layers"| mstyle
+    mstyle -->|"composite.mp4"| sync
+    draft -->|"preview"| sync
+    draft -->|"built cut"| rescan
+    sync -->|"report"| review
+    rescan -->|"report"| review
+    draft -->|"timeline"| review
+    review -.->|"fix, re-check"| draft
+    review -->|"approved"| final
+    final -.->|"optional"| land
+
+    classDef input fill:#e8f1ff,stroke:#1f6feb,color:#0b2a5b
+    classDef tool fill:#eef9f0,stroke:#2da44e,color:#0b3d1a
+    classDef check fill:#fff4e5,stroke:#bf8700,color:#4d3800
+    classDef output fill:#f3e8ff,stroke:#8250df,color:#3b1d6e
+    classDef human fill:#f6f8fa,stroke:#57606a,color:#24292f
+    class marksin,avin,ref,compin input
+    class callouts,flatten,addvo,ccap,restyle,split,mstyle,land tool
+    class sync,rescan check
+    class review human
+    class draft,final output
+```
+
+*A phone screen recording becomes a reviewed 9:16 training video in three parts: the screen is read as text by on-device OCR, the picture is paced so each marking’s screen arrives on the words that name it, and the result is built as editable CapCut layers and checked for sync before I review every cut.* **Maturity:** Built, in use on the phone-app series. The take score and the skipped-markings list are shortlists for a person, not passes. The checks use on-device OCR and a waveform, never a vision model. The 16:9 copy is optional.
 
 **Read the screen as text.** [`sa_appread.py`](../tools/sa_appread.py) turns the recording into a list of **distinct screen states** – runs of identical screens collapsed into one entry, each with its OCR text and element boxes in source pixels – so an agent can read what was on screen, and when it changed, without looking at pixels. Frames are deleted as it goes; OCR runs on-device. It reads text, not taps: icon-only buttons are invisible to it.
 
@@ -536,16 +809,16 @@ When there is no recording to teach from – brand values, a policy in plain wor
 
 ## 17. Tools by stage
 
-All code was written by AI coding agents under my direction and review. Each tool is a single file; most have `--help` and many have a `--test` self-check.
+All code was written by AI coding agents under my direction and review. Each tool is a single file; most have `--help` and many have a `--test` self-check. How they connect, step by step and file by file, is drawn in [workflows.md](workflows.md#1-desktop-training-videos) for desktop recordings and [for phone-app recordings](workflows.md#2-phone-app-training-videos).
 
 | Stage | Tools |
 |---|---|
 | Intake | [`sa_scrollscan.py`](../tools/sa_scrollscan.py) · [`sa_whisper.py`](../tools/sa_whisper.py) |
-| Plan and map | [`sa_edit_skeleton.py`](../tools/sa_edit_skeleton.py) · [action-map template](templates/training_action_map_template.csv) |
+| Plan and map | [`sa_align_beats.py`](../tools/sa_align_beats.py) · [`sa_edit_skeleton.py`](../tools/sa_edit_skeleton.py) · [action-map template](templates/training_action_map_template.csv) |
 | Pacing | [`sa_dubcut.py`](../tools/sa_dubcut.py) · [`sa_freezeinsert.py`](../tools/sa_freezeinsert.py) · [`sa_markrules.py`](../tools/sa_markrules.py) |
-| Phone-app recordings | [`sa_appread.py`](../tools/sa_appread.py) · [`sa_appbuild.py`](../tools/sa_appbuild.py) · [`sa_plan_pacing.py`](../tools/sa_plan_pacing.py) · [`sa_voice_anchors.py`](../tools/sa_voice_anchors.py) · [`sa_phoneframe.py`](../tools/sa_phoneframe.py) · [`sa_mobile_style.py`](../tools/sa_mobile_style.py) · [`sa_capcut_restyle.py`](../tools/sa_capcut_restyle.py) · [`sa_addvo.py`](../tools/sa_addvo.py) |
+| Phone-app recordings | [`sa_appread.py`](../tools/sa_appread.py) · [`sa_appbuild.py`](../tools/sa_appbuild.py) · [`sa_plan_pacing.py`](../tools/sa_plan_pacing.py) · [`sa_voice_anchors.py`](../tools/sa_voice_anchors.py) · [`sa_phoneframe.py`](../tools/sa_phoneframe.py) · [`sa_mobile_style.py`](../tools/sa_mobile_style.py) · [`sa_capcut_restyle.py`](../tools/sa_capcut_restyle.py) · [`sa_capcut_flatten.py`](../tools/sa_capcut_flatten.py) · [`sa_capcut_split_marks.py`](../tools/sa_capcut_split_marks.py) · [`sa_capcut_landscape_copy.py`](../tools/sa_capcut_landscape_copy.py) · [`sa_addvo.py`](../tools/sa_addvo.py) |
 | Call-outs | [`sa_stepmark.py`](../tools/sa_stepmark.py) · [`sa_clickdetect.py`](../tools/sa_clickdetect.py) · [`sa_gridsheet.py`](../tools/sa_gridsheet.py) · [`sa_applyboxes.py`](../tools/sa_applyboxes.py) · [`sa_applyfix.py`](../tools/sa_applyfix.py) · [`sa_rolemark.py`](../tools/sa_rolemark.py) |
-| Voice | [`sa_script_to_lines.py`](../tools/sa_script_to_lines.py) · [`sa_fishvo.py`](../tools/sa_fishvo.py) · [`sa_hfcheck.py`](../tools/sa_hfcheck.py) · [`sa_voiceclips.py`](../tools/sa_voiceclips.py) · [`sa_voicecheck.py`](../tools/sa_voicecheck.py) · [`sa_vo_quality_audit.py`](../tools/sa_vo_quality_audit.py) (see limits above) |
+| Voice and captions | [`sa_script_to_lines.py`](../tools/sa_script_to_lines.py) · [`sa_captions.py`](../tools/sa_captions.py) · [`sa_fishvo.py`](../tools/sa_fishvo.py) · [`sa_hfcheck.py`](../tools/sa_hfcheck.py) · [`sa_voiceclips.py`](../tools/sa_voiceclips.py) · [`sa_voicecheck.py`](../tools/sa_voicecheck.py) · [`sa_vo_quality_audit.py`](../tools/sa_vo_quality_audit.py) (see limits above) |
 | Presenter intro | [`sa_introline.py`](../tools/sa_introline.py) · [`sa_introcheck.py`](../tools/sa_introcheck.py) · [`sa_introfull.py`](../tools/sa_introfull.py) |
 | Assembly in CapCut | [`sa_capcut_callouts.py`](../tools/sa_capcut_callouts.py) · [`sa_capcut_captions.py`](../tools/sa_capcut_captions.py) · [`sa_import.py`](../tools/sa_import.py) · [`sa_outro.py`](../tools/sa_outro.py) · [`sa_capcut_signoff.py`](../tools/sa_capcut_signoff.py) · [`sa_tailkit.py`](../tools/sa_tailkit.py) |
 | Sync | [`sa_check_sync.py`](../tools/sa_check_sync.py) |

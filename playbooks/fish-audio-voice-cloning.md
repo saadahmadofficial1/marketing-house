@@ -16,6 +16,186 @@ The kit is [kits/fish-voice-kit/](../kits/fish-voice-kit/README.md) (three doubl
 | Local cloning on the laptop’s GPU ([`sa_clonevo.py`](../tools/sa_clonevo.py)) | **Pilot** | Built and measured; the API route replaced it for production lines |
 | Automatic “this voice sounds wrong” detector | **Experimental – not reliable** | Five acoustic measures failed; transcription is a shortlist only |
 
+## The workflow, tool by tool
+
+Every box is the tool or the person that does the step, and every arrow names the file it hands on. Colours: blue is source material, green a tool, amber a check, grey my own review, purple an output ([legend](workflows.md#how-to-read-the-diagrams)). Every step, with what goes in and what comes out, is in the [step table in workflows.md](workflows.md#steps-voice-over-and-captions), with a run example.
+
+**Voice-over: one checked clip per line**
+
+```mermaid
+flowchart TD
+    recs["Own or licensed recordings<br/>written consent first"]
+    voiceref["sa_voiceref.py --scan<br/>ranks 1.8–9 s takes, writes nothing"]
+    refpick["My pick<br/>one continuous 7–15 s take"]
+    clone["sa_fishvo.py --clone<br/>private cloned voice"]
+    script["Approved script<br/>prose .txt"]
+    s2l["sa_script_to_lines.py<br/>one sentence per line"]
+    pron["pronunciation.txt<br/>respell a word once"]
+    fishvo["sa_fishvo.py --lines<br/>free model, speed 0.95<br/>3 takes per line"]
+    kit["fish_voice.py<br/>double-click kit<br/>GENERATE.command"]
+    clonevo["sa_clonevo.py<br/>local clone, laptop GPU"]
+    wordchk["Word check<br/>local Whisper ≥ 0.95"]
+    flux["Smoothness rank<br/>spectral flux"]
+    clips["One MP3 per line<br/>01_…, 02_…"]
+    hf["sa_hfcheck.py<br/>dull-take shortlist"]
+    ear1["My listen<br/>the ear decides"]
+    addvo["sa_addvo.py<br/>one voice track"]
+    draft["CapCut review draft<br/>one clip per line"]
+    vcheck["sa_voicecheck.py<br/>transcription shortlist"]
+    vclips["sa_voiceclips.py<br/>listening sheet"]
+    vaudit["sa_vo_quality_audit.py<br/>loudness, clipping, WER"]
+    ear2["My listen<br/>unflagged = unknown"]
+    subgraph s5["5 · Re-listen shortlist"]
+        vcheck
+        vclips
+        vaudit
+        ear2
+    end
+    subgraph s4["4 · Choose and place"]
+        clips
+        hf
+        ear1
+        addvo
+        draft
+    end
+    subgraph s3["3 · Per-line gates"]
+        wordchk
+        flux
+    end
+    subgraph s2["2 · Generate"]
+        fishvo
+        kit
+        clonevo
+    end
+    subgraph s1["1 · Reference and lines, consent first"]
+        recs
+        voiceref
+        refpick
+        clone
+        script
+        s2l
+        pron
+    end
+
+    recs -->|"audio files"| voiceref
+    voiceref -->|"ranked shortlist"| refpick
+    refpick -->|"REF.wav, 7–15 s"| clone
+    script -->|"script .txt"| s2l
+    clone -->|"voice id"| fishvo
+    clone -->|"voice on account"| kit
+    s2l -->|"lines.txt"| fishvo
+    s2l -->|"lines.txt"| kit
+    pron -->|"respellings"| kit
+    refpick -.->|"REF.wav"| clonevo
+    s2l -.->|"lines.json"| clonevo
+    fishvo -->|"3 takes"| wordchk
+    clonevo -.->|"3 takes"| wordchk
+    wordchk -->|"takes, misreads ranked last"| flux
+    flux -->|"best take"| clips
+    kit -->|"output/*.mp3"| clips
+    clips -->|"re-generated takes of one line"| hf
+    hf -->|"shortlist"| ear1
+    ear1 -->|"vo.json"| addvo
+    addvo -->|"draft_info.json"| draft
+    draft -->|"timeline audio"| vcheck
+    vcheck -->|"VOICE_CHECK.json"| vclips
+    vclips -->|"VOICE_LISTEN.html"| ear2
+    draft -->|"--project"| vaudit
+    vaudit -->|"HTML report"| ear2
+    ear1 -.->|"lines to redo"| fishvo
+
+    classDef input fill:#e8f1ff,stroke:#1f6feb,color:#0b2a5b
+    classDef tool fill:#eef9f0,stroke:#2da44e,color:#0b3d1a
+    classDef check fill:#fff4e5,stroke:#bf8700,color:#4d3800
+    classDef output fill:#f3e8ff,stroke:#8250df,color:#3b1d6e
+    classDef human fill:#f6f8fa,stroke:#57606a,color:#24292f
+    class recs,script,pron input
+    class voiceref,clone,s2l,fishvo,kit,clonevo,addvo tool
+    class wordchk,flux,hf,vcheck,vclips,vaudit check
+    class clips,draft output
+    class refpick,ear1,ear2 human
+```
+
+*A recording I own or am licensed to use becomes a private cloned voice, and the approved script becomes one checked MP3 per line, placed as its own clip on one voice track.* **Maturity:** the API route is Built, in use; the double-click kit is a Pilot; the local clone is a Pilot. The word check and the smoothness ranking only choose between takes. [`sa_hfcheck.py`](../tools/sa_hfcheck.py), [`sa_voicecheck.py`](../tools/sa_voicecheck.py) and [`sa_vo_quality_audit.py`](../tools/sa_vo_quality_audit.py) are Experimental shortlists for my ear and never pass a line. Anything I reject is respelt in `pronunciation.txt` or generated again.
+
+**Where the voice goes next: captions, SRT export and live captions**
+
+```mermaid
+flowchart TD
+    subgraph c1["1 · Inputs, and the script aligned to the recording"]
+        rec["Screen recording<br/>original narration"]
+        lines["Approved lines.txt<br/>wording locked"]
+        voclips["Approved voice clips<br/>one MP3 per line"]
+        whisper["sa_whisper.py<br/>local transcript"]
+        align["sa_align_beats.py<br/>each line to its screen moment"]
+    end
+    subgraph c2["2 · Pace, then time the captions"]
+        dubcut["sa_dubcut.py<br/>picture paced to the voice"]
+        captions["sa_captions.py<br/>script text, Whisper timing<br/>cues of 46 characters max"]
+        terms["sa_terms.py --check, --fix<br/>casing only"]
+    end
+    subgraph c3["3 · Into CapCut and back out"]
+        capcap["sa_capcut_captions.py<br/>editable text layers"]
+        myedit["My edit and review<br/>in CapCut"]
+        srtexp["sa_srtexport.py<br/>SRT from the live draft"]
+    end
+    subgraph c4["4 · Checks on the cut"]
+        sync["sa_check_sync.py<br/>caption vs speech onset<br/>on the rendered module"]
+        final["sa_finalcheck.py --script<br/>speech vs approved script"]
+    end
+    subgraph c5["5 · Arabic subtitles"]
+        trans["sa_translate.py<br/>local English to Arabic"]
+        arrev["Fluent review<br/>the draft is corrected"]
+    end
+    lastwatch["My final review<br/>full export, normal speed"]
+    delivered["Delivered video + subtitles<br/>MP4, English and Arabic .srt"]
+    subgraph c6["Live events: a separate route"]
+        mic["Live Arabic speech<br/>USB audio input"]
+        live["sa_livecaption.py<br/>local Whisper stream"]
+        guest["Guest screen at /view<br/>English captions"]
+    end
+
+    rec -->|"narration audio"| whisper
+    whisper -->|"transcript.json"| align
+    lines -->|"lines.txt"| align
+    align -->|"rows.json, nudged into plan.json"| dubcut
+    voclips -->|"one clip per line"| dubcut
+    dubcut -->|"timing.json"| captions
+    voclips -->|"clips"| captions
+    lines -->|"caption text"| captions
+    captions -->|".srt"| sync
+    captions -->|".srt"| terms
+    terms -->|".srt"| capcap
+    capcap -->|"draft_info.json"| myedit
+    dubcut -->|"timing.json"| sync
+    sync <-->|"review render + _layers.json in,<br/>offsets out"| myedit
+    myedit -->|"saved draft"| srtexp
+    myedit -->|"exported MP4"| final
+    lines -->|"script .txt"| final
+    srtexp -->|"English .srt"| trans
+    trans -->|"name_ar.srt"| arrev
+    srtexp -->|".srt + transcript .txt"| lastwatch
+    arrev -->|"Arabic .srt"| lastwatch
+    final -->|"SEND / CHECK / STOP"| lastwatch
+    lastwatch -->|"approved MP4 + .srt files"| delivered
+    delivered ~~~ mic
+    mic -->|"audio input"| live
+    live -->|"SSE stream + .txt"| guest
+
+    classDef input fill:#e8f1ff,stroke:#1f6feb,color:#0b2a5b
+    classDef tool fill:#eef9f0,stroke:#2da44e,color:#0b3d1a
+    classDef check fill:#fff4e5,stroke:#bf8700,color:#4d3800
+    classDef output fill:#f3e8ff,stroke:#8250df,color:#3b1d6e
+    classDef human fill:#f6f8fa,stroke:#57606a,color:#24292f
+    class rec,lines,voclips,mic input
+    class whisper,align,dubcut,captions,terms,capcap,srtexp,trans,live tool
+    class sync,final check
+    class delivered,guest output
+    class myedit,arrev,lastwatch human
+```
+
+*Caption words come only from the approved script, and only their timing comes from the audio. The captions go into CapCut as editable text and come back out as SRT for delivery and for Arabic drafts. Live events use a separate local route that uploads nothing.* **Maturity:** script-locked captions, CapCut caption import and SRT export are Built, in use. Arabic translation is Built, in use, for drafts only, and is always reviewed. Live captions are a Pilot. [`sa_check_sync.py`](../tools/sa_check_sync.py) and [`sa_finalcheck.py`](../tools/sa_finalcheck.py) give me evidence to review and release nothing; my final review releases the delivery.
+
 ## Contents
 
 1. [The route](#1-the-route)

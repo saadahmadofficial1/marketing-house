@@ -19,6 +19,131 @@ The code was written by AI coding agents (Claude Code and Codex) under my direct
 | Rendering a CapCut project without CapCut | **Pilot** | Review renders only, never delivery |
 | Automatic release approval | **Not approved** | Every delivered cut is reviewed by me |
 
+## The workflow, tool by tool
+
+How the CapCut tools hand work to each other: every box is the tool or the person that does the step, and every arrow names the file it hands on. Colours: blue is source material, green a tool, amber a check, grey my own review, purple an output ([legend](workflows.md#how-to-read-the-diagrams)). Every step, with what goes in and what comes out, is in the [step table in workflows.md](workflows.md#steps-capcut-drafts-and-style-learning), with a run example.
+
+**A. From my finished projects to a new CapCut draft (stages 1–3)**
+
+```mermaid
+flowchart TD
+    subgraph LEARN["Stage 1: Learn my style"]
+        LIB["My finished CapCut projects<br/>read-only, every saved timeline"]
+        CORPUS["sa_capcut_corpus.py<br/>census, flags duplicate timelines"]
+        BRAIN["sa_stylebrain.py<br/>fingerprints each export range"]
+        GRAMMAR["SAAD_EDITING_GRAMMAR.json<br/>7 story families, AI-agent-written"]
+        DNA["sa_editdna.py<br/>cut-length percentiles per style"]
+    end
+    subgraph PLAN["Stage 2: Plan the edit"]
+        NEWJOB["New job<br/>brief + footage folder"]
+        SKEL["sa_edit_skeleton.py new<br/>chapter map + shot slots"]
+        FILL["I fill the slots<br/>and approve each row"]
+        COMPILE["sa_edit_skeleton.py compile<br/>validates, refuses on errors"]
+        EXTRACT["sa_extract.py<br/>local shot-quality scoring"]
+        PLANNER["sa_timeline.py plan<br/>borrows a master's rhythm"]
+        CONSOLE["I approve in sa_console.py<br/>approve, reject, reorder"]
+    end
+    subgraph BUILD["Stage 3: Build new draft"]
+        WRITER["sa_capcut_writer.py<br/>new draft only, fresh ids, CapCut closed"]
+        DRAFT["New CapCut draft<br/>ready for review"]
+        TASTE["My taste pass in CapCut<br/>then export"]
+    end
+
+    LIB -->|"draft_info.json"| CORPUS
+    LIB -->|"saved export ranges"| BRAIN
+    CORPUS -->|"CAPCUT_TIMELINE_CORPUS.json"| GRAMMAR
+    BRAIN -->|"CAPCUT_STYLE_BRAIN.json"| DNA
+    GRAMMAR ~~~ NEWJOB
+    DNA ~~~ NEWJOB
+    GRAMMAR -->|"chapter ratios, slot pattern"| SKEL
+    NEWJOB -->|"--family --duration --format"| SKEL
+    SKEL -->|"plan.assignments.csv"| FILL
+    DNA -.->|"EDIT_DNA_STATS.json"| FILL
+    FILL -->|"approved rows"| COMPILE
+    NEWJOB -->|"footage clips"| EXTRACT
+    EXTRACT -->|"cutsheet.json"| PLANNER
+    BRAIN -->|"CAPCUT_STYLE_BRAIN.json"| PLANNER
+    PLANNER -->|"draft plan for review"| CONSOLE
+    COMPILE -->|"timeline_plan.json"| WRITER
+    CONSOLE -->|"_approved_plan.json"| WRITER
+    WRITER -->|"draft_info.json x2 +<br/>SA_TIMELINE_PLAN.json"| DRAFT
+    DRAFT -->|"opened in CapCut"| TASTE
+
+    classDef input fill:#e8f1ff,stroke:#1f6feb,color:#0b2a5b
+    classDef tool fill:#eef9f0,stroke:#2da44e,color:#0b3d1a
+    classDef check fill:#fff4e5,stroke:#bf8700,color:#4d3800
+    classDef output fill:#f3e8ff,stroke:#8250df,color:#3b1d6e
+    classDef human fill:#f6f8fa,stroke:#57606a,color:#24292f
+    class LIB,NEWJOB,GRAMMAR input
+    class CORPUS,BRAIN,DNA,SKEL,EXTRACT,PLANNER,WRITER tool
+    class COMPILE check
+    class DRAFT output
+    class FILL,CONSOLE,TASTE human
+```
+
+**B. Watching my edit and learning from what I changed (stages 4–7)**
+
+```mermaid
+flowchart TD
+    subgraph WATCH["Stage 4: Watch me edit"]
+        EDIT["My editing session in CapCut<br/>autosaves every few seconds"]
+        BAR["sa_watchbar.py<br/>menu-bar light + kill switch"]
+        EYES["sa_eyes.py start<br/>CapCut Eyes session, Pilot"]
+        EDITW["sa_editwatch.py<br/>diffs each saved timeline"]
+        SCREENW["sa_screenwatch.py<br/>CapCut windows only"]
+        HANDOFF["sa_eyes.py handoff<br/>stops both, keeps the evidence"]
+    end
+    subgraph LEARNPASS["Stage 5: Learning pass"]
+        AGENT["AI coding agent review<br/>events joined to frames by clock"]
+        LOCAL["sa_learn.py --analyse<br/>older local route, Experimental"]
+        PURGE["sa_learn.py --purge<br/>deletes frames behind checksums"]
+    end
+    subgraph DIFF["Stage 6: Final-edit diff"]
+        PAIR["Machine build + my signed-off cut<br/>same project, two versions"]
+        DELTA["sa_style_delta.py<br/>plan vs my edit, Experimental"]
+        FINAL["sa_finaldiff.py --learn<br/>build vs my signed-off cut"]
+        CURVE["sa_learncurve.py<br/>repeat fixes across videos, Experimental"]
+    end
+    subgraph PROMOTE["Stage 7: Promote rules"]
+        CONFIRM["I confirm or correct<br/>one action = one observation"]
+        RULES["Next build's defaults<br/>grammar + technique notes"]
+    end
+
+    EDIT -->|"saved draft_info.json"| EDITW
+    EDIT -->|"window frames"| SCREENW
+    BAR -->|"start --owner-pid"| EYES
+    EYES -->|"--session-dir"| EDITW
+    EYES -->|"--session-dir"| SCREENW
+    EDITW -->|"timeline_events.jsonl"| HANDOFF
+    SCREENW -->|"frame_index.jsonl + PNGs"| HANDOFF
+    HANDOFF -->|"session folder"| AGENT
+    HANDOFF -.->|"after CapCut closes"| LOCAL
+    AGENT -->|"learning written down"| PURGE
+    LOCAL -.->|"observations.json"| PURGE
+    PURGE ~~~ PAIR
+    PAIR -->|"SA_TIMELINE_PLAN.json<br/>+ draft_info.json"| DELTA
+    PAIR -->|".pre_captions backup<br/>+ draft_info.json"| FINAL
+    PAIR -->|"_layers.json<br/>+ finished drafts"| CURVE
+    AGENT -->|"changes that survived"| CONFIRM
+    DELTA -->|"style_learning/NAME.json"| CONFIRM
+    FINAL -->|"VERIFIER_GAPS.md"| CONFIRM
+    CURVE -->|"patterns in 3+ videos"| CONFIRM
+    CONFIRM -->|"confirmed rules only"| RULES
+
+    classDef input fill:#e8f1ff,stroke:#1f6feb,color:#0b2a5b
+    classDef tool fill:#eef9f0,stroke:#2da44e,color:#0b3d1a
+    classDef check fill:#fff4e5,stroke:#bf8700,color:#4d3800
+    classDef output fill:#f3e8ff,stroke:#8250df,color:#3b1d6e
+    classDef human fill:#f6f8fa,stroke:#57606a,color:#24292f
+    class PAIR input
+    class BAR,EYES,EDITW,SCREENW,HANDOFF,PURGE,FINAL tool
+    class AGENT,LOCAL,DELTA,CURVE check
+    class RULES output
+    class EDIT,CONFIRM human
+```
+
+*My finished CapCut projects become style data, a plan I have reviewed becomes a brand-new CapCut draft, and my own edits of that draft are watched live and compared afterwards, so they become the next build’s defaults.* **Maturity:** style measurement and the final-edit diff ([`sa_finaldiff.py`](../tools/sa_finaldiff.py)) are Built, in use. The grammar, skeleton, planner and writer are Built, awaiting review. CapCut Eyes live watching is a Pilot. The plan-versus-final diff, the correction trend and the older local learning route are Experimental. Every delivered cut is still reviewed by me.
+
 ## Contents
 
 1. [How I work in CapCut](#1-how-i-work-in-capcut)
@@ -547,7 +672,7 @@ Every tool in [tools/README.md](../tools/README.md) that reads or writes CapCut 
 | Tool | What it does | Usage |
 |---|---|---|
 | [`sa_capcut.py`](../tools/sa_capcut.py) | Reads every local project into an edit-style report: cut pace, track mix, text, effects, transitions, music in-points, style clusters | `python3 tools/sa_capcut.py [-o report.md]` |
-| [`sa_capcut_corpus.py`](../tools/sa_capcut_corpus.py) | Census of every project and timeline, with content signatures to detect duplicate timelines | `python3 tools/sa_capcut_corpus.py [--root DRAFTS_DIR] [--out DIR]` |
+| [`sa_capcut_corpus.py`](../tools/sa_capcut_corpus.py) | Census of every project and timeline, with content signatures to detect duplicate timelines | `python3 tools/sa_capcut_corpus.py [--root DRAFTS_DIR] [--out FILE.json]` |
 | [`sa_stylebrain.py`](../tools/sa_stylebrain.py) | Mines a project library into style fingerprints (pacing, in-points, speed, reframes, transitions) from saved export ranges; a project with no saved range is measured over the whole draft and flagged `low` | `python3 tools/sa_stylebrain.py [--json OUT.json] [--markdown OUT.md]` |
 | [`sa_editdna.py`](../tools/sa_editdna.py) | Cut-length percentiles, rhythm spread and speed-change share per style, written to `EDIT_DNA_STATS.json` | `python3 tools/sa_editdna.py` |
 | [`sa_style_delta.py`](../tools/sa_style_delta.py) | Diffs a generated plan against my finished edit (removed, reordered, in-points, speed, reframes) as learning evidence | `python3 tools/sa_style_delta.py "/path/to/project" --plan plan.json --out style_learning/NAME` |

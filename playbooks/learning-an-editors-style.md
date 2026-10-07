@@ -16,6 +16,71 @@ The tools were written by AI coding agents (Claude Code and Codex) under my dire
 | Writing a plan into a new CapCut draft | **Built, awaiting review** – structurally verified; one 27-clip plan built and checked |
 | Event-film rebuild chain (motion map → verified windows → fit to music → plan gate → render) | **Experimental** – it has not yet produced a cut I have reviewed; see [section 10](#10-event-films-measure-the-approved-reference-before-cutting) |
 
+## The workflow, tool by tool
+
+How my edits become data the next build reads: a built draft is watched while I edit it, compared afterwards with the cut I signed off, and only what I confirm is promoted. Colours: blue is source material, green a tool, amber a check, grey my own review, purple an output ([legend](workflows.md#how-to-read-the-diagrams)). Every step, with what goes in and what comes out, is in the [step table in workflows.md](workflows.md#steps-capcut-drafts-and-style-learning) (steps 13–22); how the style data is measured and turned into a new draft is drawn in the [CapCut hub](capcut.md#the-workflow-tool-by-tool), and event films have their own flow in [section 10](#the-event-film-workflow-tool-by-tool).
+
+```mermaid
+flowchart TD
+    subgraph WATCH["Stage 4: Watch me edit"]
+        EDIT["My editing session in CapCut<br/>autosaves every few seconds"]
+        BAR["sa_watchbar.py<br/>menu-bar light + kill switch"]
+        EYES["sa_eyes.py start<br/>CapCut Eyes session, Pilot"]
+        EDITW["sa_editwatch.py<br/>diffs each saved timeline"]
+        SCREENW["sa_screenwatch.py<br/>CapCut windows only"]
+        HANDOFF["sa_eyes.py handoff<br/>stops both, keeps the evidence"]
+    end
+    subgraph LEARNPASS["Stage 5: Learning pass"]
+        AGENT["AI coding agent review<br/>events joined to frames by clock"]
+        LOCAL["sa_learn.py --analyse<br/>older local route, Experimental"]
+        PURGE["sa_learn.py --purge<br/>deletes frames behind checksums"]
+    end
+    subgraph DIFF["Stage 6: Final-edit diff"]
+        PAIR["Machine build + my signed-off cut<br/>same project, two versions"]
+        DELTA["sa_style_delta.py<br/>plan vs my edit, Experimental"]
+        FINAL["sa_finaldiff.py --learn<br/>build vs my signed-off cut"]
+        CURVE["sa_learncurve.py<br/>repeat fixes across videos, Experimental"]
+    end
+    subgraph PROMOTE["Stage 7: Promote rules"]
+        CONFIRM["I confirm or correct<br/>one action = one observation"]
+        RULES["Next build's defaults<br/>grammar + technique notes"]
+    end
+
+    EDIT -->|"saved draft_info.json"| EDITW
+    EDIT -->|"window frames"| SCREENW
+    BAR -->|"start --owner-pid"| EYES
+    EYES -->|"--session-dir"| EDITW
+    EYES -->|"--session-dir"| SCREENW
+    EDITW -->|"timeline_events.jsonl"| HANDOFF
+    SCREENW -->|"frame_index.jsonl + PNGs"| HANDOFF
+    HANDOFF -->|"session folder"| AGENT
+    HANDOFF -.->|"after CapCut closes"| LOCAL
+    AGENT -->|"learning written down"| PURGE
+    LOCAL -.->|"observations.json"| PURGE
+    PURGE ~~~ PAIR
+    PAIR -->|"SA_TIMELINE_PLAN.json<br/>+ draft_info.json"| DELTA
+    PAIR -->|".pre_captions backup<br/>+ draft_info.json"| FINAL
+    PAIR -->|"_layers.json<br/>+ finished drafts"| CURVE
+    AGENT -->|"changes that survived"| CONFIRM
+    DELTA -->|"style_learning/NAME.json"| CONFIRM
+    FINAL -->|"VERIFIER_GAPS.md"| CONFIRM
+    CURVE -->|"patterns in 3+ videos"| CONFIRM
+    CONFIRM -->|"confirmed rules only"| RULES
+
+    classDef input fill:#e8f1ff,stroke:#1f6feb,color:#0b2a5b
+    classDef tool fill:#eef9f0,stroke:#2da44e,color:#0b3d1a
+    classDef check fill:#fff4e5,stroke:#bf8700,color:#4d3800
+    classDef output fill:#f3e8ff,stroke:#8250df,color:#3b1d6e
+    classDef human fill:#f6f8fa,stroke:#57606a,color:#24292f
+    class PAIR input
+    class BAR,EYES,EDITW,SCREENW,HANDOFF,PURGE,FINAL tool
+    class AGENT,LOCAL,DELTA,CURVE check
+    class RULES output
+    class EDIT,CONFIRM human
+```
+
+*A built draft is watched while I edit it, compared with the machine build and with my signed-off cut afterwards, and promoted to the next build’s defaults only when I confirm the change.* **Maturity:** the final-edit diff ([`sa_finaldiff.py`](../tools/sa_finaldiff.py)) is Built, in use. CapCut Eyes live watching is a Pilot. The plan-versus-final diff, the correction trend and the older local learning route are Experimental; the local vision route is a shortlist, never a pass gate.
+
 ---
 
 ## 1. Why measure instead of describe
@@ -297,6 +362,166 @@ The AI-built version I replaced had a 2.0 s median, everything at 1.0× and no t
 - **Reject optical-zoom windows.** Never use a stretch where the lens is zooming in or out, and never a host caught mid-explanation.
 - **Understand, then plan, then edit.** Analyse every clip frame by frame before planning, not pick-and-cut.
 - **Never caption a name from seat position.** On-screen name cards did not match who sat where.
+
+### The event-film workflow, tool by tool
+
+Two routes from the same event footage: **A** rebuilds the film from raw footage against the measured reference and renders it with ffmpeg; **B** takes a story-first plan into a new, editable CapCut draft that I finish by hand. Colours: blue is source material, green a tool, amber a check, grey my own review, purple an output ([legend](workflows.md#how-to-read-the-diagrams)). Every step, with what goes in and what comes out, is in the [step table in workflows.md](workflows.md#steps-event-films-and-reels).
+
+**A. Event film: the rebuild chain**
+
+```mermaid
+flowchart TD
+  REF["Approved event recap<br/>CapCut project + export"]
+  SB["sa_stylebrain.py<br/>read the approved export range"]
+  FVA["sa_final_video_audit.py<br/>detect cuts on the export"]
+  CLIPS["Event footage<br/>camera clips (.MP4)"]
+  FRAMES["sa_frames.py<br/>timecoded frames + contact strips"]
+  MM["sa_event_motionmap.py<br/>label every 0.5 s, keep clean windows"]
+  AG["AI editor agents (no script)<br/>read whole takes, log windows"]
+  MUSIC["Music track"]
+  BEATS["sa_beats.py<br/>beats, downbeats, energy peaks"]
+  PLAN["Story plan (by hand or agent)<br/>shots per phrase, hero on the final hit"]
+  FIT["sa_event_fit.py<br/>fill every phrase exactly"]
+  GATE["sa_event_cutcheck.py<br/>16 rules, PASS or FAIL"]
+  RENDER["sa_event_render.py render<br/>per-shot ffmpeg, ramps, grade, music"]
+  FILM["Event film .mp4<br/>loudness-normalised"]
+  QA["sa_event_render.py qa<br/>start, middle, end of every shot"]
+  FC["sa_finalcheck.py<br/>loudness, silences, black frames"]
+  FVA2["sa_final_video_audit.py<br/>measured shot lengths"]
+  subgraph S4["Stage 4: render and check"]
+    RENDER
+    FILM
+    QA
+    FC
+    FVA2
+  end
+  subgraph S3["Stage 3: fit and gate"]
+    FIT
+    GATE
+  end
+  subgraph S2["Stage 2: plan to the music"]
+    MUSIC
+    BEATS
+    PLAN
+  end
+  subgraph S1["Stage 1: log the footage"]
+    CLIPS
+    FRAMES
+    MM
+    AG
+  end
+  subgraph S0["Stage 0: measure the approved reference first"]
+    REF
+    SB
+    FVA
+  end
+  REVIEW["My review<br/>approve, or reject with notes"]
+
+  REF -->|"draft_info.json, export range only"| SB
+  REF -->|"approved export .mp4"| FVA
+  CLIPS -->|"clip .mp4"| FRAMES
+  CLIPS -->|"clip .MP4 from CLIPS_DIR"| MM
+  FRAMES -->|"strips + index.json"| AG
+  MM -->|"clip .json: clean_windows"| AG
+  MUSIC -->|"audio file"| BEATS
+  AG -->|"VPOOL.json"| PLAN
+  BEATS -->|"beats.json"| PLAN
+  PLAN -->|"ORDER.json + MUSIC_MAP.json + VPOOL.json"| FIT
+  FIT -->|"PLAN.json + VPOOL.json"| GATE
+  GATE -->|"PASS: PLAN.json"| RENDER
+  GATE -.->|"FAIL: exit 1"| PLAN
+  RENDER -->|"ProRes .mov per shot, then one film"| FILM
+  FILM -->|"film + PLAN.json timings"| QA
+  FILM -->|".mp4"| FC
+  FILM -->|"VIDEO_CORPUS.json entry"| FVA2
+  QA -->|"qa2 sheets .jpg"| REVIEW
+  FC -->|"SEND / CHECK / STOP"| REVIEW
+  FVA2 -->|"FINAL_VIDEO_AUDIT.json"| REVIEW
+  REVIEW -.->|"reject: notes"| PLAN
+  SB ~~~ CLIPS
+  FVA ~~~ CLIPS
+  AG ~~~ MUSIC
+  SB -.->|"measured grammar sets the rules"| GATE
+  FVA -.->|"cut-count cross-check"| GATE
+  classDef input fill:#e8f1ff,stroke:#1f6feb,color:#0b2a5b
+  classDef tool fill:#eef9f0,stroke:#2da44e,color:#0b3d1a
+  classDef check fill:#fff4e5,stroke:#bf8700,color:#4d3800
+  classDef output fill:#f3e8ff,stroke:#8250df,color:#3b1d6e
+  classDef human fill:#f6f8fa,stroke:#57606a,color:#24292f
+  class REF,CLIPS,MUSIC input
+  class SB,FRAMES,AG,BEATS,PLAN,FIT,RENDER tool
+  class FVA,MM,GATE,QA,FC,FVA2 check
+  class FILM output
+  class REVIEW human
+```
+
+*An event film rebuilt from raw footage: the approved reference is measured first, then the footage is logged and checked for camera motion, shots are fitted to the music, the plan is gated, and the film is rendered and checked. Dotted lines are measurements that set the gate’s rules (not files the gate reads) and the two loops back to the story plan.* **Maturity:** Experimental – the chain has not yet produced a cut I have reviewed.
+
+**B. Event reel: from a story skeleton to an editable CapCut draft**
+
+```mermaid
+flowchart TD
+  subgraph R1["Stage 1: log the footage"]
+    CLIPS["Event footage<br/>camera clips (.MP4)"]
+    MM["sa_event_motionmap.py<br/>reject zooms, shake, focus hunts"]
+    CS["sa_cutsheet.py<br/>vision in/out shortlist, Experimental"]
+  end
+  subgraph R2["Stage 2: story-first cut plan"]
+    GRAM["Editing grammar<br/>SAAD_EDITING_GRAMMAR.json"]
+    DONOR["Donor CapCut project<br/>closest approved edit, read-only"]
+    SKEL["sa_edit_skeleton.py new<br/>chapters + shot slots, 9:16"]
+    SHEET["My assignment sheet<br/>pick sources, mark rows approved"]
+    COMP["sa_edit_skeleton.py compile<br/>approved rows only"]
+  end
+  subgraph R3["Stage 3: CapCut hand-off"]
+    PREV["sa_plan_preview.py<br/>silent review render"]
+    WRITER["sa_capcut_writer.py<br/>plan into a NEW draft"]
+    DRAFT["New CapCut draft<br/>beside my own projects"]
+  end
+  subgraph R4["Stage 4: finish, check, learn"]
+    FINISH["I finish in CapCut<br/>taste pass, grade, mix, export"]
+    WATCH["sa_editwatch.py<br/>edit events from autosaves"]
+    SUM["capcut_project_summary<br/>studio MCP, read-only"]
+    MP4["Exported reel .mp4"]
+    FC["sa_finalcheck.py<br/>loudness, silences, black frames"]
+    FVA["sa_final_video_audit.py<br/>measured shot lengths"]
+    DELTA["sa_style_delta.py<br/>plan vs my edit, Experimental"]
+  end
+
+  CLIPS -->|"clip .MP4"| MM
+  CLIPS -->|"footage folder"| CS
+  MM -->|"clip .json: clean_windows"| SHEET
+  CS -->|"CUTSHEET.md + cutsheet.json"| SHEET
+  GRAM -->|"family event_recap_fast"| SKEL
+  SKEL -->|"plan.json + assignments.csv"| SHEET
+  SHEET -->|"approved assignments.csv"| COMP
+  COMP -->|"timeline_plan.json"| WRITER
+  COMP -->|"timeline_plan.json"| PREV
+  DONOR -->|"music bed, outro, transitions"| WRITER
+  WRITER -->|"draft_info.json + SA_TIMELINE_PLAN.json"| DRAFT
+  DRAFT -->|"opens in CapCut"| FINISH
+  FINISH -->|"autosaves"| WATCH
+  FINISH -->|"draft before export"| SUM
+  FINISH -->|"export"| MP4
+  FINISH -->|"finished draft_info.json"| DELTA
+  MP4 -->|".mp4"| FC
+  MP4 -->|"VIDEO_CORPUS.json entry"| FVA
+  CS ~~~ GRAM
+  SUM ~~~ MP4
+  WATCH ~~~ DELTA
+  classDef input fill:#e8f1ff,stroke:#1f6feb,color:#0b2a5b
+  classDef tool fill:#eef9f0,stroke:#2da44e,color:#0b3d1a
+  classDef check fill:#fff4e5,stroke:#bf8700,color:#4d3800
+  classDef output fill:#f3e8ff,stroke:#8250df,color:#3b1d6e
+  classDef human fill:#f6f8fa,stroke:#57606a,color:#24292f
+  class CLIPS,GRAM,DONOR input
+  class MM,CS,SUM,FC,FVA,DELTA check
+  class DRAFT,MP4 output
+  class SHEET,FINISH human
+  class SKEL,COMP,PREV,WRITER,WATCH tool
+```
+
+*An event reel goes from logged footage, through a story-first plan, into a new editable CapCut draft and then to export checks.* **Maturity:** the skeleton and the CapCut writer are Built, awaiting review. The cut sheet is an Experimental vision-model shortlist, the edit watcher is a Pilot and the style delta is Experimental.
 
 ### The rebuild chain (Experimental)
 

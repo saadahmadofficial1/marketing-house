@@ -18,6 +18,78 @@ The tools linked here were written by AI coding agents (Claude Code and Codex) u
 | Archival scan clean-up, honest 2× enlargement, detail-only XMP application | **Built** |
 | Generative clutter removal with crop-and-paste-back | **Experimental** – needs my explicit sign-off on each shoot |
 
+## The workflow, tool by tool
+
+The fidelity-first branches: every box is the tool or the person that does the step, and every arrow names the file it hands on. Colours: blue is source material, green a tool, amber a check, grey my own review, purple an output ([legend](workflows.md#how-to-read-the-diagrams)). Every step, with what goes in and what comes out, is in the [step table in workflows.md](workflows.md#steps-photo-grading-and-retouching); the RAW shoot to graded set and video LUT is drawn in [my Lightroom recipe](lightroom-recipe.md#the-workflow-tool-by-tool).
+
+```mermaid
+flowchart TD
+    subgraph p1["Product: real-pixel edit only"]
+        prodraw["Product RAW shoot<br/>.ARW + .JPG previews"]:::input
+        jsheet["jewellery_edit.py sheet<br/>ranks by edge sharpness"]:::tool
+        jpick["My pick<br/>preview one before and after"]:::human
+        jbatch["jewellery_edit.py batch<br/>camera WB, deep blacks;<br/>no saturation, no LUT"]:::tool
+    end
+    subgraph p2["Outdoor and listing frames"]
+        outdoor["Outdoor or property frames<br/>.ARW or .JPG"]:::input
+        upscale["sa_upscale.py<br/>local Real-ESRGAN;<br/>refuses protected names"]:::tool
+        photo["sa_photo.py<br/>white-patch WB, levels,<br/>vibrance not saturation"]:::tool
+        honest["sa_honest_2x.py<br/>deterministic Lanczos 2x,<br/>QC with hashes"]:::tool
+    end
+    srev["My review<br/>before and after"]:::human
+    stills["Finished stills<br/>Edited/ folders, enhanced/"]:::output
+    subgraph p3["Web set: one family, judged where it is shown"]
+        direction TB
+        mixed["Mixed set<br/>real photos, different days"]:::input
+        house["sa_house_grade.py<br/>haze floor,<br/>self-levelling sky,<br/>capped moves"]:::tool
+        refs["My two approved<br/>reference cards"]:::human
+        match["sa_match_set.py<br/>brightness cap 22%,<br/>colour cap 15%"]:::tool
+        card["sa_card_preview.py<br/>the page's 1.14:1 crop<br/>and label gradient"]:::check
+        safe["sa_web_safe_zone.py<br/>translate, mirror-fill<br/>the hidden strip"]:::tool
+        scrim["sa_hero_scrim.py<br/>smoothstep scrim<br/>under the headline"]:::tool
+        review["sa_review_page.py<br/>offline before, after,<br/>as-cropped page"]:::check
+        scan["Archival scan"]:::input
+        archive["sa_archive_clean.py<br/>non-local-means denoise,<br/>light unsharp"]:::tool
+        signoff["My sign-off"]:::human
+        web["Web-ready set"]:::output
+    end
+
+    prodraw -->|".JPG previews"| jsheet
+    jsheet -->|"rank.csv,<br/>_contact_ALL.jpg"| jpick
+    jpick -->|"DSC numbers"| jbatch
+    jbatch -->|"DSC_EDIT.jpg"| srev
+    outdoor -->|"low-res frames only"| upscale
+    upscale -->|"name_4x.png"| photo
+    outdoor -->|".ARW or .JPG"| photo
+    photo -->|"name_graded.jpg"| srev
+    outdoor -->|"listing JPEGs"| honest
+    honest -->|"enhanced 2x,<br/>QC manifest.csv"| srev
+    srev -->|"approved files"| stills
+    mixed -->|"source image"| house
+    house -->|"cards"| match
+    house -.->|"I review the set"| refs
+    refs -->|"two card names"| match
+    match -->|"nudged cards"| card
+    card -->|"subject overruns crop"| safe
+    card -->|"headline on bright area"| scrim
+    card -->|"cards that read well"| review
+    safe -->|"shifted .jpg"| review
+    scrim -->|"scrimmed hero"| review
+    review -->|"review .html"| signoff
+    scan -->|"in.png"| archive
+    archive -->|"cleaned scan"| signoff
+    signoff -->|"approved set"| web
+    stills ~~~ mixed
+
+    classDef input fill:#e8f1ff,stroke:#1f6feb,color:#0b2a5b
+    classDef tool fill:#eef9f0,stroke:#2da44e,color:#0b3d1a
+    classDef check fill:#fff4e5,stroke:#bf8700,color:#4d3800
+    classDef output fill:#f3e8ff,stroke:#8250df,color:#3b1d6e
+    classDef human fill:#f6f8fa,stroke:#57606a,color:#24292f
+```
+
+*Fidelity-first branches: product and outdoor frames are graded without generative AI and pass my before-and-after review, and a mixed web set is levelled, matched to two approved references and judged at the page’s real crop before my sign-off.* **Maturity:** Built, in use, except [`sa_archive_clean.py`](../tools/sa_archive_clean.py) and [`sa_honest_2x.py`](../tools/sa_honest_2x.py), which are Built. Generative clutter removal stays Experimental and is not drawn: it has no repository tool, only a prompt and a manual masked edit ([section 4](#4-if-you-must-remove-clutter-the-boxed-in-prompt)).
+
 ---
 
 ## 1. The hard lines

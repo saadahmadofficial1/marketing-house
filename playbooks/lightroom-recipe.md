@@ -16,6 +16,84 @@ The tools were written by AI coding agents (Claude Code and Codex) under my dire
 | A window mask that syncs across a whole set (luminance range) | **Planned** – designed and offered, not built |
 | Preset to video LUT (approximate and exact) | **Built, in use** |
 
+## The workflow, tool by tool
+
+From a RAW shoot to a graded set and a video LUT: every box is the tool or the person that does the step, and every arrow names the file it hands on. Colours: blue is source material, green a tool, amber a check, grey my own review, purple an output ([legend](workflows.md#how-to-read-the-diagrams)). Every step, with what goes in and what comes out, is in the [step table in workflows.md](workflows.md#steps-photo-grading-and-retouching); the fidelity-first branches for product, outdoor and web-set work are drawn in [fidelity-first photo retouching](photo-fidelity-retouching.md#the-workflow-tool-by-tool).
+
+```mermaid
+flowchart TD
+    subgraph s1["Stage 1: cull the shoot"]
+        shoot["RAW shoot<br/>.ARW + .JPG twins"]:::input
+        cull["sa_cull.py<br/>scores sharpness, exposure,<br/>clipping; groups brackets"]:::tool
+        keep["My pick<br/>keepers into SELECTED/,<br/>room in the file name"]:::human
+    end
+    subgraph s2["Stage 2: learn the recipe from my edits"]
+        catalog["Lightroom catalogue<br/>Managed Catalog.mcat,<br/>re-read after each shoot"]:::input
+        lrread["sa_lrread.py<br/>every slider and mask<br/>per frame"]:::tool
+        against["against-the-window.txt<br/>frames shot into the glass"]:::human
+        presets["sa_presets.py<br/>drops synced looks, median<br/>per scene; --dry writes nothing"]:::tool
+    end
+    subgraph s3["Stage 3: prepare for the grade"]
+        rawdev["sa_rawdev.py<br/>exposure, recovery, noise;<br/>white balance as shot"]:::tool
+        webcrops["sa_webcrops.py<br/>six web crops,<br/>geometry only"]:::tool
+    end
+    subgraph s4["Stage 4: grade"]
+        lrgrade["I grade in Lightroom<br/>scene preset, WB by eye,<br/>window and reverse masks"]:::human
+        graded["Graded set<br/>synced except WB<br/>and exposure"]:::output
+    end
+    subgraph s5["Stage 5: preset to video LUT"]
+        tocube["sa_xmp2cube.py<br/>approximate LUT"]:::tool
+        lutid["sa_lut.py identity<br/>1089 x 33 strip"]:::tool
+        lrstrip["I apply the preset<br/>to the strip, export sRGB"]:::human
+        lutpng["sa_lut.py frompng<br/>exact LUT"]:::tool
+        gradev["sa_grade.py<br/>ffmpeg lut3d,<br/>strength blend"]:::tool
+        video["Graded clip or still<br/>or LUT in CapCut"]:::output
+    end
+    subgraph s6["Side flow: deliver a photo library"]
+        library["Photo library<br/>JPEG, PNG, TIFF"]:::input
+        photolib["sa_photolib.py build<br/>dedupe, quality flags,<br/>upscale only under 3 MP"]:::tool
+        delivery["Delivery folder<br/>ranked copies + .xmp,<br/>_REVIEW/ for flagged"]:::output
+        libsheet["sa_photolib.py sheet<br/>numbered contact sheet"]:::check
+        librev["My review<br/>the sheet and _REVIEW/"]:::human
+    end
+
+    shoot -->|".JPG twins"| cull
+    cull -->|"cull.json, picks.txt,<br/>contact sheets"| keep
+    catalog -->|"revisions + settings files"| lrread
+    lrread -->|"edits JSON"| presets
+    against -->|"frame numbers"| presets
+    keep -->|".ARW keepers"| rawdev
+    keep -->|"native .JPG still"| webcrops
+    rawdev -->|".xmp sidecars"| lrgrade
+    webcrops -->|"ungraded crops"| lrgrade
+    presets -->|"five scene<br/>presets .xmp"| lrgrade
+    lrgrade -->|"exports"| graded
+    lrgrade -->|"preset .xmp"| tocube
+    lrgrade -->|"preset .xmp"| lrstrip
+    lutid -->|"strip.png"| lrstrip
+    lrstrip -->|"graded.png"| lutpng
+    tocube -->|"look.cube"| gradev
+    lutpng -->|"look.cube"| gradev
+    gradev -->|"name_graded.mp4 or .jpg"| video
+    library -->|"images"| photolib
+    lrgrade -.->|"my INDOOR.xmp,<br/>OUTDOOR.xmp"| photolib
+    photolib -->|"ranked copies + .xmp, _REVIEW/"| delivery
+    delivery -->|"delivery folder"| libsheet
+    libsheet -->|"sheet.jpg"| librev
+    graded ~~~ lutid
+    keep ~~~ catalog
+    presets ~~~ rawdev
+    video ~~~ library
+
+    classDef input fill:#e8f1ff,stroke:#1f6feb,color:#0b2a5b
+    classDef tool fill:#eef9f0,stroke:#2da44e,color:#0b3d1a
+    classDef check fill:#fff4e5,stroke:#bf8700,color:#4d3800
+    classDef output fill:#f3e8ff,stroke:#8250df,color:#3b1d6e
+    classDef human fill:#f6f8fa,stroke:#57606a,color:#24292f
+```
+
+*From a RAW shoot to a graded set and a video LUT: the tools cull the shoot, write technical develop sidecars and learn scene presets from my own catalogue; I grade in Lightroom; a side flow prepares a photo library for my review, and two routes turn a preset into a `.cube`.* **Maturity:** Built, in use. The presets rest on a small sample (10 individual edits, and two presets on a single frame). The syncable luminance-range window mask is Planned and is not drawn.
+
 ---
 
 ## 1. Where the numbers come from

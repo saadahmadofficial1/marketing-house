@@ -15,6 +15,85 @@ Everything here is reusable for any brand: the brand-agnostic kit is [templates/
 | Three creative directions on one timing | **Pilot** | Done once, by three agents in parallel; one direction was chosen for the course |
 | Quiz and certificate | **Built, awaiting review** | Three questions per module; every answer is taught inside its module |
 
+## The workflow, tool by tool
+
+Every box is the tool or the person that does the step, and every arrow names the file it hands on. Colours: blue is source material, green a tool, amber a check, grey my own review, purple an output ([legend](workflows.md#how-to-read-the-diagrams)). Every step, with what goes in and what comes out, is in the [step table in workflows.md](workflows.md#steps-hyperframes-brand-tutorials), with a run example; [section 2](#2-the-pipeline-in-one-table) gives the check that gates each stage.
+
+```mermaid
+flowchart TD
+  subgraph s1["1 · Script"]
+    in_brief["Brief + source documents"]:::input
+    h_script["Write + audit the script<br/>one sentence per line"]:::human
+  end
+  subgraph s2["2 · Voice"]
+    t_fish["sa_fishvo.py<br/>cloned voice, 3 takes a line"]:::tool
+    h_listen["Listen-back by ear<br/>keep or re-voice"]:::human
+  end
+  subgraph s3["3 · Word timing + edit plan"]
+    t_words["vo_words.py<br/>local word timestamps"]:::tool
+    in_brand["brand.json<br/>colours, fonts, music"]:::input
+    c_build["build_module.py --check<br/>cues heard, quiz taught"]:::check
+    t_build["build_module.py --out<br/>timing core, scenes, captions"]:::tool
+  end
+  subgraph s4["4 · Render + proof"]
+    t_hf["HyperFrames CLI<br/>npm run check / render"]:::tool
+    c_frames["Frame evidence<br/>lint, snapshots, dead frames"]:::check
+    c_fonts["verify_fonts.py --strict<br/>fake face must fail"]:::check
+  end
+  subgraph s5["5 · Review preview"]
+    t_mux["mux_preview.py<br/>VO at planned starts + bed"]:::tool
+    h_watch["Watch the preview<br/>notes go back to the plan"]:::human
+  end
+  subgraph s6["6 · CapCut hand-off"]
+    t_cc["sa_capcut_build_from_plan.py<br/>backup, VO + music tracks"]:::tool
+    t_scaf["sa_capcut_callouts.py<br/>writes draft scaffold"]:::tool
+    t_caps["sa_capcut_captions.py<br/>SRT to caption track"]:::tool
+    c_cc["13 read-back checks<br/>--verify re-runs them"]:::check
+    o_draft["Editable CapCut<br/>review draft"]:::output
+    h_edit["Editor finishes<br/>music levels, outro"]:::human
+  end
+  subgraph s7["7 · Knowledge check"]
+    t_cert["make_certificate.py<br/>A4, blank name fields"]:::tool
+    h_proof["My review<br/>quiz and certificate"]:::human
+    o_learn["quiz.json + certificate<br/>for the learning platform"]:::output
+  end
+  in_brief -->|"source facts"| h_script
+  h_script -->|"lines.txt"| t_fish
+  t_fish -->|"one .mp3 per line"| h_listen
+  h_listen -.->|"re-voice a line"| t_fish
+  h_listen -->|"approved clips + lines.txt"| t_words
+  t_words -->|"words.json"| c_build
+  h_script -->|"module.json + quiz.json"| c_build
+  in_brand -->|"brand.json"| c_build
+  c_build -->|"PASS"| t_build
+  t_build -->|"index.html + package.json"| t_hf
+  t_build -->|"index.html"| c_fonts
+  t_hf -->|"picture + end frame .mp4"| c_frames
+  c_frames -->|"silent picture .mp4"| t_mux
+  c_fonts -->|"fonts proven"| t_mux
+  t_build -->|"_timing.json"| t_mux
+  t_mux -->|"preview.mp4"| h_watch
+  h_watch -->|"go-ahead, renders + VO clips"| t_cc
+  t_build -->|"_edit_plan.json"| t_cc
+  t_cc -->|"scaffold_manifest.json"| t_scaf
+  t_scaf -->|"new draft folder"| t_caps
+  t_cc -->|".srt from plan cues"| t_caps
+  t_caps -->|"draft_info.json"| c_cc
+  c_cc -->|"13 of 13 pass"| o_draft
+  o_draft -->|"CapCut project"| h_edit
+  h_edit ~~~ t_cert
+  in_brand -->|"brand.json"| t_cert
+  t_cert -->|"certificate.html / .pdf"| h_proof
+  h_proof -->|"approved"| o_learn
+  classDef input fill:#e8f1ff,stroke:#1f6feb,color:#0b2a5b
+  classDef tool fill:#eef9f0,stroke:#2da44e,color:#0b3d1a
+  classDef check fill:#fff4e5,stroke:#bf8700,color:#4d3800
+  classDef output fill:#f3e8ff,stroke:#8250df,color:#3b1d6e
+  classDef human fill:#f6f8fa,stroke:#57606a,color:#24292f
+```
+
+*A tutorial module goes from script to an editable CapCut draft. Each voice line is timed word by word, built into a fixed-timing HyperFrames scene plan, rendered, checked for its fonts and previewed, then rebuilt as a new CapCut project that is read back with 13 checks; the quiz and the certificate pass my review before upload.* **Maturity:** the pipeline and the template are Built, awaiting review; the CapCut builder and the font proof are Built, in use; the voice word check is a shortlist, so the ear decides.
+
 ## Contents
 
 1. [When to make a tutorial this way](#1-when-to-make-a-tutorial-this-way)

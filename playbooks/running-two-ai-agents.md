@@ -4,6 +4,143 @@ I work with two AI coding agents – Claude Code and Codex – and switch betwee
 
 The tools behind it: [`sa_session.py`](../tools/sa_session.py) (writes and validates the session files), [`sa_threads.py`](../tools/sa_threads.py) (every open thread across all sessions), [`sa_doctor.py`](../tools/sa_doctor.py) (the start-of-session health check), [`sa_checkpoint.py`](../tools/sa_checkpoint.py) and [`sa_compact_brief.sh`](../tools/sa_compact_brief.sh) (decision checkpoints as the context fills, and a ground-truth brief after compaction), and the local memory server in [`../workspace-kit/brain/`](../workspace-kit/brain/). This page is about two agents taking turns on one task; when many agents work at once, see [orchestrating-agent-fleets.md](orchestrating-agent-fleets.md).
 
+## The workflow, tool by tool
+
+Every box is the tool or the person that does the step, and every arrow names the file it hands on. Colours: blue is source material, green a tool, amber a check, grey my own review, purple an output ([legend](workflows.md#how-to-read-the-diagrams)). Every step, with what goes in and what comes out, is in the [step table in workflows.md](workflows.md#steps-the-ai-workspace), with a run example.
+
+**A working session: resume, work, checkpoint, recover**
+
+```mermaid
+flowchart TD
+    subgraph s0["Step 0: resume"]
+        me["I open a chat, or switch<br/>agents at a usage limit"]
+        sessions["Sessions folder<br/>LATEST.txt, state.json,<br/>log.jsonl, attention.md"]
+        doctor["sa_doctor.py<br/>health check"]
+        resume["sa_session.py check<br/>resume validator"]
+    end
+    subgraph s1["During the work"]
+        agent["Claude Code or Codex<br/>one agent at a time"]
+        drafts["CapCut drafts, photos<br/>only ever read"]
+        writer["sa_session.py<br/>update, log"]
+        brain["brain server.py<br/>sa_search, sa_log"]
+        studio["studio server.py<br/>six local MCP tools"]
+        ckpt["sa_checkpoint.py<br/>--due on every turn"]
+        updated["state.json, log.jsonl<br/>kept current"]
+        notes["Markdown notes<br/>source of truth"]
+        rag["rag.py<br/>local hybrid index"]
+        studioout["New .srt, cull folder,<br/>call-outs to verify"]
+        ckfile["checkpoints/NN.md<br/>written by the agent"]
+    end
+    subgraph s2["After a compaction"]
+        threads["sa_threads.py<br/>every open thread"]
+        brief["sa_compact_brief.sh<br/>post-compaction hook"]
+        truth["Ground-truth brief<br/>beats the summary"]
+    end
+
+    me -->|"starts Step 0"| resume
+    sessions -->|"pointer, state"| resume
+    resume -->|"exit 0: safe"| agent
+    doctor -->|"red lights first"| agent
+    agent -->|"status, next steps"| writer
+    writer -->|"atomic write, append"| updated
+    agent <-->|"search, log"| brain
+    brain -->|"dated entry"| notes
+    notes -->|"changed files"| rag
+    agent -->|"MCP call"| studio
+    drafts -->|"read only"| studio
+    studio -->|"new files only"| studioout
+    agent -->|"transcript size"| ckpt
+    ckpt -->|"CHECKPOINT DUE"| ckfile
+    updated --->|"every state.json"| threads
+    updated --->|"state, last 3 lines"| brief
+    threads -->|"open threads"| brief
+    ckfile -->|"checkpoints"| brief
+    brief -->|"about 90 lines"| truth
+
+    classDef input fill:#e8f1ff,stroke:#1f6feb,color:#0b2a5b
+    classDef tool fill:#eef9f0,stroke:#2da44e,color:#0b3d1a
+    classDef check fill:#fff4e5,stroke:#bf8700,color:#4d3800
+    classDef output fill:#f3e8ff,stroke:#8250df,color:#3b1d6e
+    classDef human fill:#f6f8fa,stroke:#57606a,color:#24292f
+    class sessions,drafts,notes input
+    class agent,writer,brain,rag,studio,ckpt,threads,brief tool
+    class resume,doctor check
+    class updated,studioout,ckfile,truth output
+    class me human
+```
+
+**Health checks, overnight runs and publishing**
+
+```mermaid
+flowchart TD
+    subgraph night["Overnight, 1 to 6 am"]
+        plist["nightly.plist<br/>launchd at 01:12, via an applet"]
+        nightly["sa_nightly.sh<br/>resumable runner, step ledger"]
+        boxall["sa_boxcheck_all.sh<br/>local vision check, Experimental"]
+        shortlist["I check the shortlist<br/>on the real frames"]
+        marker["last_success<br/>clean-exit marker"]
+        nightcheck["sa_nightcheck.sh<br/>07:00 dead-man switch"]
+        attn["attention.md<br/>read at the next Step 0"]
+    end
+    subgraph mem["Memory upkeep"]
+        notes["Markdown notes<br/>source of truth"]
+        backup["backup_brain.sh<br/>git vault, 30 snapshots"]
+        evals["evals.py<br/>Recall@1/3/5 and MRR"]
+    end
+    subgraph health["Health check at every Step 0"]
+        doctor["sa_doctor.py<br/>compile, backups, heartbeats"]
+        loop["sa_loop.py audit<br/>handoff readiness"]
+        sec["sa_security.py audit<br/>pinned plugin hashes"]
+        toolindex["sa_toolindex.py<br/>catalogue from docstrings"]
+        report["DOCTOR.md<br/>one light per check"]
+    end
+    subgraph pub["Publishing this portfolio"]
+        src["Private workspace<br/>tools and reference files"]
+        review["Independent AI review<br/>reads for contextual leaks"]
+        sync["Leak-safe sync, private<br/>allowlist, scrub, leak scan"]
+        me["My go-ahead<br/>before any push"]
+        github["Public GitHub<br/>generic copies only"]
+    end
+
+    plist -->|"opens the applet"| nightly
+    nightly -->|"step 1, unless CapCut is open"| boxall
+    boxall -->|"BOX_REVIEW.md"| shortlist
+    nightly -->|"step 4, last act"| marker
+    marker -->|"read at 07:00"| nightcheck
+    nightcheck -->|"no clean exit in 10 h"| attn
+    attn ~~~ notes
+    notes -->|"daily copy"| backup
+    notes -->|"test queries"| evals
+    marker ---->|"under 26 h old?"| doctor
+    backup -->|"backup ok line"| doctor
+    nightly -->|"step 2"| toolindex
+    doctor -->|"audit --json"| loop
+    doctor -->|"audit"| sec
+    doctor -->|"regenerates"| toolindex
+    loop -->|"readiness score"| report
+    sec -->|"PASS or FAIL"| report
+    toolindex -->|"TOOLS_CATALOG.md"| report
+    report ~~~ src
+    src -->|"changed tools"| review
+    review -->|"cleared versions"| sync
+    src -->|"allowlisted files"| sync
+    sync -->|"clean scan, one commit"| me
+    me -->|"push"| github
+
+    classDef input fill:#e8f1ff,stroke:#1f6feb,color:#0b2a5b
+    classDef tool fill:#eef9f0,stroke:#2da44e,color:#0b3d1a
+    classDef check fill:#fff4e5,stroke:#bf8700,color:#4d3800
+    classDef output fill:#f3e8ff,stroke:#8250df,color:#3b1d6e
+    classDef human fill:#f6f8fa,stroke:#57606a,color:#24292f
+    class notes,src input
+    class plist,nightly,backup,toolindex tool
+    class boxall,nightcheck,evals,doctor,loop,sec,review,sync check
+    class marker,attn,report,github output
+    class shortlist,me human
+```
+
+*Two coding agents hand work to each other through files on disk, share one local memory, read projects through a local MCP server and recover from ground truth after compaction, while a health check, an overnight runner and a private leak-safe sync keep the set-up honest.* **Maturity:** Built, in use – the hand-off, the brain, the health check, checkpoints, the compact brief (Claude Code only), the studio MCP server and the nightly runner. The 07:00 dead-man checker is Built, but a macOS permissions regression currently refuses it. The overnight vision check and the morning note are Experimental, and the vision output is a shortlist I check, never a pass. The sync is Built and private.
+
 ---
 
 ## 1. The problem

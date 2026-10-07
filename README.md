@@ -21,7 +21,7 @@ I work in media production for a diversified business group in the UAE. I design
 
 **In progress:** 5 e-learning modules · 199 interior photos awaiting review.
 
-**In this repository:** 195 [tools](tools/README.md) · 37 [playbooks](#the-map) · 7 multi-agent [workflows](workflows/README.md) · 3 Claude Code skills, 1 sub-agent and 2 hooks · a [studio MCP server](mcp/studio/README.md), a [voice-over kit](kits/fish-voice-kit/README.md), a [CapCut watcher app](apps/capcut-eyes/README.md) and reusable [HyperFrames](playbooks/templates/hyperframes-brand-tutorial/README.md) and [Remotion](playbooks/templates/remotion/README.md) video templates · a [starter workspace kit](workspace-kit/README_START_HERE.md).
+**In this repository:** 195 [tools](tools/README.md) · 38 [playbooks](#the-map) · 7 multi-agent [workflows](workflows/README.md) · 3 Claude Code skills, 1 sub-agent and 2 hooks · a [studio MCP server](mcp/studio/README.md), a [voice-over kit](kits/fish-voice-kit/README.md), a [CapCut watcher app](apps/capcut-eyes/README.md) and reusable [HyperFrames](playbooks/templates/hyperframes-brand-tutorial/README.md) and [Remotion](playbooks/templates/remotion/README.md) video templates · a [starter workspace kit](workspace-kit/README_START_HERE.md).
 
 The work counts are totals across all my work, checked by three independent counts against my own records; no tile stands for a named project, client or person. The repository counts were taken at publication.
 
@@ -75,6 +75,8 @@ flowchart TB
 ---
 
 ## The map
+
+**Workflows, tool by tool** → [every workflow as a diagram](playbooks/workflows.md): each box is the tool that does the step and each arrow the file it hands on, with a step table and a run example under each – [desktop training videos](playbooks/workflows.md#1-desktop-training-videos) · [phone-app training videos](playbooks/workflows.md#2-phone-app-training-videos) · [CapCut drafts and style learning](playbooks/workflows.md#3-capcut-building-drafts-and-learning-my-style) · [event films and reels](playbooks/workflows.md#4-event-films-and-reels) · [photo grading and retouching](playbooks/workflows.md#5-photo-grade-lut-and-fidelity-first-retouching) · [voice-over and captions](playbooks/workflows.md#6-voice-over-and-captions) · [HyperFrames brand tutorials](playbooks/workflows.md#7-hyperframes-brand-tutorials) · [the AI workspace](playbooks/workflows.md#8-the-ai-workspace-hand-off-health-checks-publishing).
 
 | # | Area | Start here | In one line |
 |---|---|---|---|
