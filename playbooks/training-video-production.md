@@ -29,6 +29,53 @@ The method was built on the end-to-end series and then re-measured on the role-b
 | Automatic release approval | **Not approved** | Every cut is reviewed by me. The known reader limitations are listed under “What isn’t solved” |
 | Local vision-model checks of call-outs | **Experimental** | Used only to shortlist frames for a human to look at, never to sign anything off |
 
+## The pipeline at a glance
+
+```mermaid
+flowchart TD
+    rec["Screen recording<br/>fast-scroll check: sa_scrollscan"]
+    priv["Privacy pass<br/>personal data cut or planned for blur"]
+    actions["Action map<br/>one row per click, entry, switch or save<br/>action-map template"]
+    lines["Script and voice-over lines<br/>one clip per line<br/>sa_script_to_lines, sa_fishvo"]
+    pace["Pacing to the voice<br/>freeze rather than rush<br/>sa_dubcut, sa_freezeinsert"]
+    marks["Call-outs and markings<br/>box and label as separate layers<br/>sa_stepmark, sa_rolemark"]
+    caps["Captions<br/>locked to the script<br/>sa_captions"]
+    timeline["New CapCut review timeline<br/>call-outs and captions as editable layers<br/>sa_capcut_callouts, sa_capcut_captions"]
+    subgraph qa["QA on the timeline and its render"]
+        direction TB
+        audit["Call-out audit<br/>every marking at start, middle and end<br/>sa_actioncheck, sa_coverage, sa_markcheck<br/>vision shortlist: sa_boxcheck (experimental)"]
+        syncchecks["Sync checks<br/>sa_check_sync"]
+        privacy["Privacy checks<br/>sa_privacy_plan_check, sa_privacy_sweep"]
+        voicecheck["Voice re-listen shortlist (experimental)<br/>sa_voicecheck – a shortlist, never a pass"]
+        exportchecks["Export checks<br/>sa_exportcheck, sa_finalcheck"]
+        audit ~~~ voicecheck
+        syncchecks ~~~ exportchecks
+        privacy ~~~ exportchecks
+    end
+    fix["Back to the timeline<br/>fixed, then checked again"]
+    outro["Intro, outro and sign-off<br/>then re-verify the full export"]
+    finished["Finished video<br/>after my review"]
+
+    rec --> priv --> actions --> lines --> pace
+    pace --> marks
+    pace --> caps
+    marks --> timeline
+    caps --> timeline
+    timeline --> qa
+    qa -.->|fail| fix
+    qa -->|pass| outro --> finished
+```
+
+*The desktop method from recording to finished video, with the main tool behind each step. Anything that fails QA goes back to the timeline and is checked again; the vision and voice checks only shortlist frames and lines for a person and never pass anything; the intro and outro go on last, and the full export is re-verified after them. Every cut is reviewed by me before release.*
+
+**Where to look:**
+
+- The steps in full: [section 3, the method stage by stage](#3-the-method-stage-by-stage) · the [action-map template](templates/training_action_map_template.csv)
+- Pacing and voice: [section 4](#4-pacing-the-numbers) · [section 9](#9-voice-over-lines)
+- Intro, outro and the final re-check: [section 10](#10-the-ai-presenter-intro) · [stage 6](#stage-6--release-and-resume)
+- QA: [section 8, three sync checks](#8-three-sync-checks-on-the-finished-cut) · [section 12, verification](#12-verification) · [section 13, privacy](#13-privacy-and-independent-checks-on-rendered-recordings)
+- Every tool, by stage: [section 17](#17-tools-by-stage) · phone-app recordings use the variant in [section 6](#6-phone-app-recordings-voice-anchored-pacing)
+
 ## Contents
 
 1. [Principle: copy the editor, measure the editor](#1-principle-copy-the-editor-measure-the-editor)
@@ -494,16 +541,16 @@ All code was written by AI coding agents under my direction and review. Each too
 | Stage | Tools |
 |---|---|
 | Intake | [`sa_scrollscan.py`](../tools/sa_scrollscan.py) · [`sa_whisper.py`](../tools/sa_whisper.py) |
-| Plan and map | [`sa_edit_skeleton.py`](../tools/sa_edit_skeleton.py) · [action-map template](templates/training_action_map_template.csv) · [`sa_actioncheck.py`](../tools/sa_actioncheck.py) · [`sa_coverage.py`](../tools/sa_coverage.py) |
+| Plan and map | [`sa_edit_skeleton.py`](../tools/sa_edit_skeleton.py) · [action-map template](templates/training_action_map_template.csv) |
 | Pacing | [`sa_dubcut.py`](../tools/sa_dubcut.py) · [`sa_freezeinsert.py`](../tools/sa_freezeinsert.py) · [`sa_markrules.py`](../tools/sa_markrules.py) |
 | Phone-app recordings | [`sa_appread.py`](../tools/sa_appread.py) · [`sa_appbuild.py`](../tools/sa_appbuild.py) · [`sa_plan_pacing.py`](../tools/sa_plan_pacing.py) · [`sa_voice_anchors.py`](../tools/sa_voice_anchors.py) · [`sa_phoneframe.py`](../tools/sa_phoneframe.py) · [`sa_mobile_style.py`](../tools/sa_mobile_style.py) · [`sa_capcut_restyle.py`](../tools/sa_capcut_restyle.py) · [`sa_addvo.py`](../tools/sa_addvo.py) |
 | Call-outs | [`sa_stepmark.py`](../tools/sa_stepmark.py) · [`sa_clickdetect.py`](../tools/sa_clickdetect.py) · [`sa_gridsheet.py`](../tools/sa_gridsheet.py) · [`sa_applyboxes.py`](../tools/sa_applyboxes.py) · [`sa_applyfix.py`](../tools/sa_applyfix.py) · [`sa_rolemark.py`](../tools/sa_rolemark.py) |
-| Voice | [`sa_fishvo.py`](../tools/sa_fishvo.py) · [`sa_hfcheck.py`](../tools/sa_hfcheck.py) · [`sa_voiceclips.py`](../tools/sa_voiceclips.py) · [`sa_voicecheck.py`](../tools/sa_voicecheck.py) · [`sa_vo_quality_audit.py`](../tools/sa_vo_quality_audit.py) (see limits above) |
+| Voice | [`sa_script_to_lines.py`](../tools/sa_script_to_lines.py) · [`sa_fishvo.py`](../tools/sa_fishvo.py) · [`sa_hfcheck.py`](../tools/sa_hfcheck.py) · [`sa_voiceclips.py`](../tools/sa_voiceclips.py) · [`sa_voicecheck.py`](../tools/sa_voicecheck.py) · [`sa_vo_quality_audit.py`](../tools/sa_vo_quality_audit.py) (see limits above) |
 | Presenter intro | [`sa_introline.py`](../tools/sa_introline.py) · [`sa_introcheck.py`](../tools/sa_introcheck.py) · [`sa_introfull.py`](../tools/sa_introfull.py) |
 | Assembly in CapCut | [`sa_capcut_callouts.py`](../tools/sa_capcut_callouts.py) · [`sa_capcut_captions.py`](../tools/sa_capcut_captions.py) · [`sa_import.py`](../tools/sa_import.py) · [`sa_outro.py`](../tools/sa_outro.py) · [`sa_capcut_signoff.py`](../tools/sa_capcut_signoff.py) · [`sa_tailkit.py`](../tools/sa_tailkit.py) |
 | Sync | [`sa_check_sync.py`](../tools/sa_check_sync.py) |
 | Privacy | [`sa_privacy_plan_check.py`](../tools/sa_privacy_plan_check.py) · [`sa_privacy_sweep.py`](../tools/sa_privacy_sweep.py) · on-device OCR: [`sa_ocr.swift`](../tools/sa_ocr.swift) · [`sa_ocr_bounds.swift`](../tools/sa_ocr_bounds.swift) |
-| Review and QA | [`sa_videocheck.py`](../tools/sa_videocheck.py) · [`sa_qasheet.py`](../tools/sa_qasheet.py) · [`sa_markcheck.py`](../tools/sa_markcheck.py) · [`sa_occlude.py`](../tools/sa_occlude.py) · [`sa_boxcheck.py`](../tools/sa_boxcheck.py) · [`sa_boxcheck_all.sh`](../tools/sa_boxcheck_all.sh) · [`sa_tailcheck.py`](../tools/sa_tailcheck.py) · [`sa_exportcheck.py`](../tools/sa_exportcheck.py) · [`sa_finalcheck.py`](../tools/sa_finalcheck.py) · [`sa_ffrender.py`](../tools/sa_ffrender.py) |
+| Review and QA | [`sa_actioncheck.py`](../tools/sa_actioncheck.py) · [`sa_coverage.py`](../tools/sa_coverage.py) · [`sa_videocheck.py`](../tools/sa_videocheck.py) · [`sa_qasheet.py`](../tools/sa_qasheet.py) · [`sa_markcheck.py`](../tools/sa_markcheck.py) · [`sa_occlude.py`](../tools/sa_occlude.py) · [`sa_boxcheck.py`](../tools/sa_boxcheck.py) · [`sa_boxcheck_all.sh`](../tools/sa_boxcheck_all.sh) · [`sa_tailcheck.py`](../tools/sa_tailcheck.py) · [`sa_exportcheck.py`](../tools/sa_exportcheck.py) · [`sa_finalcheck.py`](../tools/sa_finalcheck.py) · [`sa_ffrender.py`](../tools/sa_ffrender.py) |
 | Independent verification | [`sa_independent_asr.py`](../tools/sa_independent_asr.py) · [`sa_training_timeline_audit.py`](../tools/sa_training_timeline_audit.py) · [`sa_training_mastery.py`](../tools/sa_training_mastery.py) |
 | Learning from my corrections | [`sa_finaldiff.py`](../tools/sa_finaldiff.py) · [`sa_residue.py`](../tools/sa_residue.py) · [`sa_learncurve.py`](../tools/sa_learncurve.py) |
 | Guards | [`sa_guard.py`](../tools/sa_guard.py) · [`sa_watchbar.py`](../tools/sa_watchbar.py) |

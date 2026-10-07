@@ -8,6 +8,8 @@ I work in media production for a diversified business group in the UAE. I design
 
 ## By the numbers
 
+![May–October 2026 in numbers: 80 finished videos, 568+ edited photos, 100+ shoots, 1,000+ voice-over lines](assets/in-numbers.svg)
+
 **May–October 2026 in numbers: 80 finished videos · 568+ edited photos · 100+ shoots · 1,000+ voice-over lines**
 
 | Training | Events and brand | Photo and writing |
@@ -22,6 +24,53 @@ I work in media production for a diversified business group in the UAE. I design
 **In this repository:** 195 [tools](tools/README.md) · 37 [playbooks](#the-map) · 7 multi-agent [workflows](workflows/README.md) · 3 Claude Code skills, 1 sub-agent and 2 hooks · a [studio MCP server](mcp/studio/README.md), a [voice-over kit](kits/fish-voice-kit/README.md), a [CapCut watcher app](apps/capcut-eyes/README.md) and reusable [HyperFrames](playbooks/templates/hyperframes-brand-tutorial/README.md) and [Remotion](playbooks/templates/remotion/README.md) video templates · a [starter workspace kit](workspace-kit/README_START_HERE.md).
 
 The work counts are totals across all my work, checked by three independent counts against my own records; no tile stands for a named project, client or person. The repository counts were taken at publication.
+
+---
+
+## How it fits together
+
+```mermaid
+flowchart TB
+    subgraph agents["Two AI coding agents"]
+        claude["Claude Code"]
+        codex["Codex"]
+    end
+    brain["The brain<br/>shared memory"]
+    handoff["Session hand-off<br/>files on disk"]
+    studio["Studio MCP server<br/>six local tools"]
+    subgraph production["Production"]
+        media["CapCut projects<br/>and media"]
+        tools["sa_ tools<br/>build, mark, caption, voice"]
+        qa["QA checks<br/>call-out audit,<br/>export checks,<br/>local vision shortlist<br/>(experimental)"]
+        finished["Finished timelines<br/>reviewed by me"]
+    end
+    dna["Editing style data<br/>grammar, cut rhythm, style brain"]
+    sync["Leak-safe sync<br/>private"]
+    github["Public GitHub<br/>generic copies only"]
+
+    claude <--> brain
+    codex <--> brain
+    claude <--> handoff
+    codex <--> handoff
+    claude -->|build and run| tools
+    codex -->|build and run| tools
+    claude -->|calls| studio
+    studio -->|only reads| media
+    media --> tools
+    dna -->|targets| tools
+    tools --> qa
+    qa --> finished
+    production -.-> sync
+    dna -.-> sync
+    sync --> github
+```
+
+*Recordings and CapCut projects go through the `sa_` tools and QA checks to a finished timeline I review; both agents share memory and state on disk, and only generic copies reach this repository.*
+
+**Where to look:**
+
+- Studio MCP server: [mcp/studio/README.md](mcp/studio/README.md) – six tools; it only reads CapCut projects
+- Leak-safe sync: [how this portfolio is kept clean](playbooks/security-and-data-policy.md#6-how-this-portfolio-is-kept-clean)
 
 ---
 
@@ -53,6 +102,21 @@ Then: [tools](#tools) · [how this was built](#how-this-was-built) · [confident
 - **Build a new review project, never patch mine:** silent picture, one voice clip per line, editable one-line captions (a new cue at 46 characters), and each call-out’s box and label as separate layers.
 - **Check every marking at its start, middle and end** on the rendered cut, as pass / fail / unknown with frame evidence; sync is checked three ways (box against word, box held, caption against speech onset), and a local OCR privacy sweep reads every played quarter-second.
 - **Phone-app recordings** add on-device OCR of every screen state, a call-out only where OCR proves its target is on screen, and the picture pinned to the words that name each marking.
+
+```mermaid
+flowchart TB
+    subgraph prep["Prepare"]
+        direction LR
+        rec["Screen<br/>recording"] --> priv["Privacy<br/>pass"] --> actions["Action<br/>map"] --> lines["Voice-over<br/>lines"] --> pace["Pacing"]
+    end
+    subgraph build["Build and check"]
+        direction LR
+        marks["Call-outs<br/>and captions"] --> timeline["CapCut review<br/>timeline"] --> checks["QA<br/>checks"] --> finished["Finished video<br/>after my review"]
+    end
+    prep --> build
+```
+
+*The desktop training-video pipeline in brief; the full version, with the tool behind each step, is in [the pipeline at a glance](playbooks/training-video-production.md#the-pipeline-at-a-glance).*
 
 | Part | Status |
 |---|---|
@@ -296,6 +360,8 @@ Two AI coding agents on one Mac, taking turns on the same work, with everything 
   - a public history that starts from one fresh, reviewed commit.
 
   More in [how this portfolio is kept clean](playbooks/security-and-data-policy.md#6-how-this-portfolio-is-kept-clean).
+
+  The sync, step by step: [how a change reaches GitHub safely](playbooks/security-and-data-policy.md#how-a-change-reaches-github-safely).
 
 Views and descriptions here are my own and not those of my employer.
 

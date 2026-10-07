@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="t d">
+  <title id="t">May–October 2026 in numbers</title>
+  <desc id="d">80 finished videos, 568+ edited photos, 100+ shoots and 1,000+ voice-over lines. The 80 videos by type: 35 desktop training videos, 10 software how-to and explainer videos, 7 phone-app training videos, 1 extra training module, 13 event films and recaps, 7 social and occasion videos, 5 leadership interviews and 2 corporate films. Each small bar shows that type's share of the 80. Generic numbers only, with no client, brand or people names.</desc>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+    .h { font-size: 44px; font-weight: 700; fill: #F4F2EE; letter-spacing: -0.5px; }
+    .big { font-size: 72px; font-weight: 700; fill: #F4F2EE; letter-spacing: -1.5px; }
+    .bl { font-size: 22px; font-weight: 400; fill: #A3A9B3; }
+    .cap { font-size: 20px; font-weight: 600; fill: #D3D6DC; }
+    .note { font-size: 20px; font-weight: 400; fill: #8E949F; }
+    .n { font-size: 40px; font-weight: 700; fill: #F4F2EE; letter-spacing: -0.5px; }
+    .l { font-size: 20px; font-weight: 400; fill: #A3A9B3; }
+    .f { font-size: 16px; font-weight: 400; fill: #8E949F; }
+    .acc { fill: #FF6B5A; }
+    .trk { fill: #2A2E37; }
+  </style>
+
+  <!-- card: own opaque background so it reads on light and dark pages -->
+  <rect x="0.5" y="0.5" width="1199" height="629" rx="28" fill="#15171C" stroke="#2C3039"/>
+
+  <!-- headline -->
+  <text class="h" x="64" y="96">May–October 2026 in numbers</text>
+
+  <!-- four headline figures -->
+  <g>
+    <rect class="acc" x="64" y="134" width="28" height="4" rx="2"/>
+    <text class="big" x="62" y="214">80</text>
+    <text class="bl" x="64" y="250">finished videos</text>
+
+    <rect class="acc" x="332" y="134" width="28" height="4" rx="2"/>
+    <text class="big" x="330" y="214">568+</text>
+    <text class="bl" x="332" y="250">edited photos</text>
+
+    <rect class="acc" x="600" y="134" width="28" height="4" rx="2"/>
+    <text class="big" x="598" y="214">100+</text>
+    <text class="bl" x="600" y="250">shoots</text>
+
+    <rect class="acc" x="868" y="134" width="28" height="4" rx="2"/>
+    <text class="big" x="866" y="214">1,000+</text>
+    <text class="bl" x="868" y="250">voice-over lines</text>
+  </g>
+
+  <line x1="64" y1="288" x2="1136" y2="288" stroke="#2C3039" stroke-width="1"/>
+
+  <!-- the 80 videos, by type; bars = share of the 80 on a 220px track -->
+  <text class="cap" x="64" y="328">The 80 videos, by type</text>
+  <text class="note" x="1136" y="328" text-anchor="end">bars show each type’s share of the 80</text>
+
+  <g>
+    <text class="n" x="64" y="384">35</text>
+    <text class="l" x="64" y="412">desktop training videos</text>
+    <rect class="trk" x="64" y="428" width="220" height="4" rx="2"/>
+    <rect class="acc" x="64" y="428" width="96.25" height="4" rx="2"/>
+
+    <text class="n" x="332" y="384">10</text>
+    <text class="l" x="332" y="412">software how-to videos</text>
+    <rect class="trk" x="332" y="428" width="220" height="4" rx="2"/>
+    <rect class="acc" x="332" y="428" width="27.5" height="4" rx="2"/>
+
+    <text class="n" x="600" y="384">7</text>
+    <text class="l" x="600" y="412">phone-app training videos</text>
+    <rect class="trk" x="600" y="428" width="220" height="4" rx="2"/>
+    <rect class="acc" x="600" y="428" width="19.25" height="4" rx="2"/>
+
+    <text class="n" x="868" y="384">1</text>
+    <text class="l" x="868" y="412">extra training module</text>
+    <rect class="trk" x="868" y="428" width="220" height="4" rx="2"/>
+    <rect class="acc" x="868" y="428" width="2.75" height="4" rx="1.375"/>
+  </g>
+
+  <g>
+    <text class="n" x="64" y="490">13</text>
+    <text class="l" x="64" y="518">event films and recaps</text>
+    <rect class="trk" x="64" y="534" width="220" height="4" rx="2"/>
+    <rect class="acc" x="64" y="534" width="35.75" height="4" rx="2"/>
+
+    <text class="n" x="332" y="490">7</text>
+    <text class="l" x="332" y="518">social and occasion videos</text>
+    <rect class="trk" x="332" y="534" width="220" height="4" rx="2"/>
+    <rect class="acc" x="332" y="534" width="19.25" height="4" rx="2"/>
+
+    <text class="n" x="600" y="490">5</text>
+    <text class="l" x="600" y="518">leadership interviews</text>
+    <rect class="trk" x="600" y="534" width="220" height="4" rx="2"/>
+    <rect class="acc" x="600" y="534" width="13.75" height="4" rx="2"/>
+
+    <text class="n" x="868" y="490">2</text>
+    <text class="l" x="868" y="518">corporate films</text>
+    <rect class="trk" x="868" y="534" width="220" height="4" rx="2"/>
+    <rect class="acc" x="868" y="534" width="5.5" height="4" rx="2"/>
+  </g>
+
+  <text class="f" x="64" y="586">Generic numbers only — no client, brand or people names</text>
+</svg>

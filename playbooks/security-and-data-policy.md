@@ -155,6 +155,54 @@ This repository is published from a private workspace full of names that must ne
 
 A scanner can’t see context. A sentence can leak with no blocked word in it – a venue, an unreleased campaign, a client’s internal process. So independent AI reviewers also read every page and every tool purely for contextual leaks, and only generic material is published: methods, tools and style data, with no stories about specific projects.
 
+### How a change reaches GitHub safely
+
+```mermaid
+flowchart TD
+    src["Private workspace<br/>source file"]
+    allow{"On the<br/>allowlist?"}
+    cand["Not copied<br/>new tools listed as candidates for review"]
+    gate{"Changed since<br/>last review?"}
+    held["Held back"]
+    review["Independent AI review<br/>reads for contextual leaks"]
+    scrub["Per-file scrub rules"]
+    sweeps["Global sweeps"]
+    pages["Hand-written pages<br/>scanned, never overwritten"]
+    scan["Leak scan<br/>names, IDs, secrets,<br/>paths, personal data"]
+    stop["Nothing committed<br/>or pushed"]
+    commit["Commit"]
+    push["Push to public GitHub"]
+    rules[("Private rules file<br/>never published")]
+
+    src --> allow
+    allow -->|no| cand
+    allow -->|yes| gate
+    gate -->|yes| held
+    held --> review
+    review -->|passes| scrub
+    gate -->|no| scrub
+    scrub --> sweeps
+    sweeps --> scan
+    pages --> scan
+    scan -->|any hit| stop
+    scan -->|clean| commit
+    commit -->|only on my go-ahead| push
+    rules -.-> allow
+    rules -.-> gate
+    rules -.-> scrub
+    rules -.-> sweeps
+    rules -.-> scan
+```
+
+*A workspace file is copied only if it is on the allowlist and reviewed in its current version, then scrubbed; hand-written pages are never copied, only scanned. One leak-scan hit and nothing is committed or pushed.*
+
+**Where to look:**
+
+- [What regex scanning misses](#what-regex-scanning-misses) – why the independent AI review step exists
+- [Maturity](#maturity) – the sync is **Built** and private; neither the script nor its rules file is published
+- [Confidentiality in the README](../README.md#confidentiality) – what is and isn’t published
+- [orchestrating-agent-fleets.md](orchestrating-agent-fleets.md) – how independent reviewers are run without seeing the maker’s reasoning
+
 ### What regex scanning misses
 
 The first full version of this repository passed the blocklist scan cleanly. An adversarial audit by nine independent AI reviewers, run afterwards, still found **167 issues, 11 of them high severity**. Not one would have been caught by adding another word to the blocklist. The classes, described in the abstract on purpose – quoting an example would republish the leak:
