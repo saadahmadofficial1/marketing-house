@@ -2,6 +2,8 @@
 
 I work in media production for a diversified business group in the UAE. I design AI-assisted workflows for video, photo and training content, and direct AI coding agents (Claude Code and Codex) to build the tooling. This repository holds six months (May–October 2026) of that work, made generic: the tools, the methods, my prompts and style, and the AI workspace that runs it.
 
+**My CV:** [experience, education and links to my earlier work](CV.md).
+
 **Short on time?** Read [training-video production](playbooks/training-video-production.md), then the [CapCut hub](playbooks/capcut.md), then [my AI generation style](playbooks/ai-video-and-image-generation.md). The [map](#the-map) below points to everything else, most relevant first.
 
 ---
