@@ -12,7 +12,7 @@ echo ""
 echo "  Keep this window open while you browse."
 echo "  Close it when you are done."
 echo ""
-python3 -m http.server $PORT >/dev/null 2>&1 &
+python3 -m http.server --bind 127.0.0.1 $PORT >/dev/null 2>&1 &   # loopback only: not visible to others on the network
 SERVER=$!
 sleep 1
 open "http://127.0.0.1:$PORT/en/"

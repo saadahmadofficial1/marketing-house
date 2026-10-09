@@ -23,29 +23,35 @@ mkdir -p "$DEST"
 echo "Backing up to: $DEST"
 echo "(first run copies everything — can take a while; later runs copy only changes)"
 
+SRC="$WORKSPACE"
+if [ ! -f "$SRC/CLAUDE.md" ]; then   # --delete mirrors the source: never run it from the wrong folder
+  echo "❌ $SRC does not look like the workspace (no CLAUDE.md). Nothing copied, nothing deleted."
+  read -p "Press Enter to close."; exit 1
+fi
 rsync -a --delete \
   --exclude 'Tools/venv' --exclude 'Tools/installs' --exclude 'Tools/external' \
   --exclude 'Tools/headroom' --exclude '**/__pycache__' --exclude '**/node_modules' \
   --exclude '.DS_Store' \
-  "$WORKSPACE/" "$DEST/Claude/"
+  "$SRC/" "$DEST/Claude/"
+RC_WORKSPACE=$?
 
-# the brain backups (brain/backup_brain.sh writes them; same default and override)
-BRAIN_BACKUPS="${BACKUP_ROOT:-$HOME/Brain_Backups}"
-MISSING=""
+RC_BRAIN=0
+BRAIN_BACKUPS="${BACKUP_ROOT:-$HOME/Brain_Backups}"   # brain/backup_brain.sh writes them; same default and override
 if [ -d "$BRAIN_BACKUPS" ]; then
   rsync -a --delete "$BRAIN_BACKUPS/" "$DEST/Brain_Backups/"
+  RC_BRAIN=$?
 else
-  MISSING=1
-  echo "WARNING: no brain backups at $BRAIN_BACKUPS (run brain/backup_brain.sh, or set BACKUP_ROOT) - not copied."
+  echo "⚠️  No brain backups at $BRAIN_BACKUPS (run brain/backup_brain.sh, or set BACKUP_ROOT) - that part was skipped."
 fi
 cp "$HOME/.claude/CLAUDE.md" "$DEST/machine-wide-CLAUDE.md" 2>/dev/null
 
-date +%Y-%m-%d > "$WORKSPACE/.last_nas_backup"
 echo ""
-if [ -n "$MISSING" ]; then
-  echo "⚠️  Backup finished WITHOUT the brain backups (see the warning above): $(date '+%A %d %B %Y, %H:%M')"
-else
+if [ "$RC_WORKSPACE" -eq 0 ] && [ "$RC_BRAIN" -eq 0 ]; then
+  date +%Y-%m-%d > "$WORKSPACE/.last_nas_backup"   # the doctor reads this stamp
   echo "✅ Backup complete: $(date '+%A %d %B %Y, %H:%M')"
+else
+  echo "❌ Backup FAILED (workspace rsync exit $RC_WORKSPACE, brain backups exit $RC_BRAIN)."
+  echo "   Not recorded as a backup. Check the NAS connection and run it again."
 fi
 du -sh "$DEST" 2>/dev/null
 read -p "Press Enter to close."

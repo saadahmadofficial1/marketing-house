@@ -115,7 +115,7 @@ def models(api_key):
     return r.json().get("items", [])
 
 
-def clone(api_key, ref, title, text=None, visibility="private"):
+def clone(api_key, ref, title, text=None, visibility="private", approved=False):
     """Create the voice from ONE clean continuous reference take of a voice you own or are
     licensed to clone.
 
@@ -124,6 +124,18 @@ def clone(api_key, ref, title, text=None, visibility="private"):
     acoustic start and stop.
     """
     ref = pathlib.Path(ref)
+    # A voice recording is company media: the same gate as every other upload (policy R4),
+    # and the upload is logged. --approved = written approval for THIS project's upload.
+    from sa_security import gate
+    g = gate(str(ref), "fish-audio", written_approval=approved)
+    if not g["allowed"]:
+        sys.exit("upload refused by the media gate: %s (%s). Re-run with --approved once this "
+                 "project's upload has written approval." % (g["reason"], g["data_class"]))
+    log = pathlib.Path(__file__).resolve().parents[1] / "Sessions" / "uploads.jsonl"
+    log.parent.mkdir(parents=True, exist_ok=True)
+    with log.open("a") as fh:
+        fh.write(json.dumps({"service": "fish-audio", "purpose": "voice clone: " + title, "file": str(ref),
+                             "data_class": g["data_class"], "approved": approved}) + "\n")
     files = [("voices", (ref.name, ref.open("rb"), "application/octet-stream"))]
     data = {"type": "tts", "title": title, "train_mode": "fast",
             "visibility": visibility, "enhance_audio_quality": "true"}
@@ -210,6 +222,7 @@ def main():
     ap.add_argument("--credit", action="store_true", help="account balance")
     ap.add_argument("--models", action="store_true", help="list my cloned voices")
     ap.add_argument("--clone", help="reference .wav -> create a voice model")
+    ap.add_argument("--approved", action="store_true", help="this project's upload has written approval (media gate)")
     ap.add_argument("--title", default="Narrator")
     ap.add_argument("--ref-text", help="words in the reference, skips their ASR")
     ap.add_argument("--voice", default=DEFAULT_VOICE,
@@ -241,7 +254,7 @@ def main():
                   f"state={m.get('state','')}  {m.get('created_at','')[:10]}")
         return
     if a.clone:
-        m = clone(k, a.clone, a.title, a.ref_text)
+        m = clone(k, a.clone, a.title, a.ref_text, approved=a.approved)
         print(f"voice id: {m.get('_id')}   title: {m.get('title')}")
         print("Use it with:  --voice " + str(m.get("_id")))
         return

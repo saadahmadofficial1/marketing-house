@@ -39,7 +39,7 @@ Dubai, UAE · March 2024 to January 2026
 
 - Produced research driven videos on stocks, forex, commodities, and crypto, simplifying complex financial subjects through clear scripting, creative editing, animation, and visual storytelling.
 - Scaled organic engagement three to four times through continuous optimisation, with individual videos exceeding 7,000 views.
-- Produced four to eight paid creatives per campaign across Meta, TikTok, and Google. Internal reporting showed a 30 to 40 percent revenue uplift during campaign periods.
+- Produced four to eight paid creatives per campaign across Meta, TikTok, and Google.
 - Collaborated with Product, Compliance, and Marketing teams across Arabic, Urdu, and English markets, achieving zero compliance violations in a regulated financial environment.
 
 ### Photographer and Video Editor, Nazih Group LLC, XYZ Communication

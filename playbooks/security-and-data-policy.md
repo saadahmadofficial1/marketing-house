@@ -50,7 +50,7 @@ Uploads made through app connectors must be logged by hand.
 
 | Gate | What it does | Wired into |
 |---|---|---|
-| Media gate – [`sa_security.py`](../tools/sa_security.py) `gate <file> --service <name>` | Classifies the file and refuses unless its class allows external processing. | The reference-video analyser and the video-analysis wrapper; the visual-memory indexer uses its classifier. |
+| Media gate – [`sa_security.py`](../tools/sa_security.py) `gate <file> --service <name>` | Classifies the file and refuses unless its class allows external processing. | The reference-video analyser, the video-analysis wrapper and the voice-clone upload in [`sa_fishvo.py`](../tools/sa_fishvo.py) (`--clone`, which also logs the upload); the visual-memory indexer uses its classifier. |
 | Kill switch | One pause file blocks all automated writes; tools report state only. Removing it needs my approval. | The editing-project writer and the external-service gate. |
 | Plugin audit | Compares installed plugins, versions, commits, hook hashes and secret-file permissions with the pinned registry. Any unregistered plugin or changed hook fails. | The health check that runs at every session start ([`sa_doctor.py`](../tools/sa_doctor.py)). |
 | Overnight runs | Every training-video step in the overnight runner is local. Its one cloud-permitted step sends text only – logs and counts, never images. | [`sa_nightly.sh`](../tools/sa_nightly.sh) |

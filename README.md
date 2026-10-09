@@ -400,4 +400,6 @@ Maturity is labelled per capability, not per project, so one page can carry seve
 
 Contact: [@saadahmadofficial1](https://github.com/saadahmadofficial1)
 
-Shared for review; please ask before reusing code.
+Designed, directed and tested by Saad Ahmad; the code was written with Claude Code and Codex under that direction.
+
+Shared for viewing and review. No licence to reuse the code is granted; please ask first.
