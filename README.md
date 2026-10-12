@@ -402,4 +402,4 @@ Contact: [@saadahmadofficial1](https://github.com/saadahmadofficial1)
 
 Designed, directed and tested by Saad Ahmad; the code was written with Claude Code and Codex under that direction.
 
-Shared for viewing and review. No licence to reuse the code is granted; please ask first.
+Licence: [MIT](LICENSE) — free to reuse with credit.
