@@ -48,9 +48,10 @@ These are the numbers measured from the owner’s own finished edits; replace th
 
 - **Pacing:** comprehension beats compression. 0.9 s between voice lines; 2.5 s tail hold; a readable screen never faster than about 1.2×. When the voice runs long, freeze on a stable frame – don’t speed up. In an animated module, scenes breathe at about 6–8 s.
 - **Transitions:** a slow fade, and only at a real chapter or tone change. Text comes in with a fade or pop and leaves with a fade or blur. Nothing flashy; never a transition to hide weak sequencing.
-- **Captions:** one line, at most 46 characters, never wrapped, no background panel. Captions carry the script’s text on the speech timing, in the series’ locked caption style.
+- **Captions:** one line, at most 46 characters, never wrapped, no background panel. Captions carry the script’s text on the speech timing, in the series’ locked caption style. They stay editable text on their own track – never picture clips or a transparent overlay video (the owner rejected both as “baked in”). Clone the owner’s saved caption sample verbatim instead of re-deriving it. CapCut’s text tool only sees font files installed on the machine, so cloud-synced fonts are invisible to it – say so up front rather than working around it.
 - **Titles:** main title centred and larger, subtitle below it and smaller. A step number and its label are never both bold. Short lists are centred, not bulleted. The voice-over and the on-screen text say the same thing.
-- **Music:** chosen for cultural and emotional fit, low under the voice, entering exactly at the in-point. In long modules it restarts at section changes, so it doubles as a chapter marker.
+- **Music:** chosen for cultural and emotional fit, low under the voice (about 0.03–0.06 volume in CapCut), entering exactly at the in-point, fading in over about 0.8 s and out over about 2 s. In long modules it restarts at section changes, so it doubles as a chapter marker.
+- **Sound effects and zooms (measured on the owner’s drafts):** rare and quiet. None in training videos; 0–9 per event or brand film. A camera shutter on a photo reveal, a single whoosh on a justified transition, a riser only into the end, all at about 0.05–0.07. Zooms are a 5% linear push-in over 75% of the clip, on chosen shots only. Viral-reel density (about two effects a second) is the opposite of this style.
 - **Ending:** the end frame breathes. No “in the next video…” teaser.
 - **Voice:** one engine per series, never mixed. Generate short lines and listen to each beside its neighbours.
 

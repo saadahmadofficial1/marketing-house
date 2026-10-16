@@ -1,6 +1,6 @@
 # The Claude Code layer: agents, skills and hooks
 
-This folder is the Claude Code customisation layer of the kit: one sub-agent that reads its taste spec before deciding anything, two skills that package a method so it fires on the right request, and two hooks that keep the agent on its rules every turn and after every context compaction. It is the part of the workspace that shapes *how* Claude Code behaves; the tools that do the work are in [`../../tools/`](../../tools/README.md).
+This folder is the Claude Code customisation layer of the kit: two sub-agents (an editor that reads its taste spec before deciding anything, and an After Effects specialist that drives AE by script), two skills that package a method so it fires on the right request, and two hooks that keep the agent on its rules every turn and after every context compaction. It is the part of the workspace that shapes *how* Claude Code behaves; the tools that do the work are in [`../../tools/`](../../tools/README.md).
 
 ---
 
@@ -9,6 +9,7 @@ This folder is the Claude Code customisation layer of the kit: one sub-agent tha
 | Asset | What it does | Maturity |
 |---|---|---|
 | [`agents/senior-video-editor.md`](agents/senior-video-editor.md) | A sub-agent for every editing decision or build. Before deciding anything it reads the owner’s taste spec – the editing grammar, the approved masters, the corrections log – and works to a fixed authority order: approved final export first, automatic analysis last. | **Built, in use** in my own workspace; this is a generic copy |
+| [`agents/ae-master.md`](agents/ae-master.md) | An After Effects master for stabilising, tracking, speed ramps and motion design. It measures shake before treating anything, drives AE by AppleScript and ExtendScript without tripping over its modal dialogs (a readiness probe, one job at a time, results through a file), hands finished shots to CapCut as new drafts, and appends every lesson to its own Learnings list. | **Built, in use** in my own workspace; this is a generic copy |
 | [`skills/training-video-pipeline/SKILL.md`](skills/training-video-pipeline/SKILL.md) | The screen-recorded training-video method as a skill: the fixed replacement-voice order, the INSERT pipeline, the traps, and a job-to-tool table. The description line is written in the words people actually use (“the box is in the wrong place”, “CapCut says media is missing”) because that line is what makes a skill fire. | **Built, in use** (generic copy) |
 | [`skills/engineering-method/SKILL.md`](skills/engineering-method/SKILL.md) | Routes coding, debugging and automation work through the evidence-first engineering method, scaled to risk, and stays out of ordinary creative work. | **Built, in use** |
 | [`hooks/discipline.sh`](hooks/discipline.sh) | Runs on every prompt (`UserPromptSubmit`): injects eight operating rules (log in real time, verify before generating, check before building, reuse scripts…) and, when the session transcript has grown enough, asks for a checkpoint via `sa_checkpoint.py --due`. | **Built, in use** |
