@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<!-- Copy to ~/Library/LaunchAgents/, set the script path below to your workspace, then
-     launchctl load it. Runs the dead-man check at 07:00 every day. -->
-<plist version="1.0"><dict>
+<plist version="1.0">
+<dict>
   <key>Label</key><string>local.workspace.nightcheck</string>
-  <key>ProgramArguments</key><array>
-    <string>/bin/bash</string>
-    <string>/path/to/workspace/Tools/sa_nightcheck.sh</string>
+  <!-- Copy to ~/Library/LaunchAgents/ and build ~/Library/Studio/Nightly.app first (see README.md),
+       edit the log paths, then launchctl bootstrap it. At 07:00 it writes a mode file and opens
+       the applet, which has the Documents access a plain bash/python launchd job lacks;
+       sa_nightly.sh reads the mode file and runs the dead-man check. -->
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/sh</string><string>-c</string>
+    <string>echo nightcheck &gt; "$HOME/Library/Studio/mode" &amp;&amp; exec /usr/bin/open -W -a "$HOME/Library/Studio/Nightly.app"</string>
   </array>
-  <key>StartCalendarInterval</key>
-  <dict><key>Hour</key><integer>7</integer><key>Minute</key><integer>0</integer></dict>
-</dict></plist>
+  <key>RunAtLoad</key><false/>
+  <key>StandardErrorPath</key><string>/Users/you/Library/Logs/local.workspace.nightcheck.log</string>
+  <key>StandardOutPath</key><string>/Users/you/Library/Logs/local.workspace.nightcheck.log</string>
+  <key>StartCalendarInterval</key><dict><key>Hour</key><integer>7</integer><key>Minute</key><integer>0</integer></dict>
+</dict>
+</plist>

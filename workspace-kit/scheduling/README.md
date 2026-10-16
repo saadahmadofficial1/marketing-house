@@ -20,7 +20,9 @@ The plist then runs `/usr/bin/open -W -a ~/Library/<Name>/Nightly.app` instead o
 
 **Never re-save the applet.** Re-compiling or editing it can invalidate the grant. Every later change goes into the shell script, which the applet merely calls.
 
-The evidence that this is the fix, from the same machine on the same night: the applet-wrapped nightly job’s last exit code is 0, while the 07:00 checker – which still runs `/bin/bash` directly on a script in `~/Documents` – last exited with 126. It was smoke-tested in August; by mid-September, after a Full Disk Access regression, it was being refused. **Give the checker the same applet treatment** (a second applet, or move the check into the first) if you want it to survive a permissions reset.
+The evidence that this is the fix, from the same machine on the same night: the applet-wrapped nightly job’s last exit code was 0, while the 07:00 checker – which then still ran `/bin/bash` directly on a script in `~/Documents` – last exited with 126. It was smoke-tested in August; by mid-September, after a Full Disk Access regression, it was being refused.
+
+**The checker now rides on the same applet** (October 2026), without re-saving it: its plist writes one word (`nightcheck`) to `~/Library/<Name>/mode` – a folder macOS does not protect – and opens the applet. `sa_nightly.sh` reads that file first: a fresh `nightcheck` runs only the checker and exits; no file, or one older than ten minutes, means a normal night. The same trick serves any other daytime job that needs the workspace.
 
 ---
 
@@ -29,7 +31,7 @@ The evidence that this is the fix, from the same machine on the same night: the 
 | File | What it does |
 |---|---|
 | [`nightly.plist`](nightly.plist) | Runs the applet at 01:12 every night. `KeepAlive` with `SuccessfulExit = false` asks `launchd` to relaunch the job if it exits with an error; `EnvironmentVariables` sets an explicit `PATH`, because `launchd` starts jobs with an almost empty one and tools such as `ffmpeg` would not be found. |
-| [`nightcheck.plist`](nightcheck.plist) | The 07:00 dead-man switch: runs the checker, which reads the last-success marker. |
+| [`nightcheck.plist`](nightcheck.plist) | The 07:00 dead-man switch: writes the `nightcheck` mode file and opens the same applet, so the checker gets the applet’s folder access and reads the last-success marker. |
 | [`../../tools/sa_nightly.sh`](../../tools/sa_nightly.sh) | The one overnight entry point. Each finished step is appended to a per-day ledger, so a crash or a second run that day resumes at the first unfinished step instead of restarting. If the editor app is open it skips only the step that reads editing projects, never the whole night. It writes `Sessions/_nightly/last_success` as its very last act. |
 | [`../../tools/sa_nightcheck.sh`](../../tools/sa_nightcheck.sh) | If `last_success` is older than 10 hours: a macOS notification, plus a line in `Sessions/_nightly/attention.md`, which the agent reads at Step 0 of the next session – so a dead night is the first thing the next session sees. |
 
@@ -68,7 +70,7 @@ Large local-model batches make the machine stutter while someone is working, so 
 | Piece | Status |
 |---|---|
 | Applet-wrapped nightly runner with resume ledger | **Built, in use** – runs to completion nightly; the logs run from August into October 2026 |
-| 07:00 dead-man checker | **Built** – smoke-tested in August and wrote a dead-man note when a night failed; currently refused by the permissions regression described above |
+| 07:00 dead-man checker | **Built, just moved** – smoke-tested in August; refused from mid-September by the permissions regression; moved onto the applet via the mode file in October 2026 and tested in a sandbox, not yet proven over many mornings |
 | Optional cloud-text morning note inside the runner | **Experimental** – it has logged “skipped/failed” on most nights since mid-August; the run treats it as optional, so it does not block the clean-exit marker |
 
 ---

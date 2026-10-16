@@ -43,6 +43,11 @@ BRAIN_FILES: dict[str, Path] = {
 # Authoritative sources rank above incidental project mentions. See
 # _hybrid_search for the measured justification.
 AUTHORITY_BOOST = 1.3
+# Output caps: uncapped hits returned 150-260k chars and overflowed sessions
+# (audit 2026-10-12). Same order of size as the briefing budget.
+HIT_CAP = 1500
+SEARCH_BUDGET = 12000
+REPAIR_HINT = "Fix: quit Claude and Codex, move brain/chroma_db aside, reopen and search once (it rebuilds the index)."
 _CORE_FILES: frozenset[str] = frozenset(BRAIN_FILES) | {"CLAUDE.md"}
 
 
@@ -52,6 +57,20 @@ def _is_authoritative(name: str) -> bool:
     Projects/ is working material — it quotes the rules, it does not set them.
     """
     return name in _CORE_FILES or name.startswith("Reference/")
+
+
+# Machine output (file-path lists, dedupe reports) is not knowledge: one 145k-char
+# path list was ranking #1 and flooding results (audit 2026-10-12).
+# Exact dump names only, so hand-written notes beside them (FINDINGS.md) stay in.
+# ponytail: name list, not content sniffing; add a name here when a new dump appears.
+_MACHINE_NAMES = {"_missing_files.txt", "_missing_paths.txt", "DUPES_REVIEW.txt",
+                  "organize_plan.txt"}
+
+
+def _is_machine_made(p: Path) -> bool:
+    parts = p.parts
+    return (p.name in _MACHINE_NAMES
+            or (".specify" in parts and "templates" in parts))
 
 
 def _index_files() -> dict[str, Path]:
@@ -70,7 +89,8 @@ def _index_files() -> dict[str, Path]:
     proj = BRAIN_DIR / "Projects"
     if proj.exists():
         for p in proj.rglob("*"):
-            if p.is_file() and p.suffix.lower() in {".md", ".srt", ".txt"}:
+            if (p.is_file() and p.suffix.lower() in {".md", ".srt", ".txt"}
+                    and not _is_machine_made(p)):
                 extra.append(p)
     for p in extra:
         if p.exists():
@@ -118,6 +138,37 @@ def _sections(text: str) -> list[dict[str, str]]:
     return out
 
 
+_DATE_RE = re.compile(r"20\d{2}-\d{2}-\d{2}")
+
+
+def _newest_first(secs: list[dict]) -> list[dict]:
+    """Sort by the first ISO date in each heading, newest first. Stable, so
+    same-day and undated entries keep their file order (undated go last)."""
+    def key(s: dict) -> str:
+        m = _DATE_RE.search(s["heading"])
+        return m.group(0) if m else ""
+    return sorted(secs, key=key, reverse=True)
+
+
+def _instinct_lines(n: int, cap: int, notes: int = 5) -> str:
+    """Newest n one-line reflexes ('- [date] …' bullets), then the first sentence
+    of the newest few dated long-form notes — reflexes first, they are the point."""
+    text = _read(BRAIN_FILES["instincts"])
+    bullets = sorted(((m.group(1), m.group(2)) for m in
+                      re.finditer(r"^- \[(20\d{2}-\d{2}-\d{2})\]\s*(.+)$", text, re.M)
+                      if "SUPERSEDED" not in m.group(2).upper()), reverse=True)
+    out = [f"- [{d}] {t[:cap]}{'…' if len(t) > cap else ''}" for d, t in bullets[:n]]
+    long_notes = []
+    for s in _newest_first(_sections(text)):
+        d = _DATE_RE.search(s["heading"])
+        if d and not _is_superseded(s["heading"], s["body"]):
+            t = s["heading"][d.end():].strip(" []") or s["body"]
+            t = re.sub(r"^\[?20\d{2}-\d{2}-\d{2}\]?\s*", "", t)
+            t = re.split(r"(?<=\.)\s|\n| — ", t, maxsplit=1)[0][:120]
+            long_notes.append(f"- [{d.group(0)}] {t} (long note — sa_search for detail)")
+    return "\n".join(out + long_notes[:notes])
+
+
 def _keyword_search(query: str, top_k: int = 5) -> list[dict]:
     terms = [t.lower() for t in query.split() if len(t) > 2]
     if not terms:
@@ -155,7 +206,7 @@ def sa_briefing() -> str:
     instincts (full), the ACTIVE SESSION state, recent corrections, core brand
     facts, and an index of everything else — sa_search() pulls detail on demand.
     """
-    BUDGET = 12000  # chars ≈ 3k tokens, hard ceiling
+    BUDGET = 14000  # chars ≈ 3.5k tokens, hard ceiling
 
     parts = [
         "# Brain — Lean Briefing",
@@ -163,27 +214,38 @@ def sa_briefing() -> str:
         "sa_search(query) fetches any full entry.*",
     ]
 
-    def _first_sections(key: str, n: int, cap: int) -> str:
-        """Newest-first files (sa_log inserts at top): take the first n sections."""
+    def _first_sections(key: str, n: int, cap: int, by_date: bool = True) -> str:
+        """Newest n sections by heading date (file position lies: entries sit
+        above and below the header divider). by_date=False keeps file order."""
         secs = [s for s in _sections(_read(BRAIN_FILES[key])) if s["heading"] != "Top"]
+        if by_date:
+            secs = _newest_first(secs)
         out = []
         for s in secs[:n]:
             body = s["body"][:cap] + ("…" if len(s["body"]) > cap else "")
             out.append(f"### {s['heading']}\n{body}")
         return "\n".join(out)
 
-    def _index_block(label: str, key: str) -> str:
-        headings = [s["heading"] for s in _sections(_read(BRAIN_FILES[key]))
+    def _index_block(label: str, key: str, cap: int = 700) -> str:
+        """Newest headings first, capped per block so every index fits the
+        budget (the last blocks used to be cut off entirely)."""
+        headings = [s["heading"] for s in _newest_first(_sections(_read(BRAIN_FILES[key])))
                     if s["heading"] != "Top"]
-        shown = headings[:25]
-        more = f" (+{len(headings)-25} more)" if len(headings) > 25 else ""
-        return (f"\n---\n## {label} — index ({len(headings)} entries){more}\n"
+        shown, size = [], 0
+        for h in headings:
+            if size + len(h) > cap:
+                break
+            shown.append(h)
+            size += len(h) + 3
+        more = f" (+{len(headings) - len(shown)} more)" if len(headings) > len(shown) else ""
+        return (f"\n---\n## {label} — index ({len(headings)} entries, newest first){more}\n"
                 + "\n".join(f"- {h}" for h in shown))
 
-    # 1. Instincts — tiny, always full, fire automatically.
-    instincts = _read(BRAIN_FILES["instincts"])
-    if instincts:
-        parts.append(f"\n---\n## Learned instincts (act on these)\n\n{instincts[:4000]}")
+    # 1. Instincts — the newest 20 reflexes by date (the file's first 4,000
+    #    chars used to stop at 8 Sep and hide every newer reflex).
+    inst = _instinct_lines(20, 150)
+    if inst:
+        parts.append(f"\n---\n## Learned instincts — newest 20 (act on these)\n\n{inst}")
 
     # 2. Active session — where work stands right now (audit: both agents
     #    must resume from the same lightweight core).
@@ -204,7 +266,7 @@ def sa_briefing() -> str:
     parts.append("\n---\n## Recent worklog (newest 3)\n" + _first_sections("worklog", 3, 350))
 
     # 4. Core brand facts — first sections of memory only.
-    parts.append("\n---\n## Core brand facts\n" + _first_sections("memory", 3, 700))
+    parts.append("\n---\n## Core brand facts\n" + _first_sections("memory", 3, 700, by_date=False))
 
     # 5. Everything else: index only.
     for label, key in [("All corrections", "feedback"), ("Brand memory", "memory"),
@@ -277,27 +339,62 @@ def sa_search(query: str) -> str:
     """
     hits: list[dict] = []
     mode = "keyword"
+    note = "" if _RAG_OK else "⚠ BRAIN DEGRADED — chromadb not importable; keyword results only."
     if _RAG_OK:
         try:
-            _rag.reindex(_index_files(), _sections)  # auto-reindex changed files
+            r = _rag.reindex(_index_files(), _sections)  # auto-reindex changed files
+            if r.get("errors"):  # a file that failed to index is missing from results
+                bad = ", ".join(e.split(":")[0] for e in r["errors"])
+                note = (f"⚠ BRAIN DEGRADED — {len(r['errors'])} file(s) failed to index ({bad}); "
+                        f"results may be missing them. {REPAIR_HINT}")
             hits = _hybrid_search(query)
             mode = "hybrid+rerank"
-        except Exception:
+        except _rag.IndexBusy:
             hits = []
+            note = ("ℹ Vector search is in use by the other app (Claude or Codex) — "
+                    "keyword results below. Nothing to fix.")
+        except Exception as e:  # never fall back silently — a broken index must be seen
+            hits = []
+            note = (f"⚠ BRAIN DEGRADED — vector index unreadable ({type(e).__name__}: "
+                    f"{str(e)[:150]}). Keyword results below. {REPAIR_HINT}")
     if not hits:  # fallback / RAG empty
         hits = _keyword_search(query)
         mode = "keyword"
     if not hits:
-        return f"No results for '{query}'. Try broader or different terms."
+        return (note + "\n" if note else "") + f"No results for '{query}'. Try broader or different terms."
     hits = _demote_superseded(hits)
     lines = [f"# Search: {query}  _(mode: {mode})_\n"]
+    if note:
+        lines.insert(0, note + "\n")
+    total = 0
     for i, h in enumerate(hits, 1):
         score = h.get("score", "")
         tag = "  ⚠ SUPERSEDED — a newer entry corrects this" if h.get("_superseded") else ""
+        body = h["body"]
+        if len(body) > HIT_CAP:
+            body = body[:HIT_CAP] + f"\n…[+{len(body) - HIT_CAP} chars — open {h['file']} for the rest]"
+        if total + len(body) > SEARCH_BUDGET:
+            lines.append(f"…[{len(hits) - i + 1} more hits cut at the {SEARCH_BUDGET}-char budget — narrow the query]")
+            break
+        total += len(body)
         lines.append(f"## {i}. [{h['file'].upper()}] {h['heading']}  ·  score {score}{tag}")
-        lines.append(h["body"])
+        lines.append(body)
         lines.append("")
     return "\n".join(lines)
+
+
+_BANNER_RE = re.compile(r"\s*\*{0,2}\[SUPERSEDED", re.I)
+
+
+def _is_superseded(heading: str, body: str) -> bool:
+    """A heading tag, or a banner that OPENS the entry — bold (sa_log writes
+    **[SUPERSEDED …) or plain [SUPERSEDED …]. Not an entry that merely mentions
+    the word, nor a list whose one bullet is superseded."""
+    if "SUPERSEDED" in heading.upper():
+        return True
+    rest = body[len(heading):] if body.startswith(heading) else body  # chunks carry their heading
+    rest = re.sub(r"^\s*\[?20\d{2}-\d{2}-\d{2}\]?", "", rest)  # a leading date line
+    return bool(_BANNER_RE.match(rest))
 
 
 def _demote_superseded(hits: list[dict]) -> list[dict]:
@@ -309,8 +406,7 @@ def _demote_superseded(hits: list[dict]) -> list[dict]:
     longer outrank the entry that corrects it.
     """
     for h in hits:
-        blob = (h.get("heading", "") + " " + h.get("body", "")[:300]).upper()
-        h["_superseded"] = "SUPERSEDED" in blob
+        h["_superseded"] = _is_superseded(h.get("heading", ""), h.get("body", ""))
     return sorted(hits, key=lambda h: h["_superseded"])
 
 
@@ -325,25 +421,29 @@ def sa_reindex() -> str:
                 "Keyword search is active. Run: uv add chromadb")
     try:
         r = _rag.reindex(_index_files(), _sections, force=True)
-        return (f"Reindexed {r['indexed']} files → {r['chunks']} chunks. "
+        errs = f" ⚠ {len(r['errors'])} file(s) FAILED: {'; '.join(r['errors'])[:400]}" if r.get("errors") else ""
+        return (f"Reindexed {r['indexed']} files → {r['chunks']} chunks.{errs} "
                 f"Files: {', '.join(r['files'])}")
+    except _rag.IndexBusy:
+        return "The vector index is in use by the other app (Claude or Codex) — reindex from that app."
     except Exception as e:
         return f"Reindex failed: {e}. Keyword search still active."
 
 
-def _squeeze(text: str, cap: int = 1200) -> tuple[str, str]:
-    """Compress a noisy log entry to atomic facts before it's stored.
+# 1,200 used to cut the middle out of ~500 entries with a marker pointing at a
+# "session log" that never held the text (audit 2026-10-12).
+LOG_CAP = 6000
 
-    Idea distilled from TencentDB-Agent-Memory (L0->L1): raw dumps bloat the
-    brain file, which gets re-read into context and burns tokens. So, purely
-    locally (no LLM, no API):
-      - collapse runs of blank lines,
-      - strip trailing whitespace,
-      - replace giant single tokens (base64/URLs > 200 chars) with «…»,
-      - if still over `cap`, keep head + tail with a «trimmed N chars» marker.
-    Returns (squeezed_text, note) — note is "" when nothing was compressed.
-    """
-    orig = len(text)
+
+def _giant(m: re.Match) -> str:
+    # URLs and file paths are often the point of an entry — keep them (up to 1,000
+    # chars); base64 blobs and other giant tokens become «…»
+    tok = m.group(0)
+    return tok if tok.startswith(("http://", "https://", "/", "~/")) and len(tok) <= 1000 else "«…»"
+
+
+def _clean(text: str) -> str:
+    """Collapse blank-line runs, strip trailing spaces, drop giant tokens. Local, no LLM."""
     lines = [ln.rstrip() for ln in text.replace("\r", "").split("\n")]
     out, blanks = [], 0
     for ln in lines:
@@ -353,11 +453,21 @@ def _squeeze(text: str, cap: int = 1200) -> tuple[str, str]:
                 continue
         else:
             blanks = 0
-        out.append(re.sub(r"\S{200,}", "«…»", ln))
-    t = "\n".join(out).strip()
+        out.append(re.sub(r"\S{200,}", _giant, ln))
+    return "\n".join(out).strip()
+
+
+def _squeeze(text: str, cap: int = LOG_CAP, full_ref: str = "the session log") -> tuple[str, str]:
+    """Compress a noisy log entry before it's stored (idea from TencentDB-Agent-
+    Memory L0->L1: raw dumps bloat the brain, which gets re-read into context).
+    _clean it; if still over `cap`, keep head + tail with a «trimmed N chars»
+    marker pointing at `full_ref`. Returns (text, note) — note "" when unchanged.
+    """
+    orig = len(text)
+    t = _clean(text)
     if len(t) > cap:
         head, tail = t[: cap - 300], t[-250:]
-        t = f"{head}\n\n«trimmed {len(t) - cap + 550} chars — full detail in the session log»\n\n{tail}"
+        t = f"{head}\n\n«trimmed {len(t) - len(head) - len(tail)} chars — full text in {full_ref}»\n\n{tail}"
     note = f"  (squeezed {orig}->{len(t)} chars)" if len(t) < orig else ""
     return t, note
 
@@ -382,14 +492,26 @@ def sa_log(log_type: str, content: str, heading: str = "",
     auto-compressed to atomic facts first (see _squeeze) so the brain stays
     lean and cheap to re-read.
     """
-    valid = {k for k in BRAIN_FILES if k != "memory"}
+    if log_type == "instincts":
+        return "Use sa_instinct(reflex) for one-line reflexes; put the detail in sa_log('feedback', …)."
+    valid = {k for k in BRAIN_FILES if k not in ("memory", "instincts")}
     if log_type not in valid:
         return f"Invalid type '{log_type}'. Use: {', '.join(sorted(valid))}"
 
     path = BRAIN_FILES[log_type]
     existing = _read(path)
     date = datetime.now().strftime("%Y-%m-%d")
-    content, squeeze_note = _squeeze(content)
+    if not heading.strip():  # untitled entries can't be found or superseded
+        first = re.sub(r"^\W*\[?20\d{2}-\d{2}-\d{2}\]?\W*", "", content.strip()).split("\n", 1)[0]
+        heading = first[:70].rstrip() + ("…" if len(first) > 70 else "")
+    full_ref = "the session log"
+    clean = _clean(content)
+    if len(clean) > LOG_CAP:  # a trim is coming: keep the whole (cleaned) text first
+        try:
+            full_ref = _save_full_entry(log_type, date, heading, clean)
+        except Exception:
+            pass  # the brain entry itself must always be written
+    content, squeeze_note = _squeeze(content, full_ref=full_ref)
     entry = f"\n## [{date}] {heading}\n{content}\n\n---\n"
 
     # Insert after the first horizontal rule (the file header).
@@ -409,6 +531,23 @@ def sa_log(log_type: str, content: str, heading: str = "",
 
     path.write_text(new, encoding="utf-8")
     return f"Logged to {path.name}: [{date}] {heading or '(untitled)'}{squeeze_note}{marked}"
+
+
+def _save_full_entry(log_type: str, date: str, heading: str, content: str) -> str:
+    """Append the untrimmed entry to the active session folder; return its path."""
+    sess = (BRAIN_DIR / "Sessions").resolve()
+    folder = sess
+    try:
+        latest = (sess / "LATEST.txt").read_text().strip()
+        cand = (sess / latest).resolve()
+        if latest and cand.parent == sess and cand.is_dir():  # one plain folder name only
+            folder = cand
+    except OSError:
+        pass
+    f = folder / "brain_full_entries.md"
+    with f.open("a", encoding="utf-8") as fh:
+        fh.write(f"\n## [{date}] ({log_type}) {heading}\n{content}\n\n---\n")
+    return str(f.relative_to(BRAIN_DIR.resolve()))
 
 
 def _mark_superseded(text: str, target: str, successor: str) -> tuple[str, int]:

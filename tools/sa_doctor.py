@@ -32,6 +32,24 @@ check(not bad, f"Tools compile ({len(glob.glob(os.path.join(HERE,'*.py')))} scri
 chroma = os.path.join(ROOT, "brain", "chroma_db")
 check(os.path.isdir(chroma) and any(os.scandir(chroma)), "brain index (brain/chroma_db) exists")
 
+# 2b. every core brain file is actually searchable. 12 Oct 2026: SA_MEMORY had 0
+# chunks while "chroma_db exists" stayed green. Plain read-only sqlite — never open
+# the index with chromadb from here (a second chromadb process is what corrupts it).
+try:
+    import sqlite3
+    db = sqlite3.connect(f"file:{os.path.join(chroma, 'chroma.sqlite3')}?mode=ro", uri=True)
+    core = ("memory", "instincts", "feedback", "projects", "worklog")
+    counts = dict(db.execute(
+        "select string_value, count(*) from embedding_metadata where key='file' "
+        f"and string_value in ({','.join('?' * len(core))}) group by 1", core).fetchall())
+    db.close()
+    empty = [k for k in core if not counts.get(k)]
+    check(not empty, "brain search covers every core file",
+          (f"0 entries searchable for {', '.join(empty)} — quit Claude and Codex, "
+           "move brain/chroma_db aside, then search once: it rebuilds the index") if empty else ", ".join(f"{k} {counts[k]}" for k in core))
+except Exception as e:
+    check(False, "brain search covers every core file", f"index unreadable: {e}")
+
 # 3. backup freshness (< 3 days) — must be a VERIFIED SUCCESS, not any file mtime.
 # Audit 2026-07-10: the old newest-file-anywhere check went false-green because a
 # failing LaunchAgent's growing error log looked "fresh". Truth = the last
@@ -63,12 +81,18 @@ try:
 except FileNotFoundError:
     check(False, "NAS backup fresh", "never run — run Tools/backup_to_nas.command")
 
-# 4. scheduled-task traces: visual-memory line in worklog within 2 days
+# 4. visual-memory traces within 3 days: a worklog line (real indexing) OR, since it moved
+# into sa_nightly.sh (16 Oct), a FINISHED heartbeat — deferred/up-to-date nights no longer
+# spam the worklog, which the brain indexes.
 try:
     wl = open(os.path.join(ROOT, "SA_WORKLOG.md"), encoding="utf-8").read()
+    hb = os.path.join(ROOT, "Sessions", "automation_heartbeat.log")
+    hb_lines = open(hb, encoding="utf-8").read().splitlines() if os.path.exists(hb) else []
     today = datetime.date.today()
-    recent = any(f"[{(today - datetime.timedelta(days=d)).isoformat()}]" in line and "visual-memory" in line
-                 for line in wl.splitlines() for d in range(3))
+    days = [(today - datetime.timedelta(days=d)).isoformat() for d in range(3)]
+    recent = (any(f"[{d}]" in line and "visual-memory" in line for line in wl.splitlines() for d in days)
+              or any(line.startswith(d) and "sa-visual-memory-nightly FINISHED" in line
+                     for line in hb_lines for d in days))
     check(recent, "visual-memory nightly leaving traces", "no trace in last 3 days" if not recent else "")
 except Exception as e:
     check(False, "worklog readable", str(e))

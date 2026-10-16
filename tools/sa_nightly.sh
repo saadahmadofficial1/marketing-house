@@ -23,6 +23,22 @@ export PATH="$HOME/.local/bin:/usr/local/bin:/opt/homebrew/bin:$PATH"
 note() { echo "$(date '+%H:%M:%S') $*" >> "$LOG"; }
 done_step() { grep -qx "$1" "$LEDGER" 2>/dev/null; }
 mark() { echo "$1" >> "$LEDGER"; }
+beat() { echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) $*" >> "$ROOT/Sessions/automation_heartbeat.log"; }
+
+# Day jobs ride on this app too (16 Oct): macOS blocks plain launchd jobs from ~/Documents,
+# but the Nightly.app applet has the access. The 07:00 nightcheck job writes a one-word
+# mode file and opens the app. No file, or one older than 10 min = the normal night run.
+# ponytail: if both fire in the same minute only the mode job runs; next night recovers.
+MODE_FILE="$HOME/Library/Studio/mode"
+if [ -f "$MODE_FILE" ]; then
+  MODE=$(cat "$MODE_FILE"); MODE_AGE=$(( $(date +%s) - $(stat -f %m "$MODE_FILE") ))
+  rm -f "$MODE_FILE"
+  if [ "$MODE_AGE" -lt 600 ]; then
+    case "$MODE" in
+      nightcheck) WORKSPACE_ROOT="$ROOT" /bin/bash "$ROOT/Tools/sa_nightcheck.sh"; exit 0 ;;
+    esac
+  fi
+fi
 
 run_step() {  # run_step <name> <command...>
   local name="$1"; shift
@@ -61,11 +77,26 @@ fi
 # 2. Regenerate the tool catalogue (pure local).
 run_step toolindex "$PY" "$ROOT/Tools/sa_toolindex.py"
 
-# 3. Morning note — TEXT ONLY to Claude. Counts and log tails, never a frame, never a
+# 3. Local brain backup + visual memory. Both were Claude scheduled tasks that stalled
+#     for days on permission prompts or vanished (16 Oct); deterministic work lives here now.
+#     Heartbeats keep their old names so the doctor's pairing check still reads them.
+beat sa-brain-daily-backup STARTED
+if run_step brainbackup /bin/bash "$ROOT/brain/backup_brain.sh"; then
+  beat sa-brain-daily-backup FINISHED "$(tail -1 "${BACKUP_ROOT:-$HOME/Brain_Backups}/backup.log")"
+else beat sa-brain-daily-backup FAILED "see $LOG"; fi
+
+# Local qwen 2B background profile (1-6am rule). It pauses itself when CapCut/Premiere/AE/
+# Resolve is open — never add --force here, so on CapCut-open nights it simply defers.
+beat sa-visual-memory-nightly STARTED
+if run_step visualmem "$PY" "$ROOT/Tools/sa_visualmem.py" --profile background; then
+  beat sa-visual-memory-nightly FINISHED "$(grep -E '^(Visual memory|Indexed)' "$LOG" | tail -1)"
+else beat sa-visual-memory-nightly FAILED "see $LOG"; fi
+
+# 4. Morning note — TEXT ONLY to Claude. Counts and log tails, never a frame, never a
 #    screenshot, never a file from the training-series folders. Skipped silently if claude is absent.
 if ! done_step morningnote && command -v claude >/dev/null 2>&1; then
   SUMMARY=$(tail -40 "$LOG"; echo "---"; tail -12 "$ROOT/Sessions/automation_heartbeat.log" 2>/dev/null)
-  echo "$SUMMARY" | claude -p --model claude-opus-5 \
+  echo "$SUMMARY" | claude -p --model opus \
     "This is the overnight automation log from Saad's video-production Mac. Write him a
      3-line plain-English morning note: what ran, what failed (if anything), and the one
      thing to look at first. British English, no jargon, no file paths." \
@@ -73,6 +104,6 @@ if ! done_step morningnote && command -v claude >/dev/null 2>&1; then
     && note "ok morningnote" || note "morningnote skipped/failed (fine)"
 fi
 
-# 4. Clean exit marker — the dead-man check at 07:00 looks for this.
+# 5. Clean exit marker — the dead-man check at 07:00 looks for this.
 date +%s > "$STATE_DIR/last_success"
 note "=== nightly run complete ==="

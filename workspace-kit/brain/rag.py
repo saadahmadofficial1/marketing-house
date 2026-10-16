@@ -10,6 +10,7 @@ caller falls back to keyword search, so the brain never breaks.
 
 from __future__ import annotations
 
+import fcntl
 import os
 import re
 import threading
@@ -19,13 +20,46 @@ import chromadb
 from chromadb.config import Settings
 
 # Store the vector DB next to this file, wherever the brain lives.
-_CHROMA_DIR = Path(__file__).resolve().parent / "chroma_db"
+LIVE_CHROMA_DIR = Path(__file__).resolve().parent / "chroma_db"
+# Set SA_BRAIN_CHROMA_DIR to point tests at a throwaway index, so they never open the live one.
+_env_dir = os.environ.get("SA_BRAIN_CHROMA_DIR", "").strip()
+_CHROMA_DIR = Path(os.path.expanduser(_env_dir)) if _env_dir else LIVE_CHROMA_DIR
 _COLLECTION = "brain"
 
 _client = None
 _collection = None
-# tracks last-seen mtime per file so we only reindex what changed
-_mtimes: dict[str, float] = {}
+# tracks last-seen mtime per file so we only reindex what changed; seeded from
+# the index itself so a restarted server doesn't re-embed everything
+_mtimes: dict[str, str] = {}
+_mtimes_loaded = False
+
+
+class IndexBusy(RuntimeError):
+    """Another process owns the vector index — only one process may open it."""
+
+
+# Single owner (audit 2026-10-12): Chroma keeps the HNSW index in memory, so a
+# SECOND process that merely opens the same index (Codex's brain server, an eval
+# run) and writes to it leaves sqlite and HNSW out of step — the 29 Jun and
+# 12 Oct corruption. The first process to open the index takes this lock for
+# its whole life; everyone else gets IndexBusy and uses keyword search.
+# The lock sits NEXT TO the index folder, so renaming the folder can't move it.
+_owner_fd = None
+
+
+def _take_ownership() -> None:
+    global _owner_fd
+    if _owner_fd is not None:
+        return
+    lock = _CHROMA_DIR.parent / f".{_CHROMA_DIR.name}.owner.lock"
+    lock.parent.mkdir(parents=True, exist_ok=True)
+    fd = open(lock, "w")
+    try:
+        fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+        fd.close()
+        raise IndexBusy("the vector index is open in another app (Claude or Codex)")
+    _owner_fd = fd  # never closed: released by the OS when this process exits
 
 # Lightweight entity vocabulary — tagged onto each chunk at index time so
 # retrieval can boost chunks about the same subsidiary / person / project /
@@ -60,6 +94,7 @@ def _find_entities(text: str) -> str:
 def _get_collection():
     global _client, _collection
     if _collection is None:
+        _take_ownership()  # raises IndexBusy before Chroma is ever touched
         _CHROMA_DIR.mkdir(parents=True, exist_ok=True)
         _client = chromadb.PersistentClient(
             path=str(_CHROMA_DIR),
@@ -88,11 +123,20 @@ def _chunk(heading: str, body: str, max_chars: int = 1800,
         return [f"{heading}\n{body}"]
     chunks, cur = [], []
     size = 0
+    paras = []
     for para in body.split("\n\n"):
+        # a paragraph with no blank lines can be huge (one was 145k chars):
+        # cut it into overlapping pieces that fit
+        step = max_chars - 200
+        paras += [para[i:i + max_chars] for i in range(0, len(para), step)] or [para]
+    for para in paras:
         if size + len(para) > max_chars and cur:
             chunks.append(f"{heading}\n" + "\n\n".join(cur))
-            # carry the tail paragraph(s) into the next chunk for overlap
-            cur = cur[-overlap_paras:] if overlap_paras else []
+            # carry a short tail into the next chunk for overlap — never a whole
+            # long paragraph, or chunks double in size and repeat each other
+            # (measured 12 Oct: R@3 92% / R@5 97% vs 89% / 94% keeping short paragraphs whole)
+            tail = cur[-1][-300:] if overlap_paras else ""
+            cur = [tail] if tail else []
             size = sum(len(p) + 2 for p in cur)
         cur.append(para)
         size += len(para) + 2
@@ -109,7 +153,8 @@ _REINDEX_LOCK = threading.Lock()
 
 
 def reindex(brain_files: dict[str, Path], sectioner, force: bool = False) -> dict:
-    """Index changed brain files into Chroma. Returns {indexed, chunks, files}."""
+    """Index changed brain files into Chroma. Returns {indexed, chunks, files}.
+    Other processes are kept out by the owner lock in _get_collection()."""
     if not _REINDEX_LOCK.acquire(blocking=False):
         return {"indexed": 0, "chunks": 0, "files": [],
                 "skipped": "another reindex is already running"}
@@ -120,12 +165,19 @@ def reindex(brain_files: dict[str, Path], sectioner, force: bool = False) -> dic
 
 
 def _reindex_locked(brain_files: dict[str, Path], sectioner, force: bool) -> dict:
+    global _mtimes_loaded
     col = _get_collection()
+    if not _mtimes_loaded:  # what the index already holds, so a restart is cheap
+        for m in col.get(include=["metadatas"])["metadatas"]:
+            if m and "mtime" in m:
+                _mtimes.setdefault(m["file"], m["mtime"])
+        _mtimes_loaded = True
     indexed_files, total_chunks, errors = [], 0, []
 
     for name, path in brain_files.items():
         try:
-            mtime = path.stat().st_mtime
+            # exact ns as text: Chroma rounds float metadata, so a float never matches
+            mtime = str(path.stat().st_mtime_ns)
         except FileNotFoundError:
             continue
         if not force and _mtimes.get(name) == mtime:
@@ -142,12 +194,19 @@ def _reindex_locked(brain_files: dict[str, Path], sectioner, force: bool) -> dic
                         "file": name,
                         "heading": sec["heading"],
                         "entities": _find_entities(chunk),
+                        "mtime": mtime,
                     })
-            # read + chunk BEFORE any write, so a parse error costs nothing
-            col.delete(where={"file": name})
+            # read + chunk BEFORE any write, so a parse error costs nothing.
+            # Upsert first, then drop only the ids that no longer exist: a failed
+            # upsert leaves the old chunks searchable instead of emptying the file
+            # (the old delete-first order is how SA_MEMORY fell to 0, 12 Oct).
+            old = set(col.get(where={"file": name}, include=[])["ids"])
             if docs:
                 col.upsert(ids=ids, documents=docs, metadatas=metas)
                 total_chunks += len(docs)
+            stale = list(old - set(ids))
+            if stale:
+                col.delete(ids=stale)
             _mtimes[name] = mtime
             indexed_files.append(name)
         except Exception as e:  # one bad file must not kill the whole pass
