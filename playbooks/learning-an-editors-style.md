@@ -548,3 +548,4 @@ Two ffmpeg traps from the renderer: `crop` evaluates its width and height once, 
 - [The full editing style](editing-style-full.md) – the evidence-based style playbook.
 - [Training-video production](training-video-production.md) – where the training defaults in section 5 are applied.
 - [CapCut live eyes](capcut-live-eyes.md) – the working note behind the watcher.
+- [Second-machine CapCut findings](editing-style-second-machine.md) – measured style data and 10 rules from a personal Mac corpus (vertical reels, montage, and long-form).
