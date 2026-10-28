@@ -1,16 +1,18 @@
 # Saad Ahmad
 
-**AI Video Creator | Content and Media Producer**
+**AI Video Producer / Creative Technologist**
 
-Dubai, United Arab Emirates · [LinkedIn](https://linkedin.com/in/saadahmadofficial1) · [Portfolio](https://shorturl.at/nEIyK) · [GitHub](https://github.com/saadahmadofficial1/marketing-house)
+Abu Dhabi, United Arab Emirates · [LinkedIn](https://linkedin.com/in/saadahmadofficial1) · [Portfolio](https://shorturl.at/nEIyK) · [GitHub](https://github.com/saadahmadofficial1/marketing-house)
 
 ## Profile
 
 Content and media producer with more than three years of UAE experience creating video and digital content across corporate, financial, automotive, industrial, real estate, and lifestyle sectors. Combines hands on filmmaking with AI assisted production, editorial automation, and performance focused storytelling. Directs Claude Code and Codex to build tools under his creative leadership, then tests and approves outputs against product fidelity, continuity, privacy, and brand standards. Gold Medalist in Media Studies with a GPA of 3.8 out of 4.0.
 
-| 80 | 568+ | 100+ | 1,000+ |
-|:---:|:---:|:---:|:---:|
-| Finished Videos | Edited Photographs | Shoots | Voiceover Lines |
+| 80+ | 100+ | 1,012 |
+|:---:|:---:|:---:|
+| Finished videos | Shoots | AI narration lines in one series |
+
+31 March–28 October 2026.
 
 ## Core expertise
 
@@ -25,29 +27,29 @@ Content and media producer with more than three years of UAE experience creating
 
 ## Professional experience
 
-### Content and Media Producer, a diversified business group
+### Content and Media Producer, Ali & Sons Holding (IT People placement)
 UAE · March 2026 to Present
 
 - Produce end to end multimedia content across automotive, real estate, industrial, jewellery, medical, and corporate business units, managing projects from concept and capture through editing, colour grading, review, and delivery.
-- Completed 80 videos, more than 568 edited photographs, more than 100 shoots, and over 1,000 voiceover lines across training, corporate, event, interview, social, and occasion content between May and October 2026.
+- Delivered 80+ finished videos and completed 100+ shoots between March and October 2026.
+- Led a 35-module software-training programme: 21 web modules delivered and 14 role-specific timelines built; final export count for role-specific work is unconfirmed.
+- Led video production for a five-module animated course (~17.5 minutes), built in seven days using HyperFrames and AI narration; approved for company-wide launch.
+- Directed an AI voice pipeline used for 1,012 narration lines at zero platform credits in one series; labour and other costs excluded.
 - Designed AI assisted workflows for image to video, product and vehicle reveals, presenter content, real photograph animation, voice production, editable timelines, and final quality review.
-- Directed Claude Code and Codex to build and test 195 [production tools](tools/README.md), 38 [playbooks](README.md#the-map), and 7 [multi agent workflows](workflows/README.md) by translating editorial decisions and repeated production problems into reusable systems.
-- Designed and validated [CapCut automation](playbooks/capcut.md) for editable timelines, captions, callouts, relinking, review renders, and project readback while protecting existing manual edits.
+- Directed Claude Code and Codex to build 167 internal catalogue tools, three MCP servers and 31 workflows. Historical public documentation records a separate 195-tool count; the current public repository contains portfolio documentation.
+- Designed and validated CapCut automation for editable timelines, captions, callouts, relinking, review renders, and project readback while protecting existing manual edits.
 
 ### Content Creator, Marketing, Amana MENA Promotional Services L.L.C
 Dubai, UAE · March 2024 to January 2026
 
 - Produced research driven videos on stocks, forex, commodities, and crypto, simplifying complex financial subjects through clear scripting, creative editing, animation, and visual storytelling.
-- Scaled organic engagement three to four times through continuous optimisation, with individual videos exceeding 7,000 views.
 - Produced four to eight paid creatives per campaign across Meta, TikTok, and Google.
-- Collaborated with Product, Compliance, and Marketing teams across Arabic, Urdu, and English markets, achieving zero compliance violations in a regulated financial environment.
 
 ### Photographer and Video Editor, Nazih Group LLC, XYZ Communication
 Sharjah, UAE · June 2023 to March 2024
 
 - Created product, beauty, event, and interview content for international cosmetic brands across social media and web platforms.
 - Captured and edited professional footage and photography across salons, auditoriums, and live events while adapting each project to the brand's visual direction.
-- Managed several concurrent projects while maintaining a 100 percent on time delivery record.
 
 ## Additional experience
 
@@ -62,12 +64,10 @@ Dubai, UAE and Karachi, Pakistan · April 2022 to Present
 
 ## Selected work and production systems
 
-| Area | Work |
-|---|---|
-| AI Production Systems | [Marketing House GitHub Repository](https://github.com/saadahmadofficial1/marketing-house). Portfolio overview of my AI-assisted production work, capabilities and results. |
-| FinTech and Trading | [Amana Marketing Videos](https://drive.google.com/drive/folders/1Iik_IgWp6ZqbaG-N-jtWUp-ui4k-sJMx). Research led content covering stocks, forex, commodities, crypto, app education, and paid campaigns. |
-| Real Estate and UGC | [Real Estate Projects](https://drive.google.com/drive/folders/1VuKGDIfywLlhkY4vyXFQH97daD07dt-1?usp=drive_link). Cinematic walkthroughs, POV content, property videos, and social first creative. |
-| Lifestyle and Beauty | [Nazih and Event Work](https://drive.google.com/drive/folders/1QlvCQHG88FcLjIUYsZKhV1ZanFiamZ4D?usp=drive_link). Product offers, interviews, beauty events, and branded content. |
+- [Existing portfolio](https://shorturl.at/nEIyK): selected public work.
+- [Production evidence and capabilities](README.md): outcomes and production role.
+- [Public AI workflow guides](https://github.com/saadahmadofficial1/ai-with-saad): setup notes and runnable voice example.
+- [Dubai Decoded](https://www.youtube.com/@DubaiDecoded): earlier freelance videography contribution; channel owned by its creator.
 
 ## AI production approach
 
@@ -81,7 +81,7 @@ Dubai, UAE and Karachi, Pakistan · April 2022 to Present
 ### Bachelor in Media Studies, Film and Television, Iqra University
 Karachi, Pakistan · September 2018 to May 2022 · GPA: 3.8 out of 4.0
 
-- Gold Medalist for the highest distinction across four campuses and 12 departments, awarded by the President of Pakistan, Dr. Arif Alvi. Received a 40 percent merit scholarship throughout undergraduate studies.
+- Gold Medalist for the highest distinction across four campuses and 12 departments, awarded by the President of Pakistan. Received a 40 percent merit scholarship throughout undergraduate studies.
 - Short Film "3 Percent": Selected for Lift Off Filmmaker Sessions, First Time Filmmaker Sessions, and the Student World Impact Film Festival from more than 5,000 films.
 
 ## Certifications, languages and community
@@ -99,4 +99,4 @@ Karachi, Pakistan · September 2018 to May 2022 · GPA: 3.8 out of 4.0
 
 Phone and email on request through [LinkedIn](https://linkedin.com/in/saadahmadofficial1).
 
-*Code shown in the public repository was produced by Claude Code and Codex under Saad Ahmad's direction, rules, live testing, editorial judgment, and final approval.*
+*Production code was authored by Claude Code and Codex under Saad Ahmad's direction, rules, live testing, editorial judgment, and final approval.*
